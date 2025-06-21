@@ -168,7 +168,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 📞 Contact
 
 - **GitHub:** [@sw3do](https://github.com/sw3do)
-- **Email:** sw3d0o@gmail.com
+- **Email:** sw3doo@gmail.com
 - **Website:** [sw3do.is-a.dev](https://sw3do.is-a.dev)
 - **X (Twitter):** [@sw3doo](https://x.com/sw3doo)
 - **Instagram:** [@sw3doo](https://instagram.com/sw3doo)
