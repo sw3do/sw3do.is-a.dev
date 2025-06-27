@@ -3,17 +3,37 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Poppins } from "next/font/google";
 import Head from "next/head";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "../lib/i18n";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
+      retry: 2,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 export default function App({ Component, pageProps }: AppProps) {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("sw3do");
+  const [isClient, setIsClient] = useState(false);
   const targetTitle = "./sw3do";
 
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+    
     let currentIndex = 0;
     let isDeleting = false;
     
@@ -39,7 +59,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }, isDeleting ? 100 : 150);
 
     return () => clearInterval(typingInterval);
-  }, []);
+  }, [isClient]);
 
   return (
     <>
@@ -59,9 +79,11 @@ export default function App({ Component, pageProps }: AppProps) {
         
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={poppins.className}>
-        <Component {...pageProps} />
-      </main>
+      <QueryClientProvider client={queryClient}>
+        <main className={poppins.className}>
+          <Component {...pageProps} />
+        </main>
+      </QueryClientProvider>
     </>
   );
 }

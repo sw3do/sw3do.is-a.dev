@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "about": "Über mich",
+    "projects": "Projekte",
+    "contact": "Soziale Medien"
+  },
+  "hero": {
+    "bio": "Hallo.",
+    "titles": {
+      "fullstack": "Full Stack Entwickler 💻",
+      "enthusiast": "Code Enthusiast 🚀",
+      "solver": "Problemlöser 🧩",
+      "explorer": "Tech Explorer 🔍"
+    },
+    "stats": {
+      "repositories": "Repositories",
+      "totalStars": "Gesamt Sterne",
+      "followers": "Follower",
+      "totalForks": "Gesamt Forks"
+    },
+    "location": "Auf GitHub seit {{year}}",
+    "website": "Webseite"
+  },
+  "achievements": {
+    "title": "🏆 Erfolge",
+    "subtitle": "Errungenschaften in meiner Softwareentwicklungsreise",
+    "items": {
+      "problemSolver": {
+        "title": "Problemlöser",
+        "desc": "500+ LeetCode Probleme"
+      },
+      "fastLearner": {
+        "title": "Schneller Lerner",
+        "desc": "20+ Technologien gemeistert"
+      },
+      "teamPlayer": {
+        "title": "Teamplayer",
+        "desc": "10+ Kollaborative Projekte"
+      },
+      "cleanCode": {
+        "title": "Sauberer Code",
+        "desc": "Wartbar & Skalierbar"
+      }
+    }
+  },
+  "experience": {
+    "title": "💼 Erfahrung",
+    "subtitle": "Meine professionelle Entwicklungsreise",
+    "items": {
+      "animeEly": {
+        "title": "AnimeEly Platform",
+        "company": "Full Stack Web Entwicklung",
+        "description": "Moderne Anime-Streaming-Plattform. Benutzerfreundliche Oberfläche und leistungsorientierte Entwicklung."
+      },
+      "fastDb": {
+        "title": "Fast-DB & Quick.Prisma",
+        "company": "Datenbank-Lösungen",
+        "description": "Hochleistungs-Datenbankmodul (C++) und TypeScript ORM-Lösungsentwicklung."
+      },
+      "discordBot": {
+        "title": "Discord Bot Ökosystem",
+        "company": "Discord Entwicklung",
+        "description": "Backup-System und Befehlssynchronisationstools für Discord-Server."
+      },
+      "mobileApps": {
+        "title": "Mobile & Desktop Apps",
+        "company": "Plattformübergreifende Entwicklung",
+        "description": "Erdbeben-Tracking-App (React Native) und Valorant Freunde-Manager (PyQt5)."
+      },
+      "rustDev": {
+        "title": "Rust Entwicklung",
+        "company": "Systemprogrammierung",
+        "description": "Entwicklung einer Wrapper-Bibliothek in Rust für die MyAnimeList API."
+      }
+    }
+  },
+  "skills": {
+    "title": "💻 Tech Stack",
+    "subtitle": "Meist verwendete Programmiersprachen und Technologien",
+    "projects": "projekte",
+    "total": "gesamt",
+    "otherTech": "🚀 Andere Technologien"
+  },
+  "projects": {
+    "title": "🚀 Vorgestellte Projekte",
+    "subtitle": "Erkunden Sie meine GitHub-Repositories mit erweiterten Filter- und Sortierfunktionen",
+    "search": "Projekte suchen...",
+    "sortBy": "Sortieren nach:",
+    "sortOptions": {
+      "updated": "Zuletzt aktualisiert",
+      "stars": "Meiste Sterne",
+      "forks": "Meiste Forks",
+      "created": "Kürzlich erstellt",
+      "name": "Alphabetisch"
+    },
+    "featuredOnly": "Nur Vorgestellte",
+    "all": "Alle",
+    "showing": "{{count}} von {{total}} Projekten angezeigt",
+    "searchFor": " für \"{{term}}\"",
+    "inLanguage": " in {{language}}",
+    "featuredOnlyText": "(nur vorgestellte)",
+    "noProjects": {
+      "title": "Keine Projekte gefunden",
+      "subtitle": "Versuchen Sie, Ihre Suchbegriffe oder Filter anzupassen",
+      "clearFilters": "Alle Filter löschen"
+    },
+    "noDescription": "Keine Beschreibung verfügbar",
+    "viewCode": "Code anzeigen",
+    "active": "Aktiv",
+    "viewAll": "Alle {{count}} Repositories anzeigen",
+    "updated": "Aktualisiert am {{date}}"
+  },
+  "social": {
+    "title": "🌐 Soziale Medien",
+    "subtitle": "Sie können meinen Social-Media-Kanälen folgen, um mit mir in Kontakt zu treten.",
+    "descriptions": {
+      "github": "Meine Projekte ansehen",
+      "twitter": "Neueste Updates",
+      "email": "Direkter Kontakt",
+      "instagram": "Visuelle Geschichten"
+    },
+    "githubProfile": "Mein GitHub Profil"
+  },
+  "footer": {
+    "description": "Als Full Stack Entwickler erstelle ich benutzerfreundliche und leistungsstarke Anwendungen mit modernen Web-Technologien.",
+    "technologies": "Technologien",
+    "copyright": "© 2024 sw3do. Alle Rechte vorbehalten. Erstellt mit",
+    "and": "und"
+  },
+  "loading": "GitHub-Daten werden geladen...",
+  "error": "Fehler beim Laden der GitHub-Daten"
+} 

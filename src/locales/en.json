@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Social Media"
+  },
+  "hero": {
+    "bio": "Hi.",
+    "titles": {
+      "fullstack": "Full Stack Developer 💻",
+      "enthusiast": "Code Enthusiast 🚀",
+      "solver": "Problem Solver 🧩",
+      "explorer": "Tech Explorer 🔍"
+    },
+    "stats": {
+      "repositories": "Repositories",
+      "totalStars": "Total Stars",
+      "followers": "Followers",
+      "totalForks": "Total Forks"
+    },
+    "location": "On GitHub since {{year}}",
+    "website": "Website"
+  },
+  "achievements": {
+    "title": "🏆 Achievements",
+    "subtitle": "Accomplishments in my software development journey",
+    "items": {
+      "problemSolver": {
+        "title": "Problem Solver",
+        "desc": "500+ LeetCode Problems"
+      },
+      "fastLearner": {
+        "title": "Fast Learner",
+        "desc": "20+ Technologies Mastered"
+      },
+      "teamPlayer": {
+        "title": "Team Player",
+        "desc": "10+ Collaborative Projects"
+      },
+      "cleanCode": {
+        "title": "Clean Code",
+        "desc": "Maintainable & Scalable"
+      }
+    }
+  },
+  "experience": {
+    "title": "💼 Experience",
+    "subtitle": "My professional development journey",
+    "items": {
+      "animeEly": {
+        "title": "AnimeEly Platform",
+        "company": "Full Stack Web Development",
+        "description": "Modern anime streaming platform. User-friendly interface and high-performance focused development."
+      },
+      "fastDb": {
+        "title": "Fast-DB & Quick.Prisma",
+        "company": "Database Solutions",
+        "description": "High-performance database module (C++) and TypeScript ORM solution development."
+      },
+      "discordBot": {
+        "title": "Discord Bot Ecosystem",
+        "company": "Discord Development",
+        "description": "Backup system and command synchronization tools for Discord servers."
+      },
+      "mobileApps": {
+        "title": "Mobile & Desktop Apps",
+        "company": "Cross-Platform Development",
+        "description": "Earthquake tracking app (React Native) and Valorant friend manager (PyQt5)."
+      },
+      "rustDev": {
+        "title": "Rust Development",
+        "company": "System Programming",
+        "description": "Developing wrapper library in Rust language for MyAnimeList API."
+      }
+    }
+  },
+  "skills": {
+    "title": "💻 Tech Stack",
+    "subtitle": "Most used programming languages and technologies",
+    "projects": "projects",
+    "total": "total",
+    "otherTech": "🚀 Other Technologies"
+  },
+  "projects": {
+    "title": "🚀 Featured Projects",
+    "subtitle": "Explore my GitHub repositories with advanced filtering and sorting",
+    "search": "Search projects...",
+    "sortBy": "Sort by:",
+    "sortOptions": {
+      "updated": "Latest Updated",
+      "stars": "Most Stars",
+      "forks": "Most Forks",
+      "created": "Recently Created",
+      "name": "Alphabetical"
+    },
+    "featuredOnly": "Featured Only",
+    "all": "All",
+    "showing": "Showing {{count}} of {{total}} projects",
+    "searchFor": " for \"{{term}}\"",
+    "inLanguage": " in {{language}}",
+    "featuredOnlyText": "(featured only)",
+    "noProjects": {
+      "title": "No projects found",
+      "subtitle": "Try adjusting your search terms or filters",
+      "clearFilters": "Clear all filters"
+    },
+    "noDescription": "No description available",
+    "viewCode": "View Code",
+    "active": "Active",
+    "viewAll": "View All {{count}} Repositories",
+    "updated": "Updated {{date}}"
+  },
+  "social": {
+    "title": "🌐 Social Media",
+    "subtitle": "You can follow my social media accounts to connect with me.",
+    "descriptions": {
+      "github": "Check my projects",
+      "twitter": "Latest updates",
+      "email": "Direct contact",
+      "instagram": "Visual stories"
+    },
+    "githubProfile": "My GitHub Profile"
+  },
+  "footer": {
+    "description": "As a Full Stack Developer, I build user-friendly and performant applications with modern web technologies.",
+    "technologies": "Technologies",
+    "copyright": "© 2024 sw3do. All rights reserved. Made with",
+    "and": "and"
+  },
+  "loading": "Loading GitHub data...",
+  "error": "Error loading GitHub data"
+} 

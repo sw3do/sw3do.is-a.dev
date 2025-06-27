@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımda",
+    "projects": "Projeler",
+    "contact": "Sosyal Medya"
+  },
+  "hero": {
+    "bio": "Merhaba.",
+    "titles": {
+      "fullstack": "Full Stack Geliştirici 💻",
+      "enthusiast": "Kod Tutkunu 🚀",
+      "solver": "Problem Çözücü 🧩",
+      "explorer": "Teknoloji Kaşifi 🔍"
+    },
+    "stats": {
+      "repositories": "Depolar",
+      "totalStars": "Toplam Yıldız",
+      "followers": "Takipçiler",
+      "totalForks": "Toplam Fork"
+    },
+    "location": "GitHub'da {{year}} yılından beri",
+    "website": "Web Sitesi"
+  },
+  "achievements": {
+    "title": "🏆 Başarılar",
+    "subtitle": "Yazılım geliştirme yolculuğumdaki başarılarım",
+    "items": {
+      "problemSolver": {
+        "title": "Problem Çözücü",
+        "desc": "500+ LeetCode Problemi"
+      },
+      "fastLearner": {
+        "title": "Hızlı Öğrenen",
+        "desc": "20+ Teknoloji Öğrenildi"
+      },
+      "teamPlayer": {
+        "title": "Takım Oyuncusu",
+        "desc": "10+ İşbirlikçi Proje"
+      },
+      "cleanCode": {
+        "title": "Temiz Kod",
+        "desc": "Sürdürülebilir ve Ölçeklenebilir"
+      }
+    }
+  },
+  "experience": {
+    "title": "💼 Deneyim",
+    "subtitle": "Profesyonel gelişim yolculuğum",
+    "items": {
+      "animeEly": {
+        "title": "AnimeEly Platformu",
+        "company": "Full Stack Web Geliştirme",
+        "description": "Modern anime streaming platformu. Kullanıcı dostu arayüz ve yüksek performans odaklı geliştirme."
+      },
+      "fastDb": {
+        "title": "Fast-DB & Quick.Prisma",
+        "company": "Veritabanı Çözümleri",
+        "description": "Yüksek performanslı veritabanı modülü (C++) ve TypeScript ORM çözümü geliştirme."
+      },
+      "discordBot": {
+        "title": "Discord Bot Ekosistemi",
+        "company": "Discord Geliştirme",
+        "description": "Discord sunucuları için yedekleme sistemi ve komut senkronizasyon araçları."
+      },
+      "mobileApps": {
+        "title": "Mobil ve Masaüstü Uygulamaları",
+        "company": "Çoklu Platform Geliştirme",
+        "description": "Deprem takip uygulaması (React Native) ve Valorant arkadaş yöneticisi (PyQt5)."
+      },
+      "rustDev": {
+        "title": "Rust Geliştirme",
+        "company": "Sistem Programlama",
+        "description": "MyAnimeList API için Rust dilinde wrapper kütüphanesi geliştirme."
+      }
+    }
+  },
+  "skills": {
+    "title": "💻 Teknoloji Yığını",
+    "subtitle": "En çok kullandığım programlama dilleri ve teknolojiler",
+    "projects": "proje",
+    "total": "toplam",
+    "otherTech": "🚀 Diğer Teknolojiler"
+  },
+  "projects": {
+    "title": "🚀 Öne Çıkan Projeler",
+    "subtitle": "GitHub depolarımı gelişmiş filtreleme ve sıralama ile keşfedin",
+    "search": "Proje ara...",
+    "sortBy": "Sıralama:",
+    "sortOptions": {
+      "updated": "Son Güncellenen",
+      "stars": "En Çok Yıldızlı",
+      "forks": "En Çok Fork'lanan",
+      "created": "Yeni Oluşturulan",
+      "name": "Alfabetik"
+    },
+    "featuredOnly": "Sadece Öne Çıkanlar",
+    "all": "Tümü",
+    "showing": "{{total}} projeden {{count}} tanesi gösteriliyor",
+    "searchFor": " \"{{term}}\" için",
+    "inLanguage": " {{language}} dilinde",
+    "featuredOnlyText": "(sadece öne çıkanlar)",
+    "noProjects": {
+      "title": "Proje bulunamadı",
+      "subtitle": "Arama terimlerinizi veya filtrelerinizi ayarlamayı deneyin",
+      "clearFilters": "Tüm filtreleri temizle"
+    },
+    "noDescription": "Açıklama mevcut değil",
+    "viewCode": "Kodu Görüntüle",
+    "active": "Aktif",
+    "viewAll": "Tüm {{count}} Depoyu Görüntüle",
+    "updated": "{{date}} tarihinde güncellendi"
+  },
+  "social": {
+    "title": "🌐 Sosyal Medya",
+    "subtitle": "Benimle bağlantı kurmak için sosyal medya hesaplarımı takip edebilirsiniz.",
+    "descriptions": {
+      "github": "Projelerimi inceleyin",
+      "twitter": "Son güncellemeler",
+      "email": "Doğrudan iletişim",
+      "instagram": "Görsel hikayeler"
+    },
+    "githubProfile": "GitHub Profilim"
+  },
+  "footer": {
+    "description": "Full Stack Geliştirici olarak, modern web teknolojileri ile kullanıcı dostu ve performanslı uygulamalar geliştiriyorum.",
+    "technologies": "Teknolojiler",
+    "copyright": "© 2024 sw3do. Tüm hakları saklıdır.",
+    "and": "ve"
+  },
+  "loading": "GitHub verileri yükleniyor...",
+  "error": "GitHub verileri yüklenirken hata oluştu"
+} 
