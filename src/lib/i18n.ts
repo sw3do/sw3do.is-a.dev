@@ -23,7 +23,7 @@ const isServer = typeof window === 'undefined';
 const initOptions = {
   resources,
   fallbackLng: 'en',
-  lng: isServer ? 'en' : undefined, // Server'da her zaman İngilizce kullan
+  lng: isServer ? 'en' : undefined,
   debug: process.env.NODE_ENV === 'development',
 
   interpolation: {
@@ -31,7 +31,7 @@ const initOptions = {
   },
 
   react: {
-    useSuspense: false, // SSR için suspense'i devre dışı bırak
+    useSuspense: false,
   },
 
   detection: isServer ? undefined : {
@@ -41,10 +41,8 @@ const initOptions = {
 };
 
 if (isServer) {
-  // Server-side'da dil tespitini devre dışı bırak
   i18n.use(initReactI18next).init(initOptions);
 } else {
-  // Client-side'da dil tespitini etkinleştir
   i18n.use(LanguageDetector).use(initReactI18next).init(initOptions);
 }
 

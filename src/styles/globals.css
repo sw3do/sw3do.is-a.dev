@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 3D Perspective utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-500 {
+  perspective: 500px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
 @layer utilities {
   .line-clamp-3 {
     overflow: hidden;
@@ -22,6 +39,12 @@ body {
   box-sizing: border-box;
 }
 
+/* Remove global smooth scroll - only use it for navigation */
 html {
+  scroll-behavior: auto;
+}
+
+/* Add smooth scroll only for navigation clicks */
+html.smooth-scroll {
   scroll-behavior: smooth;
 }

@@ -111,6 +111,50 @@
     "viewAll": "View All {{count}} Repositories",
     "updated": "Updated {{date}}"
   },
+  "terminal": {
+    "title": "🖥️ Interactive Terminal",
+    "subtitle": "Try out this interactive terminal! Type 'help' to see available commands.",
+    "commands": {
+      "help": "Show help menu",
+      "about": "Learn more about sw3do",
+      "skills": "List my technical skills",
+      "projects": "Show project count",
+      "contact": "Get contact information",
+      "clear": "Clear the terminal",
+      "whoami": "Display current user",
+      "date": "Show current date",
+      "ls": "List available sections",
+      "cat": "Show file content"
+    },
+    "placeholder": "Type a command...",
+    "run": "Run",
+    "clear": "Clear",
+    "welcome": "Welcome to sw3do's interactive terminal! 🚀",
+    "commandNotFound": "Command not found: {{command}}",
+    "typeHelp": "Type 'help' for available commands.",
+    "availableCommands": "Available commands:"
+  },
+  "githubStats": {
+    "title": "📊 Live GitHub Stats",
+    "subtitle": "Real-time GitHub activity and contribution statistics",
+    "totalStars": "Total Stars",
+    "totalForks": "Total Forks",
+    "publicRepos": "Public Repos",
+    "followers": "Followers",
+    "recentActivity": "Recent Activity",
+    "loading": "Loading recent activity...",
+    "contribution": {
+      "title": "Contribution Activity",
+      "subtitle": "Real-time GitHub contribution activity",
+      "viewOnGithub": "View full contribution graph on GitHub →"
+    },
+    "activity": {
+      "pushed": "Pushed {{count}} commits",
+      "created": "Created {{type}} {{ref}}",
+      "starred": "Starred repository",
+      "forked": "Forked repository"
+    }
+  },
   "social": {
     "title": "🌐 Social Media",
     "subtitle": "You can follow my social media accounts to connect with me.",
@@ -127,6 +171,30 @@
     "technologies": "Technologies",
     "copyright": "© 2024 sw3do. All rights reserved. Made with",
     "and": "and"
+  },
+  "discord": {
+    "title": "Discord Status",
+    "subtitle": "Real-time Discord status and activities",
+    "profile": "Discord Profile",
+    "connection": "Connection Status",
+    "live": "Live",
+    "elapsed": "elapsed",
+    "memberSince": "Member Since",
+    "connections": "Connections",
+    "listeningToSpotify": "Listening to Spotify",
+    "currentActivity": "Current Activity",
+    "status": {
+      "online": "Online",
+      "idle": "Idle",
+      "dnd": "Do Not Disturb",
+      "offline": "Offline",
+      "unknown": "Unknown"
+    },
+    "devices": {
+      "desktop": "Desktop",
+      "mobile": "Mobile",
+      "web": "Web"
+    }
   },
   "loading": "Loading GitHub data...",
   "error": "Error loading GitHub data"

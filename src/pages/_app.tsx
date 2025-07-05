@@ -29,6 +29,12 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     setIsClient(true);
+    
+    window.scrollTo(0, 0);
+    
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
   }, []);
 
   useEffect(() => {

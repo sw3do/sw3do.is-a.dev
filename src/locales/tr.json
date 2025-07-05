@@ -111,6 +111,50 @@
     "viewAll": "Tüm {{count}} Depoyu Görüntüle",
     "updated": "{{date}} tarihinde güncellendi"
   },
+  "terminal": {
+    "title": "🖥️ İnteraktif Terminal",
+    "subtitle": "Bu interaktif terminali deneyin! Kullanılabilir komutları görmek için 'help' yazın.",
+    "commands": {
+      "help": "Yardım menüsünü göster",
+      "about": "sw3do hakkında bilgi al",
+      "skills": "Teknik becerilerimi listele",
+      "projects": "Proje sayısını göster",
+      "contact": "İletişim bilgilerini göster",
+      "clear": "Terminali temizle",
+      "whoami": "Mevcut kullanıcıyı göster",
+      "date": "Mevcut tarihi göster",
+      "ls": "Kullanılabilir bölümleri listele",
+      "cat": "Dosya içeriğini göster"
+    },
+    "placeholder": "Bir komut yazın...",
+    "run": "Çalıştır",
+    "clear": "Temizle",
+    "welcome": "sw3do'nun interaktif terminaline hoş geldiniz! 🚀",
+    "commandNotFound": "Komut bulunamadı: {{command}}",
+    "typeHelp": "Kullanılabilir komutları görmek için 'help' yazın.",
+    "availableCommands": "Kullanılabilir komutlar:"
+  },
+  "githubStats": {
+    "title": "📊 Canlı GitHub İstatistikleri",
+    "subtitle": "Gerçek zamanlı GitHub aktivitesi ve katkı istatistikleri",
+    "totalStars": "Toplam Yıldız",
+    "totalForks": "Toplam Fork",
+    "publicRepos": "Açık Repo",
+    "followers": "Takipçiler",
+    "recentActivity": "Son Aktivite",
+    "loading": "Son aktivite yükleniyor...",
+    "contribution": {
+      "title": "Katkı Aktivitesi",
+      "subtitle": "Gerçek zamanlı GitHub katkı aktivitesi",
+      "viewOnGithub": "GitHub'da tam katkı grafiğini görüntüle →"
+    },
+    "activity": {
+      "pushed": "{{count}} commit gönderildi",
+      "created": "{{type}} {{ref}} oluşturuldu",
+      "starred": "Depoyu yıldızladı",
+      "forked": "Depoyu fork'ladı"
+    }
+  },
   "social": {
     "title": "🌐 Sosyal Medya",
     "subtitle": "Benimle bağlantı kurmak için sosyal medya hesaplarımı takip edebilirsiniz.",
@@ -127,6 +171,30 @@
     "technologies": "Teknolojiler",
     "copyright": "© 2024 sw3do. Tüm hakları saklıdır.",
     "and": "ve"
+  },
+  "discord": {
+    "title": "Discord Durumu",
+    "subtitle": "Real-time Discord durumum ve aktivitelerim",
+    "profile": "Discord Profil",
+    "connection": "Bağlantı Durumu",
+    "live": "Canlı",
+    "elapsed": "geçti",
+    "memberSince": "Üye Olma Tarihi",
+    "connections": "Bağlantılar",
+    "listeningToSpotify": "Spotify'da dinliyor",
+    "currentActivity": "Şu Anki Aktivite",
+    "status": {
+      "online": "Çevrimiçi",
+      "idle": "Boşta",
+      "dnd": "Rahatsız Etme",
+      "offline": "Çevrimdışı",
+      "unknown": "Bilinmiyor"
+    },
+    "devices": {
+      "desktop": "Masaüstü",
+      "mobile": "Mobil",
+      "web": "Web"
+    }
   },
   "loading": "GitHub verileri yükleniyor...",
   "error": "GitHub verileri yüklenirken hata oluştu"

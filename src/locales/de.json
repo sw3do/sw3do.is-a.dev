@@ -111,6 +111,50 @@
     "viewAll": "Alle {{count}} Repositories anzeigen",
     "updated": "Aktualisiert am {{date}}"
   },
+  "terminal": {
+    "title": "🖥️ Interaktives Terminal",
+    "subtitle": "Probieren Sie dieses interaktive Terminal aus! Geben Sie 'help' ein, um verfügbare Befehle zu sehen.",
+    "commands": {
+      "help": "Hilfemenü anzeigen",
+      "about": "Mehr über sw3do erfahren",
+      "skills": "Meine technischen Fähigkeiten auflisten",
+      "projects": "Projektanzahl anzeigen",
+      "contact": "Kontaktinformationen abrufen",
+      "clear": "Terminal leeren",
+      "whoami": "Aktuellen Benutzer anzeigen",
+      "date": "Aktuelles Datum anzeigen",
+      "ls": "Verfügbare Abschnitte auflisten",
+      "cat": "Dateiinhalt anzeigen"
+    },
+    "placeholder": "Geben Sie einen Befehl ein...",
+    "run": "Ausführen",
+    "clear": "Leeren",
+    "welcome": "Willkommen bei sw3do's interaktivem Terminal! 🚀",
+    "commandNotFound": "Befehl nicht gefunden: {{command}}",
+    "typeHelp": "Geben Sie 'help' ein, um verfügbare Befehle zu sehen.",
+    "availableCommands": "Verfügbare Befehle:"
+  },
+  "githubStats": {
+    "title": "📊 Live GitHub Statistiken",
+    "subtitle": "Echtzeitdaten zu GitHub-Aktivitäten und Beiträgen",
+    "totalStars": "Gesamt Sterne",
+    "totalForks": "Gesamt Forks",
+    "publicRepos": "Öffentliche Repos",
+    "followers": "Follower",
+    "recentActivity": "Neueste Aktivität",
+    "loading": "Neueste Aktivität wird geladen...",
+    "contribution": {
+      "title": "Beitrag-Aktivität",
+      "subtitle": "Echtzeit GitHub Beitrag-Aktivität",
+      "viewOnGithub": "Vollständiges Beitragsdiagramm auf GitHub anzeigen →"
+    },
+    "activity": {
+      "pushed": "{{count}} Commits gepusht",
+      "created": "{{type}} {{ref}} erstellt",
+      "starred": "Repository mit Stern versehen",
+      "forked": "Repository geforkt"
+    }
+  },
   "social": {
     "title": "🌐 Soziale Medien",
     "subtitle": "Sie können meinen Social-Media-Kanälen folgen, um mit mir in Kontakt zu treten.",
@@ -127,6 +171,30 @@
     "technologies": "Technologien",
     "copyright": "© 2024 sw3do. Alle Rechte vorbehalten. Erstellt mit",
     "and": "und"
+  },
+  "discord": {
+    "title": "Discord-Status",
+    "subtitle": "Echtzeit Discord-Status und Aktivitäten",
+    "profile": "Discord-Profil",
+    "connection": "Verbindungsstatus",
+    "live": "Live",
+    "elapsed": "vergangen",
+    "memberSince": "Mitglied seit",
+    "connections": "Verbindungen",
+    "listeningToSpotify": "Hört Spotify",
+    "currentActivity": "Aktuelle Aktivität",
+    "status": {
+      "online": "Online",
+      "idle": "Abwesend",
+      "dnd": "Nicht stören",
+      "offline": "Offline",
+      "unknown": "Unbekannt"
+    },
+    "devices": {
+      "desktop": "Desktop",
+      "mobile": "Mobil",
+      "web": "Web"
+    }
   },
   "loading": "GitHub-Daten werden geladen...",
   "error": "Fehler beim Laden der GitHub-Daten"
