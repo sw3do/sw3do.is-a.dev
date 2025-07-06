@@ -229,10 +229,10 @@ function Home() {
 
   const [terminalInput, setTerminalInput] = useState("");
   const [terminalHistory, setTerminalHistory] = useState<string[]>([]);
-  const [gitHubStats, setGitHubStats] = useState<{ 
-    totalContributions: number; 
-    totalRepositories: number; 
-    totalStars: number; 
+  const [gitHubStats, setGitHubStats] = useState<{
+    totalContributions: number;
+    totalRepositories: number;
+    totalStars: number;
     totalForks: number;
     totalEvents: number;
     recentActivity: Array<{
@@ -245,7 +245,7 @@ function Home() {
   } | null>(null);
   const [activeSection, setActiveSection] = useState('home');
   const [isTerminalScrolledToBottom, setIsTerminalScrolledToBottom] = useState(true);
-  
+
   const DISCORD_USER_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID || "1220783094613672011";
   const { data: discordData } = useLanyard(DISCORD_USER_ID);
 
@@ -255,19 +255,19 @@ function Home() {
     if (savedTheme) {
       setIsDarkMode(savedTheme === 'dark');
     }
-    
+
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
-    
+
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
-    
+
     const timer = setTimeout(() => {
       window.scrollTo(0, 0);
     }, 100);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -408,23 +408,23 @@ function Home() {
       if (!ticking) {
         requestAnimationFrame(() => {
           setShowScrollTop(window.scrollY > 400);
-          
+
           const sections = ['home', 'about', 'skills', 'projects', 'terminal', 'stats', 'contact'];
           const scrollPosition = window.scrollY + 100;
-          
+
           for (const section of sections) {
             const element = document.getElementById(section);
             if (element) {
               const offsetTop = element.offsetTop;
               const offsetBottom = offsetTop + element.offsetHeight;
-              
+
               if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
                 setActiveSection(section);
                 break;
               }
             }
           }
-          
+
           ticking = false;
         });
         ticking = true;
@@ -494,13 +494,13 @@ function Home() {
     const element = document.getElementById(sectionId);
     if (element) {
       document.documentElement.classList.add('smooth-scroll');
-      
+
       const offsetTop = element.offsetTop - 80;
       window.scrollTo({
         top: offsetTop,
         behavior: 'smooth'
       });
-      
+
       setTimeout(() => {
         document.documentElement.classList.remove('smooth-scroll');
       }, 1000);
@@ -522,7 +522,7 @@ function Home() {
       if (eventDate >= oneYearAgo) {
         const dateKey = eventDate.toISOString().split('T')[0];
         const contributionTypes = ['PushEvent', 'CreateEvent', 'IssuesEvent', 'PullRequestEvent', 'WatchEvent', 'ForkEvent'];
-        
+
         if (contributionTypes.includes(event.type)) {
           contributionMap.set(dateKey, (contributionMap.get(dateKey) || 0) + 1);
         }
@@ -536,7 +536,7 @@ function Home() {
         const date = new Date(now.getTime() - (52 - weekIndex) * 7 * 24 * 60 * 60 * 1000 - (6 - dayIndex) * 24 * 60 * 60 * 1000);
         const dateKey = date.toISOString().split('T')[0];
         const contributions = contributionMap.get(dateKey) || 0;
-        
+
         week.push({
           date: dateKey,
           contributions,
@@ -547,7 +547,7 @@ function Home() {
     }
 
     const totalContributions = Array.from(contributionMap.values()).reduce((sum, count) => sum + count, 0);
-    
+
     return { weeks, totalContributions };
   }, []);
 
@@ -645,10 +645,10 @@ function Home() {
   const handleTerminalCommand = useCallback((command: string) => {
     const trimmedCommand = command.trim().toLowerCase();
     const commandFunction = terminalCommands[trimmedCommand as keyof typeof terminalCommands];
-    
+
     setTerminalHistory(prev => {
       let newHistory: string[] = [];
-      
+
       if (commandFunction) {
         const output = commandFunction();
         newHistory = [...prev, `$ ${command}`, ...output];
@@ -663,10 +663,10 @@ function Home() {
           ""
         ];
       }
-      
+
       return newHistory.slice(-50);
     });
-    
+
     setTerminalInput("");
   }, [terminalCommands, t]);
 
@@ -718,19 +718,19 @@ function Home() {
 
     const fetchGitHubStats = async () => {
       if (!user?.login) return;
-      
+
       abortController = new AbortController();
-      
+
       try {
         const response = await fetch(
           `https://api.github.com/users/${user.login}/events/public`,
           { signal: abortController.signal }
         );
-        
+
         if (!response.ok) throw new Error('Failed to fetch GitHub stats');
-        
+
         const events = await response.json();
-        
+
         const recentActivity = events.slice(0, 10).map((event: { type: string; repo: { name: string }; created_at: string; payload: { commits?: { message: string }[]; ref_type?: string; ref?: string } }) => ({
           type: event.type,
           repo: event.repo.name,
@@ -739,7 +739,7 @@ function Home() {
         }));
 
         const contributionData = generateContributionData(events);
-        
+
         setGitHubStats({
           recentActivity,
           totalEvents: events.length,
@@ -773,17 +773,17 @@ function Home() {
     };
   }, [user?.login, user?.public_repos, isClient, generateContributionData, repos]);
 
-  const topLanguages = useMemo(() => 
+  const topLanguages = useMemo(() =>
     Object.entries(languages)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 6)
-  , [languages]);
+    , [languages]);
 
   if (!isClient || !ready) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${isDarkMode
-          ? "bg-gradient-to-br from-gray-900 via-slate-900 to-black"
-          : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
+        ? "bg-gradient-to-br from-gray-900 via-slate-900 to-black"
+        : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
         }`}>
         <div className="text-center">
           <motion.div
@@ -797,8 +797,8 @@ function Home() {
               ease: "easeInOut"
             }}
             className={`w-16 h-16 border-4 rounded-full mx-auto mb-4 ${isDarkMode
-                ? "border-gray-600 border-t-blue-500"
-                : "border-gray-300 border-t-blue-600"
+              ? "border-gray-600 border-t-blue-500"
+              : "border-gray-300 border-t-blue-600"
               }`}
           />
           <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
@@ -812,8 +812,8 @@ function Home() {
   if (isLoading) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${isDarkMode
-          ? "bg-gradient-to-br from-gray-900 via-slate-900 to-black"
-          : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
+        ? "bg-gradient-to-br from-gray-900 via-slate-900 to-black"
+        : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
         }`}>
         <div className="text-center">
           <motion.div
@@ -827,8 +827,8 @@ function Home() {
               ease: "easeInOut"
             }}
             className={`w-16 h-16 border-4 rounded-full mx-auto mb-4 ${isDarkMode
-                ? "border-gray-600 border-t-blue-500"
-                : "border-gray-300 border-t-blue-600"
+              ? "border-gray-600 border-t-blue-500"
+              : "border-gray-300 border-t-blue-600"
               }`}
           />
           <motion.p
@@ -846,15 +846,15 @@ function Home() {
   if (isError) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${isDarkMode
-          ? "bg-gradient-to-br from-gray-900 via-slate-900 to-black"
-          : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
+        ? "bg-gradient-to-br from-gray-900 via-slate-900 to-black"
+        : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
         }`}>
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           className={`text-2xl font-bold p-8 rounded-lg backdrop-blur-sm border ${isDarkMode
-              ? "text-white bg-red-800/30 border-red-700/50"
-              : "text-red-800 bg-red-100/80 border-red-300/60"
+            ? "text-white bg-red-800/30 border-red-700/50"
+            : "text-red-800 bg-red-100/80 border-red-300/60"
             }`}
         >
           {error?.message || t('error')}
@@ -865,16 +865,15 @@ function Home() {
 
   return (
     <div className={`min-h-screen relative overflow-x-hidden transition-colors duration-300 ${isDarkMode
-        ? "bg-gradient-to-br from-gray-900 via-slate-900 to-black"
-        : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
+      ? "bg-gradient-to-br from-gray-900 via-slate-900 to-black"
+      : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
       }`}>
-      {/* Navbar */}
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors duration-300 ${isDarkMode
-            ? "bg-slate-900/80 border-slate-700/50"
-            : "bg-white/80 border-gray-300/50"
+          ? "bg-slate-900/80 border-slate-700/50"
+          : "bg-white/80 border-gray-300/50"
           }`}
       >
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -901,11 +900,10 @@ function Home() {
                 <motion.button
                   key={item.id}
                   onClick={() => item.id === 'home' ? scrollToHome() : scrollToSection(item.id)}
-                  className={`relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
-                    activeSection === item.id
+                  className={`relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${activeSection === item.id
                       ? isDarkMode ? 'text-blue-400' : 'text-blue-600'
                       : isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-                  }`}
+                    }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -925,8 +923,8 @@ function Home() {
             <motion.button
               onClick={toggleTheme}
               className={`p-2 rounded-full transition-all duration-300 ${isDarkMode
-                  ? "bg-slate-800 hover:bg-slate-700 text-yellow-400"
-                  : "bg-gray-200 hover:bg-gray-300 text-orange-600"
+                ? "bg-slate-800 hover:bg-slate-700 text-yellow-400"
+                : "bg-gray-200 hover:bg-gray-300 text-orange-600"
                 }`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
@@ -939,7 +937,6 @@ function Home() {
         </div>
       </motion.nav>
 
-      {/* Floating Particles Background - Optimized */}
       {isClient && (
         <div className="fixed inset-0 z-0 pointer-events-none">
           {[...Array(12)].map((_, i) => (
@@ -972,8 +969,8 @@ function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-                  className="container mx-auto px-6 py-12 relative z-10"
-        style={{ 
+        className="container mx-auto px-6 py-12 relative z-10"
+        style={{
           paddingTop: '6rem',
           willChange: 'opacity'
         }}
@@ -983,14 +980,27 @@ function Home() {
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-center mb-16"
+          className="text-center mb-16 relative"
         >
+          <div className="absolute inset-0 -mx-6 -my-12 pointer-events-none">
+            <div
+              className={`w-full h-full opacity-30 ${isDarkMode ? 'opacity-20' : 'opacity-10'}`}
+              style={{
+                backgroundImage: `
+                  linear-gradient(${isDarkMode ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.15)'} 1px, transparent 1px),
+                  linear-gradient(90deg, ${isDarkMode ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.15)'} 1px, transparent 1px)
+                `,
+                backgroundSize: '50px 50px',
+                backgroundPosition: '0 0, 0 0',
+                maskImage: 'radial-gradient(ellipse 120% 100% at 50% 50%, black 40%, transparent 80%)',
+                WebkitMaskImage: 'radial-gradient(ellipse 120% 100% at 50% 50%, black 40%, transparent 80%)'
+              }}
+            />
+          </div>
 
           <div className="relative inline-block mb-8">
 
-      
 
-            {/* Animated Background Rings */}
             <motion.div
               className="absolute inset-0 rounded-full"
               animate={{ rotate: 360 }}
@@ -1007,9 +1017,7 @@ function Home() {
               <div className="w-44 h-44 rounded-full bg-gradient-to-r from-cyan-500/30 via-blue-500/30 to-purple-500/30 blur-md" />
             </motion.div>
 
-            {/* Main Profile Container */}
             <div className="relative">
-              {/* Gradient Border */}
               <motion.div
                 className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 opacity-75"
                 animate={{
@@ -1022,7 +1030,6 @@ function Home() {
                 }}
               />
 
-              {/* Profile Image */}
               <motion.div
                 className="relative bg-slate-900 rounded-full p-1"
                 whileHover={{ scale: 1.05 }}
@@ -1036,7 +1043,6 @@ function Home() {
                   transition={{ duration: 0.6 }}
                 />
 
-                {/* Inner Glow */}
                 <motion.div
                   className="absolute inset-0 rounded-full bg-gradient-to-t from-blue-500/20 to-transparent"
                   animate={{ opacity: [0.3, 0.6, 0.3] }}
@@ -1045,7 +1051,6 @@ function Home() {
               </motion.div>
 
 
-              {/* Floating Particles - Optimized */}
               {isClient && [...Array(4)].map((_, i) => (
                 <motion.div
                   key={i}
@@ -1070,7 +1075,6 @@ function Home() {
               ))}
             </div>
 
-            {/* Bottom Glow Effect */}
             <motion.div
               className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-blue-500/20 rounded-full blur-xl"
               animate={{
@@ -1089,8 +1093,8 @@ function Home() {
           >
             <motion.h1
               className={`text-6xl font-bold bg-gradient-to-r bg-clip-text text-transparent ${isDarkMode
-                  ? "from-blue-400 via-white to-cyan-400"
-                  : "from-blue-600 via-gray-800 to-cyan-600"
+                ? "from-blue-400 via-white to-cyan-400"
+                : "from-blue-600 via-gray-800 to-cyan-600"
                 }`}
               animate={{
                 backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
@@ -1100,7 +1104,7 @@ function Home() {
                 repeat: Infinity,
                 ease: "linear"
               }}
-              style={{ 
+              style={{
                 backgroundSize: "200% auto",
                 willChange: 'background-position'
               }}
@@ -1108,7 +1112,6 @@ function Home() {
               {user?.name || "sw3do"}
             </motion.h1>
 
-            {/* Holographic Lines */}
             <motion.div
               className="absolute -left-4 top-1/2 w-2 h-0.5 bg-blue-400"
               animate={{
@@ -1137,7 +1140,6 @@ function Home() {
             {user?.bio || t('hero.bio')}
           </motion.p>
 
-          {/* Typing Effect */}
           <motion.div
             className="mb-6"
             initial={{ y: 20, opacity: 0 }}
@@ -1157,7 +1159,6 @@ function Home() {
             </div>
           </motion.div>
 
-          {/* Additional Info */}
           <motion.div
             className="flex flex-wrap justify-center gap-4 mb-8 text-sm text-gray-400"
             initial={{ y: 20, opacity: 0 }}
@@ -1192,8 +1193,8 @@ function Home() {
           >
             <motion.div
               className={`text-center rounded-xl p-6 border transition-all duration-300 ${isDarkMode
-                  ? "bg-slate-800/50 border-slate-700/50 hover:border-blue-500/50"
-                  : "bg-white/80 border-gray-300/50 hover:border-blue-500/50"
+                ? "bg-slate-800/50 border-slate-700/50 hover:border-blue-500/50"
+                : "bg-white/80 border-gray-300/50 hover:border-blue-500/50"
                 }`}
               whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(59, 130, 246, 0.3)" }}
             >
@@ -1206,8 +1207,8 @@ function Home() {
 
             <motion.div
               className={`text-center rounded-xl p-6 border transition-all duration-300 ${isDarkMode
-                  ? "bg-slate-800/50 border-slate-700/50 hover:border-green-500/50"
-                  : "bg-white/80 border-gray-300/50 hover:border-green-500/50"
+                ? "bg-slate-800/50 border-slate-700/50 hover:border-green-500/50"
+                : "bg-white/80 border-gray-300/50 hover:border-green-500/50"
                 }`}
               whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(34, 197, 94, 0.3)" }}
             >
@@ -1220,8 +1221,8 @@ function Home() {
 
             <motion.div
               className={`text-center rounded-xl p-6 border transition-all duration-300 ${isDarkMode
-                  ? "bg-slate-800/50 border-slate-700/50 hover:border-purple-500/50"
-                  : "bg-white/80 border-gray-300/50 hover:border-purple-500/50"
+                ? "bg-slate-800/50 border-slate-700/50 hover:border-purple-500/50"
+                : "bg-white/80 border-gray-300/50 hover:border-purple-500/50"
                 }`}
               whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(168, 85, 247, 0.3)" }}
             >
@@ -1234,8 +1235,8 @@ function Home() {
 
             <motion.div
               className={`text-center rounded-xl p-6 border transition-all duration-300 ${isDarkMode
-                  ? "bg-slate-800/50 border-slate-700/50 hover:border-orange-500/50"
-                  : "bg-white/80 border-gray-300/50 hover:border-orange-500/50"
+                ? "bg-slate-800/50 border-slate-700/50 hover:border-orange-500/50"
+                : "bg-white/80 border-gray-300/50 hover:border-orange-500/50"
                 }`}
               whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(249, 115, 22, 0.3)" }}
             >
@@ -1248,7 +1249,6 @@ function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Achievements Section */}
         <motion.div
           id="about"
           initial={{ y: 50, opacity: 0 }}
@@ -1292,7 +1292,6 @@ function Home() {
           </div>
         </motion.div>
 
-        {/* Experience Timeline */}
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -1302,13 +1301,14 @@ function Home() {
           <div className="text-center mb-12">
             <div className="relative inline-block">
               <h2 className={`text-4xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent ${isDarkMode
-                  ? "from-blue-400 via-cyan-400 to-blue-500"
-                  : "from-blue-600 via-cyan-600 to-blue-700"
+                ? "from-blue-400 via-cyan-400 to-blue-500"
+                : "from-blue-600 via-cyan-600 to-blue-700"
                 }`}>
                 {t('experience.title')}
               </h2>
 
-              {/* Simple decorative lines */}
+
+
               <div className="absolute -left-6 top-1/2 w-4 h-0.5 bg-blue-400 opacity-60" />
               <div className="absolute -right-6 top-1/2 w-4 h-0.5 bg-cyan-400 opacity-60" />
             </div>
@@ -1320,7 +1320,7 @@ function Home() {
           </div>
 
           <div className="max-w-5xl mx-auto relative">
-            {/* Simple Timeline Line */}
+  
             <div className="absolute left-8 md:left-1/2 md:transform md:-translate-x-0.5 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-cyan-400 to-transparent opacity-30" />
 
             {experiences.map((exp, index) => {
@@ -1335,33 +1335,31 @@ function Home() {
                   className={`relative mb-12 last:mb-0 ${isEven ? "md:pr-1/2" : "md:pl-1/2 md:text-right"
                     }`}
                 >
-                  {/* Simple Timeline Node */}
+     
                   <div className={`absolute ${isEven
-                      ? "left-8 md:right-0 md:left-auto md:transform md:translate-x-1/2"
-                      : "left-8 md:left-0 md:transform md:-translate-x-1/2"
+                    ? "left-8 md:right-0 md:left-auto md:transform md:translate-x-1/2"
+                    : "left-8 md:left-0 md:transform md:-translate-x-1/2"
                     } top-6 md:top-8 z-20`}>
 
-                    {/* Simple node */}
                     <div className="relative w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex flex-col items-center justify-center shadow-md border-2 border-white/20 transition-transform duration-200 hover:scale-105">
                       <span className="text-white font-bold text-xs leading-none">{exp.year}</span>
                       <div className="w-1 h-1 bg-white rounded-full mt-1 opacity-80"></div>
                     </div>
 
-                    {/* Simple connecting line */}
                     <div className={`absolute top-6 ${isEven
-                        ? "left-12 w-6 md:w-8"
-                        : "left-12 w-6 md:w-8"
+                      ? "left-12 w-6 md:w-8"
+                      : "left-12 w-6 md:w-8"
                       } h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 opacity-40`} />
                   </div>
 
-                  {/* Experience Card */}
+
                   <div className={`ml-20 md:ml-0 ${!isEven ? "md:mr-20" : ""}`}>
                     <div className={`relative rounded-xl p-6 border backdrop-blur-sm transition-all duration-200 hover:border-blue-500/50 ${isDarkMode
-                        ? "bg-slate-800/60 border-slate-700/50"
-                        : "bg-white/80 border-gray-300/50"
+                      ? "bg-slate-800/60 border-slate-700/50"
+                      : "bg-white/80 border-gray-300/50"
                       }`}>
 
-                      {/* Content */}
+
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
                           <h3 className={`text-xl font-bold mb-2 transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"
@@ -1384,14 +1382,14 @@ function Home() {
                         {t(exp.descriptionKey)}
                       </p>
 
-                      {/* Technologies */}
+
                       <div className="flex flex-wrap gap-2">
                         {exp.technologies.map((tech) => (
                           <span
                             key={tech}
                             className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors duration-200 ${isDarkMode
-                                ? "bg-blue-900/40 text-blue-300 border-blue-700/50 hover:bg-blue-800/60"
-                                : "bg-blue-100/80 text-blue-700 border-blue-300/50 hover:bg-blue-200/80"
+                              ? "bg-blue-900/40 text-blue-300 border-blue-700/50 hover:bg-blue-800/60"
+                              : "bg-blue-100/80 text-blue-700 border-blue-300/50 hover:bg-blue-200/80"
                               }`}
                           >
                             {tech}
@@ -1401,7 +1399,7 @@ function Home() {
                     </div>
                   </div>
 
-                  {/* Simple achievement badge */}
+
                   {index < 2 && (
                     <div className={`absolute ${isEven ? "top-4 right-4" : "top-4 left-4"
                       } z-30`}>
@@ -1414,12 +1412,11 @@ function Home() {
               );
             })}
 
-            {/* End of timeline decoration */}
             <div className="absolute left-8 md:left-1/2 md:transform md:-translate-x-1/2 bottom-0 w-1 h-8 bg-gradient-to-t from-transparent to-blue-400 opacity-30" />
           </div>
         </motion.div>
 
-        {/* Skills Section */}
+
         <motion.div
           id="skills"
           initial={{ y: 50, opacity: 0 }}
@@ -1483,7 +1480,7 @@ function Home() {
               })}
             </div>
 
-            {/* Additional Skills */}
+
             <motion.div
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -1526,10 +1523,8 @@ function Home() {
               {t('projects.subtitle')}
             </p>
 
-            {/* Advanced Controls */}
             <div className="max-w-6xl mx-auto space-y-6">
 
-              {/* Search Bar */}
               <div className="relative max-w-md mx-auto">
                 <input
                   type="text"
@@ -1549,10 +1544,8 @@ function Home() {
                 )}
               </div>
 
-              {/* Controls Row */}
               <div className="flex flex-wrap justify-center gap-4 items-center">
 
-                {/* Sort Options */}
                 <div className="flex items-center space-x-2">
                   <span className="text-gray-400 text-sm">{t('projects.sortBy')}</span>
                   <select
@@ -1568,25 +1561,25 @@ function Home() {
                   </select>
                 </div>
 
-                {/* Featured Toggle */}
+
                 <button
                   onClick={() => setShowFeaturedOnly(!showFeaturedOnly)}
                   className={`px-4 py-2 rounded-full text-sm transition-all duration-300 flex items-center space-x-2 ${showFeaturedOnly
-                      ? "bg-yellow-500 text-black shadow-lg"
-                      : "bg-slate-700/50 text-gray-300 hover:bg-slate-600/50"
+                    ? "bg-yellow-500 text-black shadow-lg"
+                    : "bg-slate-700/50 text-gray-300 hover:bg-slate-600/50"
                     }`}
                 >
                   <span className="text-xs">{t('projects.featuredOnly')}</span>
                 </button>
               </div>
 
-              {/* Language Filter */}
+
               <div className="flex flex-wrap justify-center gap-2">
                 <button
                   onClick={() => setSelectedFilter("all")}
                   className={`px-4 py-2 rounded-full text-sm transition-all duration-300 ${selectedFilter === "all"
-                      ? "bg-blue-500 text-white shadow-lg"
-                      : "bg-slate-700/50 text-gray-300 hover:bg-slate-600/50"
+                    ? "bg-blue-500 text-white shadow-lg"
+                    : "bg-slate-700/50 text-gray-300 hover:bg-slate-600/50"
                     }`}
                 >
                   {t('projects.all')} ({repos.length})
@@ -1596,8 +1589,8 @@ function Home() {
                     key={language}
                     onClick={() => setSelectedFilter(language)}
                     className={`px-4 py-2 rounded-full text-sm transition-all duration-300 flex items-center space-x-2 ${selectedFilter === language
-                        ? "bg-blue-500 text-white shadow-lg"
-                        : "bg-slate-700/50 text-gray-300 hover:bg-slate-600/50"
+                      ? "bg-blue-500 text-white shadow-lg"
+                      : "bg-slate-700/50 text-gray-300 hover:bg-slate-600/50"
                       }`}
                   >
                     {getLanguageIcon(language)}
@@ -1606,7 +1599,6 @@ function Home() {
                 ))}
               </div>
 
-              {/* Results Info */}
               <div className="text-center">
                 <p className="text-gray-400 text-sm">
                   {t('projects.showing', { count: filteredRepos.length, total: repos.length })}
@@ -1619,7 +1611,7 @@ function Home() {
           </div>
         </motion.div>
 
-        {/* Projects Grid */}
+
         {filteredRepos.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
@@ -1661,11 +1653,11 @@ function Home() {
                 }}
                 className="group bg-slate-800/60 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 relative overflow-hidden"
               >
-                {/* Background Gradient */}
+
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 <div className="relative z-10">
-                  {/* Header */}
+
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <h3 className={`text-xl font-bold mb-2 transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"
@@ -1679,8 +1671,8 @@ function Home() {
                     </div>
                     <div className="flex items-center space-x-2">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${isDarkMode
-                          ? "bg-blue-900/40 text-blue-300 border border-blue-700/50"
-                          : "bg-blue-100/80 text-blue-700 border border-blue-300/50"
+                        ? "bg-blue-900/40 text-blue-300 border border-blue-700/50"
+                        : "bg-blue-100/80 text-blue-700 border border-blue-300/50"
                         }`}>
                         {repo.language}
                       </span>
@@ -1692,7 +1684,7 @@ function Home() {
           </motion.div>
         )}
 
-        {/* Load More Button */}
+
         {filteredRepos.length > 12 && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -1718,7 +1710,7 @@ function Home() {
 
 
 
-        {/* Interactive Terminal */}
+
         <motion.div
           id="terminal"
           initial={{ y: 50, opacity: 0 }}
@@ -1729,8 +1721,8 @@ function Home() {
           <div className="text-center mb-12">
             <div className="relative inline-block">
               <h2 className={`text-4xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent ${isDarkMode
-                  ? "from-green-400 via-blue-400 to-purple-400"
-                  : "from-green-600 via-blue-600 to-purple-600"
+                ? "from-green-400 via-blue-400 to-purple-400"
+                : "from-green-600 via-blue-600 to-purple-600"
                 }`}>
                 {t('terminal.title')}
               </h2>
@@ -1749,11 +1741,11 @@ function Home() {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 3, duration: 0.5 }}
               className={`rounded-xl border transition-all duration-300 ${isDarkMode
-                  ? "bg-gray-900/90 border-gray-800"
-                  : "bg-gray-800/90 border-gray-700"
+                ? "bg-gray-900/90 border-gray-800"
+                : "bg-gray-800/90 border-gray-700"
                 } backdrop-blur-sm shadow-2xl`}
             >
-              {/* Terminal Header */}
+
               <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-700/50">
                 <div className="flex items-center space-x-2 sm:space-x-3">
                   <div className="flex space-x-1 sm:space-x-2">
@@ -1779,9 +1771,9 @@ function Home() {
                 </div>
               </div>
 
-              {/* Terminal Body */}
+
               <div className="p-3 sm:p-6">
-                <div 
+                <div
                   className="h-60 sm:h-80 overflow-y-auto font-mono text-xs sm:text-sm terminal-history"
                   style={{ scrollBehavior: 'smooth' }}
                   onScroll={handleTerminalScroll}
@@ -1789,9 +1781,9 @@ function Home() {
                   {terminalHistory.slice(-30).map((line, index) => (
                     <div
                       key={`${terminalHistory.length - 30 + index}`}
-                      className={`mb-1 break-words ${line.startsWith('$') 
-                          ? 'text-green-400 font-semibold' 
-                          : 'text-gray-300'
+                      className={`mb-1 break-words ${line.startsWith('$')
+                        ? 'text-green-400 font-semibold'
+                        : 'text-gray-300'
                         }`}
                     >
                       {line}
@@ -1799,7 +1791,7 @@ function Home() {
                   ))}
                 </div>
 
-                {/* Terminal Input */}
+
                 <div className="mt-4 flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
                   <div className="flex items-center space-x-2 flex-1">
                     <span className="text-green-400 font-mono">$</span>
@@ -1828,7 +1820,7 @@ function Home() {
           </div>
         </motion.div>
 
-        {/* Discord Status Section */}
+
         {discordData && (
           <motion.div
             initial={{ y: 50, opacity: 0 }}
@@ -1839,8 +1831,8 @@ function Home() {
             <div className="text-center mb-12">
               <div className="relative inline-block">
                 <h2 className={`text-4xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent ${isDarkMode
-                    ? "from-indigo-400 via-purple-400 to-pink-400"
-                    : "from-indigo-600 via-purple-600 to-pink-600"
+                  ? "from-indigo-400 via-purple-400 to-pink-400"
+                  : "from-indigo-600 via-purple-600 to-pink-600"
                   }`}>
                   {t('discord.title')}
                 </h2>
@@ -1859,7 +1851,7 @@ function Home() {
           </motion.div>
         )}
 
-        {/* Live GitHub Stats */}
+
         <motion.div
           id="stats"
           initial={{ y: 50, opacity: 0 }}
@@ -1870,8 +1862,8 @@ function Home() {
           <div className="text-center mb-12">
             <div className="relative inline-block">
               <h2 className={`text-4xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent ${isDarkMode
-                  ? "from-orange-400 via-red-400 to-pink-400"
-                  : "from-orange-600 via-red-600 to-pink-600"
+                ? "from-orange-400 via-red-400 to-pink-400"
+                : "from-orange-600 via-red-600 to-pink-600"
                 }`}>
                 {t('githubStats.title')}
               </h2>
@@ -1885,15 +1877,15 @@ function Home() {
           </div>
 
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* GitHub Stats Cards */}
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 3.4 }}
                 className={`text-center rounded-xl p-4 sm:p-6 border transition-all duration-300 ${isDarkMode
-                    ? "bg-slate-800/60 border-slate-700/50 hover:border-orange-500/50"
-                    : "bg-white/80 border-gray-300/50 hover:border-orange-500/50"
+                  ? "bg-slate-800/60 border-slate-700/50 hover:border-orange-500/50"
+                  : "bg-white/80 border-gray-300/50 hover:border-orange-500/50"
                   }`}
                 whileHover={{ scale: 1.05 }}
               >
@@ -1913,8 +1905,8 @@ function Home() {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 3.5 }}
                 className={`text-center rounded-xl p-4 sm:p-6 border transition-all duration-300 ${isDarkMode
-                    ? "bg-slate-800/60 border-slate-700/50 hover:border-red-500/50"
-                    : "bg-white/80 border-gray-300/50 hover:border-red-500/50"
+                  ? "bg-slate-800/60 border-slate-700/50 hover:border-red-500/50"
+                  : "bg-white/80 border-gray-300/50 hover:border-red-500/50"
                   }`}
                 whileHover={{ scale: 1.05 }}
               >
@@ -1934,8 +1926,8 @@ function Home() {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 3.6 }}
                 className={`text-center rounded-xl p-4 sm:p-6 border transition-all duration-300 ${isDarkMode
-                    ? "bg-slate-800/60 border-slate-700/50 hover:border-pink-500/50"
-                    : "bg-white/80 border-gray-300/50 hover:border-pink-500/50"
+                  ? "bg-slate-800/60 border-slate-700/50 hover:border-pink-500/50"
+                  : "bg-white/80 border-gray-300/50 hover:border-pink-500/50"
                   }`}
                 whileHover={{ scale: 1.05 }}
               >
@@ -1955,8 +1947,8 @@ function Home() {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 3.7 }}
                 className={`text-center rounded-xl p-4 sm:p-6 border transition-all duration-300 ${isDarkMode
-                    ? "bg-slate-800/60 border-slate-700/50 hover:border-purple-500/50"
-                    : "bg-white/80 border-gray-300/50 hover:border-purple-500/50"
+                  ? "bg-slate-800/60 border-slate-700/50 hover:border-purple-500/50"
+                  : "bg-white/80 border-gray-300/50 hover:border-purple-500/50"
                   }`}
                 whileHover={{ scale: 1.05 }}
               >
@@ -1972,14 +1964,14 @@ function Home() {
               </motion.div>
             </div>
 
-            {/* GitHub Contribution Graph */}
+
             <motion.div
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 3.8 }}
               className={`rounded-xl border transition-all duration-300 mb-8 ${isDarkMode
-                  ? "bg-slate-800/60 border-slate-700/50"
-                  : "bg-white/80 border-gray-300/50"
+                ? "bg-slate-800/60 border-slate-700/50"
+                : "bg-white/80 border-gray-300/50"
                 } backdrop-blur-sm`}
             >
               <div className="p-4 sm:p-6">
@@ -1988,9 +1980,9 @@ function Home() {
                   <FaChartLine className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
                   <span>{t('githubStats.contribution.title')}</span>
                 </h3>
-                
+
                 <div className="space-y-4">
-                  {/* Stats Summary */}
+
                   <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                     <div className="flex items-center space-x-6">
                       <div className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
@@ -2010,7 +2002,7 @@ function Home() {
                     </div>
                   </div>
 
-                  {/* GitHub Native Contribution Graph */}
+
                   <div className="overflow-x-auto">
                     <div className="min-w-full">
                       <div className="flex items-center justify-center">
@@ -2022,33 +2014,33 @@ function Home() {
                           style={{ filter: isDarkMode ? 'invert(1) hue-rotate(180deg)' : 'none' }}
                         />
                       </div>
-                      
-                      
-                                             {/* Backup: Link to GitHub Profile */}
-                       <div className="mt-4 text-center">
-                         <a
-                           href={`https://github.com/${user?.login}`}
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           className={`text-sm ${isDarkMode ? 'text-gray-400 hover:text-green-400' : 'text-gray-600 hover:text-green-600'} transition-colors`}
-                         >
-                           {t('githubStats.contribution.viewOnGithub')}
-                         </a>
-                       </div>
+
+
+
+                      <div className="mt-4 text-center">
+                        <a
+                          href={`https://github.com/${user?.login}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`text-sm ${isDarkMode ? 'text-gray-400 hover:text-green-400' : 'text-gray-600 hover:text-green-600'} transition-colors`}
+                        >
+                          {t('githubStats.contribution.viewOnGithub')}
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </motion.div>
 
-            {/* Recent Activity */}
+
             <motion.div
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 4.0 }}
               className={`rounded-xl border transition-all duration-300 ${isDarkMode
-                  ? "bg-slate-800/60 border-slate-700/50"
-                  : "bg-white/80 border-gray-300/50"
+                ? "bg-slate-800/60 border-slate-700/50"
+                : "bg-white/80 border-gray-300/50"
                 } backdrop-blur-sm`}
             >
               <div className="p-4 sm:p-6">
@@ -2088,8 +2080,8 @@ function Home() {
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ delay: 4 + index * 0.1 }}
                           className={`flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 rounded-lg transition-all duration-200 ${isDarkMode
-                              ? "bg-slate-700/30 hover:bg-slate-700/50"
-                              : "bg-gray-100/50 hover:bg-gray-200/50"
+                            ? "bg-slate-700/30 hover:bg-slate-700/50"
+                            : "bg-gray-100/50 hover:bg-gray-200/50"
                             }`}
                         >
                           <div className="flex-shrink-0">
@@ -2130,7 +2122,7 @@ function Home() {
           </div>
         </motion.div>
 
-        {/* Social Media Section */}
+
         <motion.div
           id="contact"
           initial={{ y: 50, opacity: 0 }}
@@ -2158,10 +2150,10 @@ function Home() {
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 2.7 + index * 0.1 }}
-                  className={`flex items-center space-x-4 p-6 rounded-xl backdrop-blur-sm transition-all duration-300 group ${isDarkMode 
-                    ? "bg-slate-800/60 border border-slate-700/50 hover:border-blue-500/50" 
+                  className={`flex items-center space-x-4 p-6 rounded-xl backdrop-blur-sm transition-all duration-300 group ${isDarkMode
+                    ? "bg-slate-800/60 border border-slate-700/50 hover:border-blue-500/50"
                     : "bg-white/80 border border-gray-200/50 hover:border-blue-500/50 shadow-lg"
-                  }`}
+                    }`}
                   whileHover={{
                     scale: 1.02,
                     boxShadow: "0 20px 40px -15px rgba(59, 130, 246, 0.3)"
@@ -2191,7 +2183,7 @@ function Home() {
           </div>
         </motion.div>
 
-        {/* Call to Action */}
+
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -2214,10 +2206,10 @@ function Home() {
         </motion.div>
       </motion.div>
 
-      {/* Footer */}
+
       <footer className={`border-t mt-20 transition-colors duration-300 ${isDarkMode
-          ? "bg-slate-900/80 border-slate-700/50"
-          : "bg-gray-100/80 border-gray-300/50"
+        ? "bg-slate-900/80 border-slate-700/50"
+        : "bg-gray-100/80 border-gray-300/50"
         }`}>
         <div className="container mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -2258,13 +2250,13 @@ function Home() {
         </div>
       </footer>
 
-      {/* Scroll to Top Button */}
+
       {showScrollTop && (
         <motion.button
           onClick={scrollToTop}
           className={`fixed bottom-6 right-6 w-12 h-12 rounded-full shadow-lg z-50 flex items-center justify-center transition-colors duration-300 ${isDarkMode
-              ? "bg-blue-500 hover:bg-blue-600 text-white"
-              : "bg-blue-600 hover:bg-blue-700 text-white"
+            ? "bg-blue-500 hover:bg-blue-600 text-white"
+            : "bg-blue-600 hover:bg-blue-700 text-white"
             }`}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}

@@ -117,16 +117,14 @@ export const DiscordCard: React.FC<DiscordCardProps> = ({ data, isDarkMode }) =>
       transition={{ duration: 0.8 }}
       className="w-full max-w-2xl mx-auto"
     >
-      {/* Discord Profile Card */}
+
       <div className={`relative rounded-2xl overflow-hidden transition-all duration-300 ${
         isDarkMode 
           ? 'bg-[#36393f] border border-[#202225]' 
           : 'bg-white border border-gray-200'
       } shadow-xl`}>
         
-        {/* Header Banner */}
         <div className="relative h-20 bg-gradient-to-br from-[#5865f2] via-[#7289da] to-[#99aab5] overflow-hidden">
-          {/* Animated Background Pattern */}
           <div className="absolute inset-0 opacity-20">
             {[...Array(12)].map((_, i) => (
               <motion.div
@@ -150,9 +148,9 @@ export const DiscordCard: React.FC<DiscordCardProps> = ({ data, isDarkMode }) =>
           </div>
         </div>
 
-        {/* Profile Content */}
+
         <div className="relative px-6 pb-6">
-          {/* Avatar */}
+
           <div className="relative -mt-12 mb-4">
             <motion.div 
               className="relative inline-block"
@@ -169,7 +167,6 @@ export const DiscordCard: React.FC<DiscordCardProps> = ({ data, isDarkMode }) =>
                 />
               </div>
               
-              {/* Status Indicator */}
               <div 
                 className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-2 border-[#36393f] flex items-center justify-center"
                 style={{ backgroundColor: getStatusColor(data.discord_status) }}
@@ -179,7 +176,7 @@ export const DiscordCard: React.FC<DiscordCardProps> = ({ data, isDarkMode }) =>
             </motion.div>
           </div>
 
-          {/* User Info */}
+
           <div className="mb-6">
             <div className="flex items-center gap-2 mb-2">
               <h1 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -203,10 +200,10 @@ export const DiscordCard: React.FC<DiscordCardProps> = ({ data, isDarkMode }) =>
             </div>
           </div>
 
-          {/* Content Grid */}
+
           <div className="space-y-4">
             
-            {/* Spotify Section - Only show if listening to Spotify */}
+
             {data.listening_to_spotify && data.spotify && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -246,7 +243,7 @@ export const DiscordCard: React.FC<DiscordCardProps> = ({ data, isDarkMode }) =>
               </motion.div>
             )}
 
-            {/* Activity Section - Show if there are other activities besides Spotify */}
+
             {mainActivity && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -307,7 +304,7 @@ export const DiscordCard: React.FC<DiscordCardProps> = ({ data, isDarkMode }) =>
               </motion.div>
             )}
 
-            {/* Device Connections */}
+
             <div className={`p-4 rounded-xl border ${isDarkMode ? 'bg-[#2f3136] border-[#40444b]' : 'bg-gray-50 border-gray-200'}`}>
               <h3 className={`text-xs font-semibold uppercase tracking-wide mb-3 ${isDarkMode ? 'text-[#b9bbbe]' : 'text-gray-600'}`}>
                 {t('discord.connections')}
