@@ -1854,7 +1854,7 @@ function Home() {
             </div>
 
             <div className="flex justify-center w-full">
-              <DiscordCard data={discordData} isDarkMode={isDarkMode} />
+              <DiscordCard key={i18n.language} data={discordData} isDarkMode={isDarkMode} />
             </div>
           </motion.div>
         )}
