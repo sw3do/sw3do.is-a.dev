@@ -4,7 +4,10 @@ import type { AppProps } from "next/app";
 import { Poppins } from "next/font/google";
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import "../lib/i18n";
+import { appWithTranslation } from "next-i18next";
+import { StoreProvider } from "easy-peasy";
+import { store } from "../stores/scrollStore";
+
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,7 +25,7 @@ const queryClient = new QueryClient({
   },
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const [title, setTitle] = useState("sw3do");
   const [isClient, setIsClient] = useState(false);
   const targetTitle = "./sw3do";
@@ -85,11 +88,15 @@ export default function App({ Component, pageProps }: AppProps) {
         
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <main className={poppins.className}>
-          <Component {...pageProps} />
-        </main>
-      </QueryClientProvider>
+      <StoreProvider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <main className={poppins.className}>
+            <Component {...pageProps} />
+          </main>
+        </QueryClientProvider>
+      </StoreProvider>
     </>
   );
 }
+
+export default appWithTranslation(App);

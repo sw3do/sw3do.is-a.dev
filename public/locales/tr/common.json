@@ -85,31 +85,20 @@
   "projects": {
     "title": "🚀 Öne Çıkan Projeler",
     "subtitle": "GitHub depolarımı gelişmiş filtreleme ve sıralama ile keşfedin",
-    "search": "Proje ara...",
-    "sortBy": "Sıralama:",
-    "sortOptions": {
+    "searchPlaceholder": "Proje ara...",
+    "filters": {
+      "all": "Tüm Diller"
+    },
+    "sort": {
       "updated": "Son Güncellenen",
       "stars": "En Çok Yıldızlı",
       "forks": "En Çok Fork'lanan",
       "created": "Yeni Oluşturulan",
       "name": "Alfabetik"
     },
-    "featuredOnly": "Sadece Öne Çıkanlar",
-    "all": "Tümü",
-    "showing": "{{total}} projeden {{count}} tanesi gösteriliyor",
-    "searchFor": " \"{{term}}\" için",
-    "inLanguage": " {{language}} dilinde",
-    "featuredOnlyText": "(sadece öne çıkanlar)",
-    "noProjects": {
-      "title": "Proje bulunamadı",
-      "subtitle": "Arama terimlerinizi veya filtrelerinizi ayarlamayı deneyin",
-      "clearFilters": "Tüm filtreleri temizle"
-    },
+    "featured": "Öne Çıkanlar",
     "noDescription": "Açıklama mevcut değil",
-    "viewCode": "Kodu Görüntüle",
-    "active": "Aktif",
-    "viewAll": "Tüm {{count}} Depoyu Görüntüle",
-    "updated": "{{date}} tarihinde güncellendi"
+    "noResults": "Proje bulunamadı"
   },
   "terminal": {
     "title": "🖥️ İnteraktif Terminal",
@@ -130,6 +119,7 @@
     "run": "Çalıştır",
     "clear": "Temizle",
     "welcome": "sw3do'nun interaktif terminaline hoş geldiniz! 🚀",
+    "subtitle": "Kullanılabilir komutları görmek için 'help' yazın.",
     "commandNotFound": "Komut bulunamadı: {{command}}",
     "typeHelp": "Kullanılabilir komutları görmek için 'help' yazın.",
     "availableCommands": "Kullanılabilir komutlar:"

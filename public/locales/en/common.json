@@ -85,31 +85,20 @@
   "projects": {
     "title": "🚀 Featured Projects",
     "subtitle": "Explore my GitHub repositories with advanced filtering and sorting",
-    "search": "Search projects...",
-    "sortBy": "Sort by:",
-    "sortOptions": {
+    "searchPlaceholder": "Search projects...",
+    "filters": {
+      "all": "All Languages"
+    },
+    "sort": {
       "updated": "Latest Updated",
       "stars": "Most Stars",
       "forks": "Most Forks",
       "created": "Recently Created",
       "name": "Alphabetical"
     },
-    "featuredOnly": "Featured Only",
-    "all": "All",
-    "showing": "Showing {{count}} of {{total}} projects",
-    "searchFor": " for \"{{term}}\"",
-    "inLanguage": " in {{language}}",
-    "featuredOnlyText": "(featured only)",
-    "noProjects": {
-      "title": "No projects found",
-      "subtitle": "Try adjusting your search terms or filters",
-      "clearFilters": "Clear all filters"
-    },
+    "featured": "Featured",
     "noDescription": "No description available",
-    "viewCode": "View Code",
-    "active": "Active",
-    "viewAll": "View All {{count}} Repositories",
-    "updated": "Updated {{date}}"
+    "noResults": "No projects found"
   },
   "terminal": {
     "title": "🖥️ Interactive Terminal",
@@ -130,6 +119,7 @@
     "run": "Run",
     "clear": "Clear",
     "welcome": "Welcome to sw3do's interactive terminal! 🚀",
+    "subtitle": "Type 'help' to see available commands.",
     "commandNotFound": "Command not found: {{command}}",
     "typeHelp": "Type 'help' for available commands.",
     "availableCommands": "Available commands:"

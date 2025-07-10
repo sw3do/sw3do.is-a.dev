@@ -85,31 +85,20 @@
   "projects": {
     "title": "🚀 Vorgestellte Projekte",
     "subtitle": "Erkunden Sie meine GitHub-Repositories mit erweiterten Filter- und Sortierfunktionen",
-    "search": "Projekte suchen...",
-    "sortBy": "Sortieren nach:",
-    "sortOptions": {
+    "searchPlaceholder": "Projekte suchen...",
+    "filters": {
+      "all": "Alle Sprachen"
+    },
+    "sort": {
       "updated": "Zuletzt aktualisiert",
       "stars": "Meiste Sterne",
       "forks": "Meiste Forks",
       "created": "Kürzlich erstellt",
       "name": "Alphabetisch"
     },
-    "featuredOnly": "Nur Vorgestellte",
-    "all": "Alle",
-    "showing": "{{count}} von {{total}} Projekten angezeigt",
-    "searchFor": " für \"{{term}}\"",
-    "inLanguage": " in {{language}}",
-    "featuredOnlyText": "(nur vorgestellte)",
-    "noProjects": {
-      "title": "Keine Projekte gefunden",
-      "subtitle": "Versuchen Sie, Ihre Suchbegriffe oder Filter anzupassen",
-      "clearFilters": "Alle Filter löschen"
-    },
+    "featured": "Vorgestellt",
     "noDescription": "Keine Beschreibung verfügbar",
-    "viewCode": "Code anzeigen",
-    "active": "Aktiv",
-    "viewAll": "Alle {{count}} Repositories anzeigen",
-    "updated": "Aktualisiert am {{date}}"
+    "noResults": "Keine Projekte gefunden"
   },
   "terminal": {
     "title": "🖥️ Interaktives Terminal",
@@ -130,6 +119,7 @@
     "run": "Ausführen",
     "clear": "Leeren",
     "welcome": "Willkommen bei sw3do's interaktivem Terminal! 🚀",
+    "subtitle": "Geben Sie 'help' ein, um verfügbare Befehle zu sehen.",
     "commandNotFound": "Befehl nicht gefunden: {{command}}",
     "typeHelp": "Geben Sie 'help' ein, um verfügbare Befehle zu sehen.",
     "availableCommands": "Verfügbare Befehle:"

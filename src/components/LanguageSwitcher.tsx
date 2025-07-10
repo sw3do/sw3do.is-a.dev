@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const languages = [
@@ -9,13 +9,13 @@ const languages = [
 ];
 
 export const LanguageSwitcher: React.FC = () => {
-  const { i18n } = useTranslation();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  const currentLanguage = languages.find(lang => lang.code === router.locale) || languages[0];
 
   const changeLanguage = (langCode: string) => {
-    i18n.changeLanguage(langCode);
+    router.push(router.asPath, router.asPath, { locale: langCode });
     setIsOpen(false);
   };
 
@@ -61,7 +61,7 @@ export const LanguageSwitcher: React.FC = () => {
                   key={language.code}
                   onClick={() => changeLanguage(language.code)}
                   className={`w-full flex items-center space-x-3 px-4 py-3 text-left transition-all duration-200 ${
-                    i18n.language === language.code
+                    router.locale === language.code
                       ? 'bg-blue-500/20 text-blue-400 border-l-2 border-blue-400'
                       : 'text-gray-300 hover:bg-slate-700/50 hover:text-white'
                   }`}
@@ -70,7 +70,7 @@ export const LanguageSwitcher: React.FC = () => {
                 >
                   <span className="text-lg">{language.flag}</span>
                   <span className="font-medium">{language.name}</span>
-                  {i18n.language === language.code && (
+                  {router.locale === language.code && (
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}

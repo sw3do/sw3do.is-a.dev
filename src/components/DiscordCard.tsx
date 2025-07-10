@@ -52,11 +52,11 @@ const getActivityIcon = (type: number, name: string) => {
   if (name.toLowerCase().includes('video')) return <FaVideo className="w-4 h-4" />;
   
   switch (type) {
-    case 0: return <FaGamepad className="w-4 h-4" />; // Playing
-    case 1: return <FaVideo className="w-4 h-4" />; // Streaming
-    case 2: return <FaHeadphones className="w-4 h-4" />; // Listening
-    case 3: return <FaVideo className="w-4 h-4" />; // Watching
-    case 5: return <FaGamepad className="w-4 h-4" />; // Competing
+    case 0: return <FaGamepad className="w-4 h-4" />;
+    case 1: return <FaVideo className="w-4 h-4" />;
+    case 2: return <FaHeadphones className="w-4 h-4" />;
+    case 3: return <FaVideo className="w-4 h-4" />;
+    case 5: return <FaGamepad className="w-4 h-4" />;
     default: return <FaGamepad className="w-4 h-4" />;
   }
 };
