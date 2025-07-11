@@ -3,23 +3,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { useScroll } from '../hooks/useScroll';
 
 interface NavbarProps {
   isDarkMode: boolean;
   toggleTheme: () => void;
-  activeSection: string;
-  scrollToSection: (sectionId: string) => void;
-  scrollToTop: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   isDarkMode,
   toggleTheme,
-  activeSection,
-  scrollToSection,
-  scrollToTop,
 }) => {
   const { t } = useTranslation();
+  const { activeSection, scrollToSection, scrollToTop } = useScroll();
 
   const navItems = [
     { id: 'home', label: t('nav.home') },
@@ -46,7 +42,19 @@ export const Navbar: React.FC<NavbarProps> = ({
       return isDarkMode ? 'text-blue-400' : 'text-blue-600';
     }
     
-    return isDarkMode ? 'text-gray-300' : 'text-gray-600';
+    return isDarkMode ? 'text-gray-300 hover:text-gray-100' : 'text-gray-600 hover:text-gray-800';
+  };
+
+  const getGlowEffect = (itemId: string) => {
+    const isActive = activeSection === itemId;
+    
+    if (isActive) {
+      return isDarkMode 
+        ? 'shadow-lg shadow-blue-400/20' 
+        : 'shadow-lg shadow-blue-600/20';
+    }
+    
+    return '';
   };
 
   return (
@@ -61,9 +69,12 @@ export const Navbar: React.FC<NavbarProps> = ({
     >
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <motion.div
-          className={`text-2xl font-bold cursor-pointer transition-colors duration-200 ${isDarkMode ? "text-white" : "text-gray-900"
+          className={`text-2xl font-bold cursor-pointer transition-all duration-200 ${isDarkMode ? "text-white" : "text-gray-900"
             }`}
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ 
+            scale: 1.05,
+            textShadow: isDarkMode ? "0 0 8px rgba(59, 130, 246, 0.5)" : "0 0 8px rgba(37, 99, 235, 0.3)"
+          }}
           whileTap={{ scale: 0.95 }}
           transition={{ duration: 0.2 }}
           onClick={() => handleNavClick('home')}
@@ -77,8 +88,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               <motion.button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className="relative px-3 py-2 text-sm font-medium transition-all duration-200"
-                whileHover={{ scale: 1.05 }}
+                className={`relative px-3 py-2 text-sm font-medium transition-all duration-200 rounded-lg ${getGlowEffect(item.id)}`}
+                whileHover={{ 
+                  scale: 1.05,
+                  y: -1,
+                }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
               >
@@ -90,17 +104,34 @@ export const Navbar: React.FC<NavbarProps> = ({
                 
                 <AnimatePresence mode="wait">
                   {activeSection === item.id && (
-                    <motion.div
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
-                      layoutId="activeIndicator"
-                      initial={{ opacity: 0, scaleX: 0, y: 2 }}
-                      animate={{ opacity: 1, scaleX: 1, y: 0 }}
-                      exit={{ opacity: 0, scaleX: 0, y: 2 }}
-                      transition={{ 
-                        duration: 0.3,
-                        ease: [0.4, 0, 0.2, 1]
-                      }}
-                    />
+                    <>
+                      {/* Active indicator line */}
+                      <motion.div
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
+                        layoutId="activeIndicator"
+                        initial={{ opacity: 0, scaleX: 0, y: 2 }}
+                        animate={{ opacity: 1, scaleX: 1, y: 0 }}
+                        exit={{ opacity: 0, scaleX: 0, y: 2 }}
+                        transition={{ 
+                          duration: 0.3,
+                          ease: [0.4, 0, 0.2, 1]
+                        }}
+                      />
+                      
+                      {/* Background glow */}
+                      <motion.div
+                        className={`absolute inset-0 rounded-lg ${
+                          isDarkMode 
+                            ? "bg-blue-500/10" 
+                            : "bg-blue-600/5"
+                        }`}
+                        layoutId="activeBackground"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    </>
                   )}
                 </AnimatePresence>
               </motion.button>
@@ -110,8 +141,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           <motion.button
             onClick={toggleTheme}
             className={`p-2 rounded-full transition-all duration-200 ${isDarkMode
-              ? "bg-slate-800 text-yellow-400 hover:bg-slate-700"
-              : "bg-gray-200 text-orange-600 hover:bg-gray-300"
+              ? "bg-slate-800 text-yellow-400 hover:bg-slate-700 hover:shadow-lg hover:shadow-yellow-400/20"
+              : "bg-gray-200 text-orange-600 hover:bg-gray-300 hover:shadow-lg hover:shadow-orange-600/20"
               }`}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}

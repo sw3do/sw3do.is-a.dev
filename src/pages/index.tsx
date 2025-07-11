@@ -4,8 +4,6 @@ import { GitHubRepo } from "../types/github";
 import { useGitHubData } from "../hooks/useGitHub";
 import { useTranslation } from "next-i18next";
 import { useLanyard } from "../hooks/useLanyard";
-import { useStoreState, useStoreActions } from "easy-peasy";
-
 import { Navbar } from "../components/Navbar";
 import { Hero } from "../components/Hero";
 import { About } from "../components/About";
@@ -16,6 +14,7 @@ import { DiscordCard } from "../components/DiscordCard";
 import { Contact } from "../components/Contact";
 import { Footer } from "../components/Footer";
 import { ScrollToTop } from "../components/ScrollToTop";
+import { SectionWrapper } from "../components/SectionWrapper";
 
 function Home() {
   const { user, repos, isLoading, isError, error } = useGitHubData();
@@ -31,104 +30,12 @@ function Home() {
   const [isClient, setIsClient] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
-  const activeSection = useStoreState((state: { scroll: { activeSection: string } }) => state.scroll.activeSection);
-  const showScrollTop = useStoreState((state: { scroll: { showScrollTop: boolean } }) => state.scroll.showScrollTop);
-  const isScrolling = useStoreState((state: { scroll: { isScrolling: boolean } }) => state.scroll.isScrolling);
-  
-  const setActiveSection = useStoreActions((actions: { scroll: { setActiveSection: (payload: string) => void } }) => actions.scroll.setActiveSection);
-  const setShowScrollTop = useStoreActions((actions: { scroll: { setShowScrollTop: (payload: boolean) => void } }) => actions.scroll.setShowScrollTop);
-  const scrollToSection = useStoreActions((actions: { scroll: { scrollToSection: (sectionId: string) => void } }) => actions.scroll.scrollToSection);
-  const scrollToTop = useStoreActions((actions: { scroll: { scrollToTop: () => void } }) => actions.scroll.scrollToTop);
-  const cleanup = useStoreActions((actions: { scroll: { cleanup: () => void } }) => actions.scroll.cleanup);
+
 
   const DISCORD_USER_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID || "1220783094613672011";
   const { data: discordData } = useLanyard(DISCORD_USER_ID);
 
-  const sections = useMemo(() => ['home', 'about', 'skills', 'projects', 'stats', 'terminal', 'contact'], []);
 
-  const handleScroll = useCallback(() => {
-    const scrollY = window.scrollY;
-    
-    setShowScrollTop(scrollY > 400);
-
-    if (isScrolling) return;
-
-    if (scrollY < 300) {
-      if (activeSection !== 'home') {
-        setActiveSection('home');
-      }
-      return;
-    }
-
-    const viewportTop = scrollY;
-    const viewportHeight = window.innerHeight;
-    const viewportCenter = viewportTop + (viewportHeight / 2);
-    
-    let newActiveSection = 'home';
-    let bestMatch = { distance: Infinity, coverage: 0 };
-
-    sections.forEach(sectionId => {
-      const element = document.getElementById(sectionId);
-      if (!element) return;
-
-      const elementTop = element.offsetTop - 100;
-      const elementHeight = element.offsetHeight;
-      const elementBottom = elementTop + elementHeight;
-      const elementCenter = elementTop + (elementHeight / 2);
-
-      const overlapTop = Math.max(viewportTop, elementTop);
-      const overlapBottom = Math.min(viewportTop + viewportHeight, elementBottom);
-      const overlapHeight = Math.max(0, overlapBottom - overlapTop);
-      const coverage = overlapHeight / viewportHeight;
-
-      const distance = Math.abs(viewportCenter - elementCenter);
-
-      const score = coverage * 2 - (distance / 1000);
-
-      if (coverage > 0.3 && score > bestMatch.coverage - (bestMatch.distance / 1000)) {
-        bestMatch = { distance, coverage };
-        newActiveSection = sectionId;
-      }
-    });
-
-    if (newActiveSection !== activeSection) {
-      setActiveSection(newActiveSection);
-    }
-  }, [sections, isScrolling, activeSection, setActiveSection, setShowScrollTop]);
-
-  const throttledScrollHandler = useCallback(() => {
-    let ticking = false;
-
-    return () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-  }, [handleScroll]);
-
-  useEffect(() => {
-    const scrollHandler = throttledScrollHandler();
-    
-    window.addEventListener('scroll', scrollHandler, { passive: true });
-    
-    setTimeout(() => {
-      handleScroll();
-    }, 500);
-    
-    return () => {
-      window.removeEventListener('scroll', scrollHandler);
-    };
-  }, [throttledScrollHandler, handleScroll]);
-
-  useEffect(() => {
-    return () => {
-      cleanup();
-    };
-  }, [cleanup]);
 
   useEffect(() => {
     setIsClient(true);
@@ -362,9 +269,6 @@ function Home() {
       <Navbar
         isDarkMode={isDarkMode}
         toggleTheme={toggleTheme}
-        activeSection={activeSection}
-        scrollToSection={(sectionId: string) => scrollToSection(sectionId)}
-        scrollToTop={() => scrollToTop()}
       />
 
       {isClient && (
@@ -405,7 +309,7 @@ function Home() {
           willChange: 'opacity'
         }}
       >
-        <div id="home">
+        <SectionWrapper id="home" className="min-h-screen">
           <Hero
             isDarkMode={isDarkMode}
             user={user || null}
@@ -415,21 +319,21 @@ function Home() {
             isClient={isClient}
             getCreatedYear={getCreatedYear}
           />
-        </div>
+        </SectionWrapper>
 
-        <div id="about">
+        <SectionWrapper id="about" className="py-16" animationDelay={0.1}>
           <About isDarkMode={isDarkMode} />
-        </div>
+        </SectionWrapper>
 
-        <div id="skills">
+        <SectionWrapper id="skills" className="py-16" animationDelay={0.2}>
           <Skills
             isDarkMode={isDarkMode}
             topLanguages={topLanguages}
             totalProjects={totalProjects}
           />
-        </div>
+        </SectionWrapper>
 
-        <div id="projects">
+        <SectionWrapper id="projects" className="py-16" animationDelay={0.3}>
           <Projects
             isDarkMode={isDarkMode}
             filteredRepos={filteredRepos}
@@ -444,16 +348,10 @@ function Home() {
             handleClearSearch={handleClearSearch}
             setShowFeaturedOnly={setShowFeaturedOnly}
           />
-        </div>
+        </SectionWrapper>
 
         {discordData && (
-          <motion.div
-            id="stats"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 3.0 }}
-            className="mb-16"
-          >
+          <SectionWrapper id="stats" className="py-16 mb-16" animationDelay={0.4}>
             <div className="text-center mb-12">
               <div className="relative inline-block">
                 <h2 className={`text-4xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent ${isDarkMode
@@ -474,25 +372,21 @@ function Home() {
             <div className="flex justify-center w-full">
               <DiscordCard key={i18n.language} data={discordData} isDarkMode={isDarkMode} />
             </div>
-          </motion.div>
+          </SectionWrapper>
         )}
 
-        <div id="terminal">
+        <SectionWrapper id="terminal" className="py-16" animationDelay={0.5}>
           <Terminal isDarkMode={isDarkMode} repos={repos} user={user || null} />
-        </div>
+        </SectionWrapper>
 
-        <div id="contact">
+        <SectionWrapper id="contact" className="py-16" animationDelay={0.6}>
           <Contact isDarkMode={isDarkMode} user={user || null} />
-        </div>
+        </SectionWrapper>
       </motion.div>
 
       <Footer isDarkMode={isDarkMode} />
 
-      <ScrollToTop
-        isDarkMode={isDarkMode}
-        showScrollTop={showScrollTop}
-        scrollToTop={() => scrollToTop()}
-      />
+      <ScrollToTop isDarkMode={isDarkMode} />
 
       <motion.div
         className="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-slate-600 to-gray-700"

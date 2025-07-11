@@ -188,9 +188,9 @@ export const Terminal: React.FC<TerminalProps> = ({ isDarkMode, repos, user }) =
   return (
     <motion.div
       id="terminal"
-      initial={{ y: 50, opacity: 0 }}
+      initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 2.5 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className="mb-16"
     >
       <div className="text-center mb-12">
@@ -212,9 +212,9 @@ export const Terminal: React.FC<TerminalProps> = ({ isDarkMode, repos, user }) =
 
       <div className="max-w-4xl mx-auto">
         <motion.div
-          initial={{ scale: 0.95, opacity: 0 }}
+          initial={{ scale: 0.98, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 2.7, duration: 0.5 }}
+          transition={{ delay: 0.2, duration: 0.4, ease: "easeOut" }}
           className={`rounded-xl border backdrop-blur-sm transition-all duration-300 ${isDarkMode
             ? "bg-slate-900/90 border-slate-700/50"
             : "bg-gray-900/95 border-gray-700/50"
