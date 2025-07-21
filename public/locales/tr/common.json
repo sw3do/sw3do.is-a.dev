@@ -166,7 +166,6 @@
     "run": "Çalıştır",
     "clear": "Temizle",
     "welcome": "sw3do'nun interaktif terminaline hoş geldiniz! 🚀",
-    "subtitle": "Kullanılabilir komutları görmek için 'help' yazın.",
     "commandNotFound": "Komut bulunamadı: {{command}}",
     "typeHelp": "Kullanılabilir komutları görmek için 'help' yazın.",
     "availableCommands": "Kullanılabilir komutlar:"
