@@ -6,7 +6,9 @@
     "dev": "next dev -p 80",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "ANALYZE=true next build",
+    "build:analyze": "npm run build && npm run analyze"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.81.5",

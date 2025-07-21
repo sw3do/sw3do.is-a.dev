@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import {
@@ -38,7 +38,7 @@ interface ProjectsProps {
   setShowFeaturedOnly: (show: boolean) => void;
 }
 
-export const Projects: React.FC<ProjectsProps> = ({
+const ProjectsComponent: React.FC<ProjectsProps> = ({
   isDarkMode,
   filteredRepos,
   selectedFilter,
@@ -54,9 +54,13 @@ export const Projects: React.FC<ProjectsProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
-  };
+  const formatDate = useMemo(() => {
+    return (dateString: string) => new Date(dateString).toLocaleDateString();
+  }, []);
+
+  const displayedRepos = useMemo(() => {
+    return filteredRepos.slice(0, 12);
+  }, [filteredRepos]);
 
   return (
     <motion.div
@@ -147,7 +151,7 @@ export const Projects: React.FC<ProjectsProps> = ({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {filteredRepos.map((repo, index) => (
+        {displayedRepos.map((repo, index) => (
           <motion.div
             key={repo.id}
             initial={{ y: 30, opacity: 0 }}
@@ -226,4 +230,6 @@ export const Projects: React.FC<ProjectsProps> = ({
       )}
     </motion.div>
   );
-}; 
+};
+
+export const Projects = React.memo(ProjectsComponent);

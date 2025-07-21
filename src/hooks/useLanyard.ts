@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { LanyardData, LanyardWebsocketMessage, LanyardHeartbeat, LanyardSubscribe } from '../types/lanyard';
 
 export const useLanyard = (userId: string) => {
@@ -7,27 +7,30 @@ export const useLanyard = (userId: string) => {
   const [error, setError] = useState<string | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const heartbeatRef = useRef<NodeJS.Timeout | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const reconnectAttemptsRef = useRef(0);
+  const maxReconnectAttempts = 5;
 
-  useEffect(() => {
-    if (!userId) return;
+  const connectWebSocket = useCallback(() => {
+    if (!userId || reconnectAttemptsRef.current >= maxReconnectAttempts) return;
 
-    const connectWebSocket = () => {
-      try {
-        const ws = new WebSocket('wss://api.lanyard.rest/socket');
-        wsRef.current = ws;
+    try {
+      const ws = new WebSocket('wss://api.lanyard.rest/socket');
+      wsRef.current = ws;
 
-        ws.onopen = () => {
-          setIsConnected(true);
-          setError(null);
-          
-          const subscribeMessage: LanyardSubscribe = {
-            op: 2,
-            d: {
-              subscribe_to_id: userId
-            }
-          };
-          ws.send(JSON.stringify(subscribeMessage));
+      ws.onopen = () => {
+        setIsConnected(true);
+        setError(null);
+        reconnectAttemptsRef.current = 0;
+        
+        const subscribeMessage: LanyardSubscribe = {
+          op: 2,
+          d: {
+            subscribe_to_id: userId
+          }
         };
+        ws.send(JSON.stringify(subscribeMessage));
+      };
 
         ws.onmessage = (event) => {
           try {
@@ -66,7 +69,11 @@ export const useLanyard = (userId: string) => {
             heartbeatRef.current = null;
           }
           
-          setTimeout(connectWebSocket, 5000);
+          reconnectAttemptsRef.current += 1;
+          if (reconnectAttemptsRef.current < maxReconnectAttempts) {
+            const delay = Math.min(1000 * Math.pow(2, reconnectAttemptsRef.current), 30000);
+            reconnectTimeoutRef.current = setTimeout(connectWebSocket, delay);
+          }
         };
 
         ws.onerror = () => {
@@ -78,7 +85,10 @@ export const useLanyard = (userId: string) => {
         setError('Failed to connect to Lanyard API');
         setIsConnected(false);
       }
-    };
+    }, [userId, maxReconnectAttempts]);
+
+  useEffect(() => {
+    if (!userId) return;
 
     connectWebSocket();
 
@@ -89,8 +99,11 @@ export const useLanyard = (userId: string) => {
       if (heartbeatRef.current) {
         clearInterval(heartbeatRef.current);
       }
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
     };
-  }, [userId]);
+  }, [userId, connectWebSocket]);
 
   return { data, isConnected, error };
-}; 
+};

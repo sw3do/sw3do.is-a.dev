@@ -75,6 +75,53 @@
       }
     }
   },
+  "timeline": {
+    "title": "🚀 Profesyonel Zaman Çizelgesi",
+    "subtitle": "Projeler, başarılar ve profesyonel gelişim yolculuğum",
+    "achievements": "Temel Başarılar",
+    "filters": {
+      "all": "Tümü",
+      "work": "İş",
+      "project": "Projeler",
+      "education": "Eğitim"
+    },
+    "status": {
+      "current": "Mevcut",
+      "completed": "Tamamlandı",
+      "upcoming": "Yaklaşan"
+    },
+    "animeEly": {
+      "title": "AnimeEly - Modern Anime Platformu",
+      "company": "Full Stack Geliştirme",
+      "location": "Uzaktan",
+      "description": "Modern UI/UX tasarımı ile kapsamlı anime streaming platformu geliştirdim. Kullanıcı kimlik doğrulama, içerik yönetimi ve gerçek zamanlı streaming özellikleri içeriyor. Optimal performans için Next.js ve TailwindCSS ile geliştirildi.",
+      "achievement1": "1000+ eşzamanlı kullanıcıyı destekleyen ölçeklenebilir streaming mimarisi kurdum",
+      "achievement2": "MongoDB aggregation ile gelişmiş arama ve filtreleme sistemi uyguladım"
+    },
+    "fastDb": {
+      "title": "Fast-DB & Quick.Prisma",
+      "company": "Veritabanı Çözümleri",
+      "description": "C++ veritabanı modülü ve TypeScript ORM dahil yüksek performanslı veritabanı çözümleri oluşturdum. Optimizasyon ve geliştirici deneyimine odaklandım, kapsamlı dokümantasyon ve test ile.",
+      "achievement1": "Geleneksel ORM'lere göre %300 performans artışı sağladım",
+      "achievement2": "500+ indirme alan açık kaynak paketler yayınladım"
+    },
+    "discordBot": {
+      "title": "Discord Bot Ekosistemi",
+      "company": "Bot Geliştirme",
+      "description": "Yedekleme sistemleri, komut senkronizasyonu ve sunucu yönetim araçları dahil kapsamlı Discord bot çözümleri geliştirdim. Güvenilirlik ve ölçeklenebilirlik için TypeScript ve Discord.js ile geliştirildi.",
+      "achievement1": "10.000+ kullanıcısı olan 50+ Discord sunucusunda dağıtıldı"
+    },
+    "mobileApps": {
+      "title": "Çoklu Platform Uygulamaları",
+      "company": "Mobil ve Masaüstü Geliştirme",
+      "description": "React Native kullanarak deprem takip mobil uygulaması ve PyQt5 ile Valorant arkadaş yöneticisi masaüstü uygulaması dahil çeşitli uygulamalar oluşturdum. Kullanıcı deneyimi ve gerçek zamanlı veriye odaklandım."
+    },
+    "rustDev": {
+      "title": "Rust API Wrapper Geliştirme",
+      "company": "Sistem Programlama",
+      "description": "MyAnimeList API için kapsamlı Rust wrapper kütüphanesi geliştirdim. Tip güvenliği, performans ve geliştirici ergonomisine odaklandım. Kapsamlı dokümantasyon ile crates.io'da yayınlandı."
+    }
+  },
   "skills": {
     "title": "💻 Teknoloji Yığını",
     "subtitle": "En çok kullandığım programlama dilleri ve teknolojiler",
@@ -188,4 +235,4 @@
   },
   "loading": "GitHub verileri yükleniyor...",
   "error": "GitHub verileri yüklenirken hata oluştu"
-} 
+}

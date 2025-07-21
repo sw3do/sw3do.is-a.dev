@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Poppins } from "next/font/google";
@@ -14,21 +14,25 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
 });
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000,
-      gcTime: 10 * 60 * 1000,
-      retry: 2,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+
 
 function App({ Component, pageProps }: AppProps) {
   const [title, setTitle] = useState("sw3do");
   const [isClient, setIsClient] = useState(false);
   const targetTitle = "./sw3do";
+
+  const queryClient = useMemo(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 10 * 60 * 1000,
+        gcTime: 30 * 60 * 1000,
+        retry: 1,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchInterval: false,
+      },
+    },
+  }), []);
 
   useEffect(() => {
     setIsClient(true);

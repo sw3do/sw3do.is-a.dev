@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import { getLanguageIcon } from '../utils/icons';
@@ -9,21 +9,21 @@ interface SkillsProps {
   totalProjects: number;
 }
 
-export const Skills: React.FC<SkillsProps> = ({
+const SkillsComponent: React.FC<SkillsProps> = ({
   isDarkMode,
   topLanguages,
   totalProjects,
 }) => {
   const { t } = useTranslation();
 
-  const otherTechnologies = [
+  const otherTechnologies = useMemo(() => [
     'Git', 'Docker', 'AWS', 'MongoDB', 'PostgreSQL', 'Redis', 'GraphQL', 'REST API', 'Microservices', 'CI/CD',
     'Dart', 'Flutter', 'Astro', 'Kotlin', 'Swift', 'C#', 'Svelte', 'Nuxt.js', 'Express', 'NestJS', 'Spring',
     'MySQL', 'Firebase', 'Supabase', 'Prisma', 'Socket.io', 'React Native', 'Electron', 'Unity', 'Blender',
     'Webpack', 'Vite', 'Jest', 'Cypress', 'Storybook', 'Figma', 'Linux', 'Vim', 'GitLab', 'Vercel',
     'Netlify', 'Heroku', 'TensorFlow', 'PyTorch', 'OpenCV', 'NumPy', 'Pandas', 'Jupyter', 'Solidity',
     'Web3.js', 'Ethereum'
-  ];
+  ].slice(0, 30), []);
 
   return (
     <motion.div
@@ -124,4 +124,6 @@ export const Skills: React.FC<SkillsProps> = ({
       </div>
     </motion.div>
   );
-}; 
+};
+
+export const Skills = React.memo(SkillsComponent);

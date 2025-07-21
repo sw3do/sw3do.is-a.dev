@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { GitHubRepo } from "../types/github";
 import { useGitHubData } from "../hooks/useGitHub";
@@ -9,12 +9,13 @@ import { Hero } from "../components/Hero";
 import { About } from "../components/About";
 import { Skills } from "../components/Skills";
 import { Projects } from "../components/Projects";
-import { Terminal } from "../components/Terminal";
-import { DiscordCard } from "../components/DiscordCard";
 import { Contact } from "../components/Contact";
 import { Footer } from "../components/Footer";
 import { ScrollToTop } from "../components/ScrollToTop";
 import { SectionWrapper } from "../components/SectionWrapper";
+
+const Terminal = lazy(() => import("../components/Terminal").then(module => ({ default: module.Terminal })));
+const DiscordCard = lazy(() => import("../components/DiscordCard").then(module => ({ default: module.DiscordCard })));
 
 function Home() {
   const { user, repos, isLoading, isError, error } = useGitHubData();
@@ -22,7 +23,7 @@ function Home() {
 
   const [typeText, setTypeText] = useState("");
   const [textIndex, setTextIndex] = useState(0);
-  const [filteredRepos, setFilteredRepos] = useState<GitHubRepo[]>([]);
+
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [sortBy, setSortBy] = useState("updated");
   const [searchTerm, setSearchTerm] = useState("");
@@ -86,15 +87,15 @@ function Home() {
     };
   }, [repos]);
 
-  useEffect(() => {
-    if (!isClient) return;
+  const titles = useMemo(() => [
+    t('hero.titles.fullstack'),
+    t('hero.titles.enthusiast'),
+    t('hero.titles.solver'),
+    t('hero.titles.explorer'),
+  ], [t]);
 
-    const titles = [
-      t('hero.titles.fullstack'),
-      t('hero.titles.enthusiast'),
-      t('hero.titles.solver'),
-      t('hero.titles.explorer'),
-    ];
+  useEffect(() => {
+    if (!isClient || !titles.length) return;
 
     const currentTitle = titles[textIndex];
     let currentChar = 0;
@@ -113,7 +114,7 @@ function Home() {
     }, 100);
 
     return () => clearInterval(typeTimer);
-  }, [textIndex, i18n.language, isClient, t]);
+  }, [textIndex, i18n.language, isClient, titles]);
 
   const filteredAndSortedRepos = useMemo(() => {
     let filtered = repos;
@@ -154,9 +155,7 @@ function Home() {
     });
   }, [repos, selectedFilter, sortBy, searchTerm, showFeaturedOnly]);
 
-  useEffect(() => {
-    setFilteredRepos(filteredAndSortedRepos);
-  }, [filteredAndSortedRepos]);
+
 
   const getCreatedYear = useCallback(() => {
     if (!isClient || !user?.created_at) return '';
@@ -273,25 +272,23 @@ function Home() {
 
       {isClient && (
         <div className="fixed inset-0 z-0 pointer-events-none">
-          {[...Array(12)].map((_, i) => (
+          {[...Array(6)].map((_, i) => (
             <motion.div
               key={i}
-              className={`absolute w-1 h-1 rounded-full ${isDarkMode ? "bg-blue-400/20" : "bg-blue-600/15"
+              className={`absolute w-1 h-1 rounded-full ${isDarkMode ? "bg-blue-400/15" : "bg-blue-600/10"
                 }`}
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                willChange: 'transform, opacity'
+                left: `${20 + (i * 15)}%`,
+                top: `${10 + (i * 12)}%`,
               }}
               animate={{
-                y: [-20, -80, -20],
-                opacity: [0, 0.8, 0],
-                scale: [0, 1, 0]
+                y: [-10, -40, -10],
+                opacity: [0, 0.6, 0],
               }}
               transition={{
-                duration: Math.random() * 8 + 12,
+                duration: 15 + (i * 2),
                 repeat: Infinity,
-                delay: Math.random() * 8,
+                delay: i * 3,
                 ease: "easeInOut"
               }}
             />
@@ -336,7 +333,7 @@ function Home() {
         <SectionWrapper id="projects" className="py-16" animationDelay={0.3}>
           <Projects
             isDarkMode={isDarkMode}
-            filteredRepos={filteredRepos}
+            filteredRepos={filteredAndSortedRepos}
             selectedFilter={selectedFilter}
             sortBy={sortBy}
             searchTerm={searchTerm}
@@ -370,13 +367,17 @@ function Home() {
             </div>
 
             <div className="flex justify-center w-full">
-              <DiscordCard key={i18n.language} data={discordData} isDarkMode={isDarkMode} />
+              <Suspense fallback={<div className={`animate-pulse h-32 w-80 rounded-lg ${isDarkMode ? "bg-slate-800" : "bg-gray-200"}`} />}>
+                <DiscordCard key={i18n.language} data={discordData} isDarkMode={isDarkMode} />
+              </Suspense>
             </div>
           </SectionWrapper>
         )}
 
         <SectionWrapper id="terminal" className="py-16" animationDelay={0.5}>
-          <Terminal isDarkMode={isDarkMode} repos={repos} user={user || null} />
+          <Suspense fallback={<div className={`animate-pulse h-96 w-full rounded-lg ${isDarkMode ? "bg-slate-800" : "bg-gray-200"}`} />}>
+            <Terminal isDarkMode={isDarkMode} repos={repos} user={user || null} />
+          </Suspense>
         </SectionWrapper>
 
         <SectionWrapper id="contact" className="py-16" animationDelay={0.6}>

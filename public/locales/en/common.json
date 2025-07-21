@@ -119,7 +119,6 @@
     "run": "Run",
     "clear": "Clear",
     "welcome": "Welcome to sw3do's interactive terminal! 🚀",
-    "subtitle": "Type 'help' to see available commands.",
     "commandNotFound": "Command not found: {{command}}",
     "typeHelp": "Type 'help' for available commands.",
     "availableCommands": "Available commands:"
@@ -188,4 +187,4 @@
   },
   "loading": "Loading GitHub data...",
   "error": "Error loading GitHub data"
-} 
+}

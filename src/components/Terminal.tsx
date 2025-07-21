@@ -9,7 +9,7 @@ interface TerminalProps {
   user: { public_repos?: number } | null;
 }
 
-export const Terminal: React.FC<TerminalProps> = ({ isDarkMode, repos, user }) => {
+const TerminalComponent: React.FC<TerminalProps> = ({ isDarkMode, repos, user }) => {
   const { t } = useTranslation();
   
   const [terminalInput, setTerminalInput] = useState("");
@@ -146,7 +146,7 @@ export const Terminal: React.FC<TerminalProps> = ({ isDarkMode, repos, user }) =
         ];
       }
 
-      return newHistory.slice(-50);
+      return newHistory.slice(-30);
     });
 
     setTerminalInput("");
@@ -247,9 +247,9 @@ export const Terminal: React.FC<TerminalProps> = ({ isDarkMode, repos, user }) =
               className="terminal-history h-64 overflow-y-auto font-mono text-sm bg-transparent scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent"
               onScroll={handleTerminalScroll}
             >
-              {terminalHistory.slice(-30).map((line, index) => (
+              {terminalHistory.slice(-20).map((line, index) => (
                 <div
-                  key={`${terminalHistory.length - 30 + index}`}
+                  key={`${terminalHistory.length - 20 + index}`}
                   className={`mb-1 break-words ${line.startsWith('$')
                     ? 'text-green-400 font-semibold'
                     : 'text-gray-300'
@@ -288,4 +288,6 @@ export const Terminal: React.FC<TerminalProps> = ({ isDarkMode, repos, user }) =
       </div>
     </motion.div>
   );
-}; 
+};
+
+export const Terminal = React.memo(TerminalComponent);
