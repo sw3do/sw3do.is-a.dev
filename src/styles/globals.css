@@ -7,6 +7,22 @@
   box-sizing: border-box;
 }
 
+/* GPU acceleration for better performance */
+.motion-safe {
+  transform: translateZ(0);
+  will-change: auto;
+}
+
+/* Optimize repaints */
+.optimize-repaint {
+  contain: layout style paint;
+}
+
+/* Reduce layout thrashing */
+.no-layout-shift {
+  contain: layout;
+}
+
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -34,17 +50,10 @@
   border: 1px solid rgba(255, 255, 255, 0.125);
 }
 
-/* Enhanced gradient animations */
+/* Simplified gradient - removed animation for performance */
 .gradient-shift {
   background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
   background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 /* Floating animation */
@@ -109,6 +118,26 @@ body {
   will-change: transform;
 }
 
+/* Optimize motion elements */
+.motion-element {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Reduce blur effects for better performance */
+.blur-optimized {
+  filter: blur(8px);
+  transform: translateZ(0);
+}
+
+/* Optimize backdrop filters */
+.backdrop-optimized {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translateZ(0);
+}
+
 /* Optimize scrolling */
 .scroll-optimized {
   -webkit-overflow-scrolling: touch;
@@ -123,4 +152,25 @@ html {
 /* Add smooth scroll only for navigation clicks */
 html.smooth-scroll {
   scroll-behavior: smooth;
+}
+
+/* Performance optimizations for images */
+img {
+  content-visibility: auto;
+  contain-intrinsic-size: 200px 200px;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-optimized {
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Container queries support */
+@supports (container-type: inline-size) {
+  .container-optimized {
+    container-type: inline-size;
+  }
 }

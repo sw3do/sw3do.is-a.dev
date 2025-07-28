@@ -4,7 +4,7 @@ import {
     useTransform,
     motion,
 } from "motion/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { useTranslation } from "next-i18next";
 
 interface TimelineEntry {
@@ -18,12 +18,23 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [height, setHeight] = useState(0);
 
-    useEffect(() => {
+    const updateHeight = useCallback(() => {
         if (ref.current) {
             const rect = ref.current.getBoundingClientRect();
             setHeight(rect.height);
         }
-    }, [ref]);
+    }, []);
+
+    useEffect(() => {
+        updateHeight();
+        
+        const resizeObserver = new ResizeObserver(updateHeight);
+        if (ref.current) {
+            resizeObserver.observe(ref.current);
+        }
+        
+        return () => resizeObserver.disconnect();
+    }, [updateHeight]);
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -32,6 +43,8 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
     const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
     const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+
+    const memoizedData = useMemo(() => data, [data]);
 
     return (
         <div
@@ -54,7 +67,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
             </div>
 
             <div ref={ref} className="relative max-w-7xl mx-auto pb-12">
-                {data.map((item, index) => (
+                {memoizedData.map((item, index) => (
                     <div
                         key={index}
                         className="flex justify-start pt-6 md:pt-20 md:gap-10"
@@ -76,20 +89,22 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
                         </div>
                     </div>
                 ))}
-                <div
-                    style={{
-                        height: height + "px",
-                    }}
-                    className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-gradient-to-b from-transparent via-blue-400/30 to-transparent [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"
-                >
-                    <motion.div
+                {height > 0 && (
+                    <div
                         style={{
-                            height: heightTransform,
-                            opacity: opacityTransform,
+                            height: height + "px",
                         }}
-                        className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-purple-500 via-blue-500 to-transparent from-[0%] via-[10%] rounded-full"
-                    />
-                </div>
+                        className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-gradient-to-b from-transparent via-blue-400/30 to-transparent [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"
+                    >
+                        <motion.div
+                            style={{
+                                height: heightTransform,
+                                opacity: opacityTransform,
+                            }}
+                            className="absolute inset-x-0 top-0 w-[2px] bg-gradient-to-t from-purple-500 via-blue-500 to-transparent from-[0%] via-[10%] rounded-full"
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useScroll } from '../hooks/useScroll';
 import type { SectionId } from '../types/scroll';
@@ -34,22 +34,34 @@ export const SectionWrapper: React.FC<SectionWrapperProps> = ({
     };
   }, [id, registerSection, unregisterSection]);
 
-  const defaultAnimationProps = enableAnimation ? {
-    initial: { opacity: 0, y: 30 },
+  const defaultAnimationProps = useMemo(() => enableAnimation ? {
+    initial: { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
     transition: { 
-      duration: 0.6, 
+      duration: 0.4, 
       delay: animationDelay,
       ease: [0.4, 0, 0.2, 1] as const
     },
-    viewport: { once: true, margin: "-50px" }
-  } : {};
+    viewport: { once: true, margin: "-30px" }
+  } : {}, [enableAnimation, animationDelay]);
+
+  if (!enableAnimation) {
+    return (
+      <section
+        ref={sectionRef}
+        id={id}
+        className={`scroll-mt-20 motion-safe ${className}`}
+      >
+        {children}
+      </section>
+    );
+  }
 
   return (
     <motion.section
       ref={sectionRef}
       id={id}
-      className={`scroll-mt-20 ${className}`}
+      className={`scroll-mt-20 motion-element ${className}`}
       {...defaultAnimationProps}
     >
       {children}
@@ -107,4 +119,4 @@ FEATURES:
 ✅ Easy-peasy ile state management
 ✅ Temiz ve re-usable API
 ✅ SSR uyumlu (window check'leri var)
-*/ 
+*/

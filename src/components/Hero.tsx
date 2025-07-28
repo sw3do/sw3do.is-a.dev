@@ -56,97 +56,46 @@ export const Hero: React.FC<HeroProps> = ({
           }}
         />
         
-        {/* Floating geometric shapes */}
-        {isClient && [...Array(8)].map((_, i) => (
+        {/* Optimized floating geometric shapes */}
+        {isClient && [...Array(4)].map((_, i) => (
           <motion.div
             key={i}
-            className={`absolute w-2 h-2 ${isDarkMode ? 'bg-blue-400/20' : 'bg-blue-600/15'} rounded-full`}
+            className={`absolute w-2 h-2 ${isDarkMode ? 'bg-blue-400/15' : 'bg-blue-600/10'} rounded-full`}
             style={{
-              left: `${10 + (i * 12)}%`,
-              top: `${15 + (i * 8)}%`,
+              left: `${20 + (i * 20)}%`,
+              top: `${20 + (i * 15)}%`,
             }}
             animate={{
-              y: [-20, -60, -20],
-              x: [-10, 10, -10],
-              opacity: [0, 0.8, 0],
-              scale: [0.5, 1.2, 0.5]
+              y: [-15, -30, -15],
+              opacity: [0.3, 0.6, 0.3],
             }}
             transition={{
-              duration: 8 + (i * 1.5),
+              duration: 6 + (i * 1),
               repeat: Infinity,
-              delay: i * 2,
+              delay: i * 1.5,
               ease: "easeInOut"
             }}
           />
         ))}
         
-        {/* Gradient orbs */}
-        <motion.div
-          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-xl"
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.3, 0.6, 0.3]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-xl"
-          animate={{
-            scale: [1.2, 0.8, 1.2],
-            opacity: [0.4, 0.7, 0.4]
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
+        {/* Simplified gradient orbs */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-xl opacity-40" />
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-cyan-500/15 to-blue-500/15 rounded-full blur-xl opacity-30" />
       </div>
 
       <div className="relative inline-block mb-6">
-        {/* Outer rotating rings */}
-        <motion.div
-          className="absolute inset-0 rounded-full"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        >
-          <div className="w-52 h-52 rounded-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-sm" />
-        </motion.div>
-
-        <motion.div
-          className="absolute inset-0 rounded-full"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        >
-          <div className="w-48 h-48 rounded-full bg-gradient-to-r from-cyan-500/25 via-pink-500/25 to-purple-500/25 blur-md" />
-        </motion.div>
-
+        {/* Simplified rotating ring */}
         <motion.div
           className="absolute inset-0 rounded-full"
           animate={{ rotate: 360 }}
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
         >
-          <div className="w-44 h-44 rounded-full bg-gradient-to-r from-emerald-500/15 via-blue-500/15 to-violet-500/15 blur-lg" />
+          <div className="w-48 h-48 rounded-full bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-cyan-500/15 blur-sm" />
         </motion.div>
 
         <div className="relative">
-          {/* Enhanced gradient border */}
-          <motion.div
-            className="absolute -inset-2 rounded-full opacity-75 gradient-shift"
-            animate={{
-              rotate: [0, 360],
-              scale: [1, 1.08, 1]
-            }}
-            transition={{
-              rotate: { duration: 12, repeat: Infinity, ease: "linear" },
-              scale: { duration: 5, repeat: Infinity, ease: "easeInOut" }
-            }}
-          />
+          {/* Simplified gradient border */}
+          <div className="absolute -inset-2 rounded-full opacity-50 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-cyan-500/30" />
 
           {/* Glassmorphism container */}
           <motion.div
@@ -165,53 +114,14 @@ export const Hero: React.FC<HeroProps> = ({
               transition={{ duration: 0.6 }}
             />
 
-            {/* Enhanced overlay effects */}
-            <motion.div
-              className="absolute inset-2 rounded-full bg-gradient-to-t from-blue-500/30 via-transparent to-purple-500/20"
-              animate={{ 
-                opacity: [0.2, 0.5, 0.2],
-                background: [
-                  'linear-gradient(to top, rgba(59, 130, 246, 0.3), transparent, rgba(168, 85, 247, 0.2))',
-                  'linear-gradient(to top, rgba(168, 85, 247, 0.3), transparent, rgba(59, 130, 246, 0.2))',
-                  'linear-gradient(to top, rgba(59, 130, 246, 0.3), transparent, rgba(168, 85, 247, 0.2))'
-                ]
-              }}
-              transition={{ duration: 4, repeat: Infinity }}
-            />
+            {/* Simplified overlay effect */}
+            <div className="absolute inset-2 rounded-full bg-gradient-to-t from-blue-500/20 via-transparent to-purple-500/15 opacity-40" />
           </motion.div>
 
-          {isClient && [...Array(4)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1.5 h-1.5 bg-blue-400 rounded-full opacity-50 pointer-events-none"
-              style={{
-                top: `${25 + Math.sin(i * 90) * 50}%`,
-                left: `${25 + Math.cos(i * 90) * 50}%`,
-                willChange: 'transform, opacity'
-              }}
-              animate={{
-                y: [-8, -16, -8],
-                opacity: [0.3, 0.6, 0.3],
-                scale: [0.6, 1, 0.6]
-              }}
-              transition={{
-                duration: 2.5 + i * 0.3,
-                repeat: Infinity,
-                delay: i * 0.3,
-                ease: "easeInOut"
-              }}
-            />
-          ))}
+
         </div>
 
-        <motion.div
-          className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-blue-500/20 rounded-full blur-xl"
-          animate={{
-            opacity: [0.5, 0.8, 0.5],
-            scale: [0.8, 1.2, 0.8]
-          }}
-          transition={{ duration: 4, repeat: Infinity }}
-        />
+        <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-blue-500/15 rounded-full blur-xl opacity-60" />
       </div>
 
       <motion.div
@@ -220,43 +130,17 @@ export const Hero: React.FC<HeroProps> = ({
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
-        <motion.h1
+        <h1
           className={`text-6xl font-bold bg-gradient-to-r bg-clip-text text-transparent ${isDarkMode
             ? "from-blue-400 via-white to-cyan-400"
             : "from-blue-600 via-gray-800 to-cyan-600"
             }`}
-          animate={{
-            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          style={{
-            backgroundSize: "200% auto",
-            willChange: 'background-position'
-          }}
         >
           {user?.name || "sw3do"}
-        </motion.h1>
+        </h1>
 
-        <motion.div
-          className="absolute -left-4 top-1/2 w-2 h-0.5 bg-blue-400"
-          animate={{
-            width: [8, 40, 8],
-            opacity: [0.3, 1, 0.3]
-          }}
-          transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-        />
-        <motion.div
-          className="absolute -right-4 top-1/2 w-2 h-0.5 bg-cyan-400"
-          animate={{
-            width: [8, 35, 8],
-            opacity: [0.3, 1, 0.3]
-          }}
-          transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-        />
+        <div className="absolute -left-4 top-1/2 w-8 h-0.5 bg-blue-400 opacity-60" />
+        <div className="absolute -right-4 top-1/2 w-8 h-0.5 bg-cyan-400 opacity-60" />
       </motion.div>
 
       <motion.p

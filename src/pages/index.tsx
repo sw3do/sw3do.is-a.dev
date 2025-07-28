@@ -64,13 +64,16 @@ function Home() {
     localStorage.setItem('theme', newTheme ? 'dark' : 'light');
   }, [isDarkMode]);
 
+  const memoizedUser = useMemo(() => user, [user]);
+  const memoizedRepos = useMemo(() => repos, [repos]);
+
   const { languages, totalStars, totalForks, totalProjects } = useMemo(() => {
     const langStats: { [key: string]: number } = {};
     let stars = 0;
     let forks = 0;
     let projectCount = 0;
 
-    repos.forEach((repo: GitHubRepo) => {
+    memoizedRepos.forEach((repo: GitHubRepo) => {
       if (repo.language) {
         langStats[repo.language] = (langStats[repo.language] || 0) + 1;
         projectCount++;
@@ -85,7 +88,7 @@ function Home() {
       totalForks: forks,
       totalProjects: projectCount,
     };
-  }, [repos]);
+  }, [memoizedRepos]);
 
   const titles = useMemo(() => [
     t('hero.titles.fullstack'),
@@ -117,7 +120,7 @@ function Home() {
   }, [textIndex, i18n.language, isClient, titles]);
 
   const filteredAndSortedRepos = useMemo(() => {
-    let filtered = repos;
+    let filtered = memoizedRepos;
 
     if (selectedFilter !== "all") {
       filtered = filtered.filter((repo: GitHubRepo) =>
@@ -153,14 +156,14 @@ function Home() {
           return 0;
       }
     });
-  }, [repos, selectedFilter, sortBy, searchTerm, showFeaturedOnly]);
+  }, [memoizedRepos, selectedFilter, sortBy, searchTerm, showFeaturedOnly]);
 
 
 
   const getCreatedYear = useCallback(() => {
-    if (!isClient || !user?.created_at) return '';
-    return new Date(user.created_at).getFullYear().toString();
-  }, [isClient, user?.created_at]);
+    if (!isClient || !memoizedUser?.created_at) return '';
+    return new Date(memoizedUser.created_at).getFullYear().toString();
+  }, [isClient, memoizedUser?.created_at]);
 
   const topLanguages = useMemo(() =>
     Object.entries(languages)
@@ -265,13 +268,12 @@ function Home() {
       ? "bg-gradient-to-br from-gray-900 via-slate-900 to-black"
       : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
       }`}>
-      {/* Enhanced background effects */}
+      {/* Simplified background effects */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className={`absolute inset-0 opacity-30 ${isDarkMode ? 'opacity-20' : 'opacity-10'}`}>
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-cyan-500/10 animate-pulse" />
-          <div className="absolute top-1/4 right-0 w-96 h-96 bg-gradient-to-l from-purple-500/20 to-transparent rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-gradient-to-r from-blue-500/20 to-transparent rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className={`absolute inset-0 ${isDarkMode ? 'opacity-15' : 'opacity-8'}`}>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500/8 via-purple-500/4 to-cyan-500/8" />
+          <div className="absolute top-1/4 right-0 w-96 h-96 bg-gradient-to-l from-purple-500/12 to-transparent rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-gradient-to-r from-blue-500/12 to-transparent rounded-full blur-3xl" />
         </div>
       </div>
       <Navbar
@@ -281,48 +283,20 @@ function Home() {
 
       {isClient && (
         <div className="fixed inset-0 z-0 pointer-events-none">
-          {[...Array(12)].map((_, i) => (
-            <motion.div
-              key={i}
-              className={`absolute rounded-full ${isDarkMode ? "bg-blue-400/20" : "bg-blue-600/15"
-                }`}
-              style={{
-                width: `${2 + (i % 3)}px`,
-                height: `${2 + (i % 3)}px`,
-                left: `${5 + (i * 8)}%`,
-                top: `${5 + (i * 7)}%`,
-              }}
-              animate={{
-                y: [-20, -80, -20],
-                x: [-15, 15, -15],
-                opacity: [0, 0.8, 0],
-                scale: [0.5, 1.5, 0.5],
-                rotate: [0, 180, 360]
-              }}
-              transition={{
-                duration: 12 + (i * 1.5),
-                repeat: Infinity,
-                delay: i * 2,
-                ease: "easeInOut"
-              }}
-            />
-          ))}
-          
-          {/* Additional geometric shapes */}
           {[...Array(6)].map((_, i) => (
             <motion.div
-              key={`shape-${i}`}
-              className={`absolute w-1 h-8 ${isDarkMode ? "bg-gradient-to-b from-purple-400/20 to-transparent" : "bg-gradient-to-b from-purple-600/15 to-transparent"
+              key={i}
+              className={`absolute rounded-full ${isDarkMode ? "bg-blue-400/10" : "bg-blue-600/8"
                 }`}
               style={{
-                left: `${15 + (i * 14)}%`,
-                top: `${20 + (i * 10)}%`,
-                transformOrigin: 'center bottom'
+                width: `${2 + (i % 2)}px`,
+                height: `${2 + (i % 2)}px`,
+                left: `${10 + (i * 15)}%`,
+                top: `${10 + (i * 12)}%`,
               }}
               animate={{
-                rotate: [-10, 10, -10],
-                opacity: [0.2, 0.6, 0.2],
-                scaleY: [0.5, 1.2, 0.5]
+                y: [-15, -30, -15],
+                opacity: [0.2, 0.5, 0.2],
               }}
               transition={{
                 duration: 8 + (i * 1),
@@ -335,20 +309,11 @@ function Home() {
         </div>
       )}
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="container mx-auto px-6 py-6 relative z-10"
-        style={{
-          paddingTop: '6rem',
-          willChange: 'opacity'
-        }}
-      >
+      <div className="container mx-auto px-6 py-6 relative z-10 motion-safe" style={{ paddingTop: '6rem' }}>
         <SectionWrapper id="home" className="min-h-screen">
           <Hero
             isDarkMode={isDarkMode}
-            user={user || null}
+            user={memoizedUser || null}
             typeText={typeText}
             totalStars={totalStars}
             totalForks={totalForks}
@@ -415,25 +380,20 @@ function Home() {
 
         <SectionWrapper id="terminal" className="py-8" animationDelay={0.5}>
           <Suspense fallback={<div className={`animate-pulse h-96 w-full rounded-lg ${isDarkMode ? "bg-slate-800" : "bg-gray-200"}`} />}>
-            <Terminal isDarkMode={isDarkMode} repos={repos} user={user || null} />
+            <Terminal isDarkMode={isDarkMode} repos={memoizedRepos} user={memoizedUser || null} />
           </Suspense>
         </SectionWrapper>
 
         <SectionWrapper id="contact" className="py-8" animationDelay={0.6}>
-          <Contact isDarkMode={isDarkMode} user={user || null} />
+          <Contact isDarkMode={isDarkMode} user={memoizedUser || null} />
         </SectionWrapper>
-      </motion.div>
+      </div>
 
       <Footer isDarkMode={isDarkMode} />
 
       <ScrollToTop isDarkMode={isDarkMode} />
 
-      <motion.div
-        className="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-slate-600 to-gray-700"
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 2, ease: "easeInOut" }}
-      />
+      <div className="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-slate-600 to-gray-700" />
     </div>
   );
 }
