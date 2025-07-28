@@ -99,15 +99,27 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 1.1 + index * 0.1 }}
-              className={`rounded-xl p-6 border backdrop-blur-sm text-center transition-all duration-300 ${isDarkMode
-                ? "bg-slate-800/60 border-slate-700/50 hover:border-blue-500/50"
-                : "bg-white/80 border-gray-300/50 hover:border-blue-500/50"
+              className={`rounded-xl p-6 border text-center transition-all duration-300 overflow-hidden relative ${isDarkMode
+                ? "glass-dark border-slate-700/50 hover:border-blue-500/50"
+                : "glass border-gray-300/50 hover:border-blue-500/50"
                 }`}
+              style={{
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)'
+              }}
               whileHover={{
                 scale: 1.05,
-                boxShadow: "0 20px 40px -15px rgba(59, 130, 246, 0.3)"
+                y: -5,
+                boxShadow: "0 25px 50px -15px rgba(59, 130, 246, 0.4)"
               }}
             >
+              {/* Animated gradient overlay */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-cyan-500/10 opacity-0"
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+              <div className="relative z-10">
               <div className="flex justify-center mb-4">
                 {achievement.icon}
               </div>
@@ -117,6 +129,7 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
               <p className={`text-sm transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
                 {t(achievement.descKey)}
               </p>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -178,10 +191,27 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
                 </div>
 
                 <div className={`ml-20 md:ml-0 ${!isEven ? "md:mr-20" : ""}`}>
-                  <div className={`relative rounded-xl p-6 border backdrop-blur-sm transition-all duration-200 hover:border-blue-500/50 ${isDarkMode
-                    ? "bg-slate-800/60 border-slate-700/50"
-                    : "bg-white/80 border-gray-300/50"
-                    }`}>
+                  <motion.div 
+                    className={`relative rounded-xl p-6 border transition-all duration-300 overflow-hidden ${isDarkMode
+                      ? "glass-dark border-slate-700/50 hover:border-blue-500/50"
+                      : "glass border-gray-300/50 hover:border-blue-500/50"
+                      }`}
+                    style={{
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)'
+                    }}
+                    whileHover={{
+                      scale: 1.02,
+                      y: -3,
+                      boxShadow: "0 20px 40px -15px rgba(59, 130, 246, 0.3)"
+                    }}
+                  >
+                    {/* Animated gradient overlay */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-cyan-500/10 opacity-0"
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
 
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
@@ -218,7 +248,7 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
                         </span>
                       ))}
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
 
                 {index < 2 && (
@@ -238,4 +268,4 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
       </motion.div>
     </>
   );
-}; 
+};

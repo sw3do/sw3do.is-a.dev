@@ -157,62 +157,69 @@ const ProjectsComponent: React.FC<ProjectsProps> = ({
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 1.5 + index * 0.1 }}
-            className={`rounded-xl p-6 border backdrop-blur-sm transition-all duration-300 ${isDarkMode
-              ? "bg-slate-800/60 border-slate-700/50 hover:border-blue-500/50"
-              : "bg-white/80 border-gray-300/50 hover:border-blue-500/50"
-              }`}
+            className={`rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
             whileHover={{
-              scale: 1.02,
-              boxShadow: "0 20px 40px -15px rgba(59, 130, 246, 0.3)"
+              scale: 1.03,
+              y: -8,
+              boxShadow: "0 25px 50px -15px rgba(59, 130, 246, 0.4)"
             }}
           >
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center space-x-2">
-                {repo.language && getLanguageIcon(repo.language)}
-                <h3 className={`text-lg font-semibold transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                  {repo.name}
-                </h3>
-              </div>
-              <a
-                href={repo.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`p-2 rounded-lg transition-all duration-300 ${isDarkMode
-                  ? "text-gray-400 hover:text-white hover:bg-slate-700/50"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-200/50"
-                  }`}
-              >
-                <FaExternalLinkAlt className="w-4 h-4" />
-              </a>
-            </div>
-
-            <p className={`text-sm mb-4 line-clamp-3 transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-              {repo.description || t('projects.noDescription')}
-            </p>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4 text-sm">
-                <div className="flex items-center space-x-1">
-                  <FaStar className={`w-4 h-4 ${repo.stargazers_count > 0 ? "text-yellow-400" : isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
-                  <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                    {repo.stargazers_count}
-                  </span>
+            <motion.div 
+              className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0"
+              whileHover={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            />
+            <div className="relative z-10">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  {repo.language && getLanguageIcon(repo.language)}
+                  <h3 className={`text-lg font-semibold transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                    {repo.name}
+                  </h3>
                 </div>
+                <motion.a
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-2 rounded-lg transition-all duration-300 ${isDarkMode
+                    ? "text-gray-400 hover:text-white hover:bg-slate-700/50"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-200/50"
+                    }`}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <FaExternalLinkAlt className="w-4 h-4" />
+                </motion.a>
+              </div>
+
+              <p className={`text-sm mb-4 line-clamp-3 transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+                {repo.description || t('projects.noDescription')}
+              </p>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4 text-sm">
+                  <div className="flex items-center space-x-1">
+                    <FaStar className={`w-4 h-4 ${repo.stargazers_count > 0 ? "text-yellow-400" : isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
+                    <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
+                      {repo.stargazers_count}
+                    </span>
+                  </div>
                 <div className="flex items-center space-x-1">
-                  <FaCodeBranch className={`w-4 h-4 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
-                  <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                    {repo.forks_count}
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center space-x-1 text-xs">
-                <FaCalendarAlt className={`w-3 h-3 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
-                <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>
-                  {formatDate(repo.updated_at)}
-                </span>
-              </div>
-            </div>
-          </motion.div>
+                   <FaCodeBranch className={`w-4 h-4 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
+                   <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
+                     {repo.forks_count}
+                   </span>
+                 </div>
+               </div>
+               <div className="flex items-center space-x-1 text-xs">
+                 <FaCalendarAlt className={`w-3 h-3 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
+                 <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>
+                   {formatDate(repo.updated_at)}
+                 </span>
+               </div>
+             </div>
+           </div>
+           </motion.div>
         ))}
       </div>
 

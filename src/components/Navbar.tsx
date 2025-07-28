@@ -59,13 +59,14 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors duration-300 ${isDarkMode
-        ? "bg-slate-900/80 border-slate-700/50"
-        : "bg-white/80 border-gray-300/50"
-        }`}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+      style={{
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)'
+      }}
     >
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <motion.div
@@ -162,4 +163,4 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
     </motion.nav>
   );
-}; 
+};

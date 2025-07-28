@@ -41,7 +41,7 @@ export const Hero: React.FC<HeroProps> = ({
       transition={{ delay: 0.2 }}
       className="text-center mb-16 relative"
     >
-      <div className="absolute inset-0 -mx-6 -my-12 pointer-events-none">
+      <div className="absolute inset-0 -mx-6 -my-12 pointer-events-none overflow-hidden">
         <div
           className={`w-full h-full opacity-30 ${isDarkMode ? 'opacity-20' : 'opacity-10'}`}
           style={{
@@ -55,55 +55,128 @@ export const Hero: React.FC<HeroProps> = ({
             WebkitMaskImage: 'radial-gradient(ellipse 120% 100% at 50% 50%, black 40%, transparent 80%)'
           }}
         />
+        
+        {/* Floating geometric shapes */}
+        {isClient && [...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            className={`absolute w-2 h-2 ${isDarkMode ? 'bg-blue-400/20' : 'bg-blue-600/15'} rounded-full`}
+            style={{
+              left: `${10 + (i * 12)}%`,
+              top: `${15 + (i * 8)}%`,
+            }}
+            animate={{
+              y: [-20, -60, -20],
+              x: [-10, 10, -10],
+              opacity: [0, 0.8, 0],
+              scale: [0.5, 1.2, 0.5]
+            }}
+            transition={{
+              duration: 8 + (i * 1.5),
+              repeat: Infinity,
+              delay: i * 2,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+        
+        {/* Gradient orbs */}
+        <motion.div
+          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-xl"
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.3, 0.6, 0.3]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-xl"
+          animate={{
+            scale: [1.2, 0.8, 1.2],
+            opacity: [0.4, 0.7, 0.4]
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
       </div>
 
       <div className="relative inline-block mb-8">
+        {/* Outer rotating rings */}
         <motion.div
           className="absolute inset-0 rounded-full"
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         >
-          <div className="w-48 h-48 rounded-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-sm" />
+          <div className="w-52 h-52 rounded-full bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-sm" />
         </motion.div>
 
         <motion.div
           className="absolute inset-0 rounded-full"
           animate={{ rotate: -360 }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         >
-          <div className="w-44 h-44 rounded-full bg-gradient-to-r from-cyan-500/30 via-blue-500/30 to-purple-500/30 blur-md" />
+          <div className="w-48 h-48 rounded-full bg-gradient-to-r from-cyan-500/25 via-pink-500/25 to-purple-500/25 blur-md" />
+        </motion.div>
+
+        <motion.div
+          className="absolute inset-0 rounded-full"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        >
+          <div className="w-44 h-44 rounded-full bg-gradient-to-r from-emerald-500/15 via-blue-500/15 to-violet-500/15 blur-lg" />
         </motion.div>
 
         <div className="relative">
+          {/* Enhanced gradient border */}
           <motion.div
-            className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 opacity-75"
+            className="absolute -inset-2 rounded-full opacity-75 gradient-shift"
             animate={{
               rotate: [0, 360],
-              scale: [1, 1.05, 1]
+              scale: [1, 1.08, 1]
             }}
             transition={{
-              rotate: { duration: 8, repeat: Infinity, ease: "linear" },
-              scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+              rotate: { duration: 12, repeat: Infinity, ease: "linear" },
+              scale: { duration: 5, repeat: Infinity, ease: "easeInOut" }
             }}
           />
 
+          {/* Glassmorphism container */}
           <motion.div
-            className="relative bg-slate-900 rounded-full p-1"
+            className={`relative rounded-full p-2 ${isDarkMode ? 'glass-dark' : 'glass'}`}
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
             <motion.img
               src={user?.avatar_url}
               alt="Profile"
-              className="w-40 h-40 rounded-full shadow-2xl"
-              whileHover={{ rotate: [0, -5, 5, 0] }}
+              className="w-40 h-40 rounded-full shadow-2xl ring-2 ring-white/20"
+              whileHover={{ 
+                rotate: [0, -3, 3, 0],
+                scale: 1.02
+              }}
               transition={{ duration: 0.6 }}
             />
 
+            {/* Enhanced overlay effects */}
             <motion.div
-              className="absolute inset-0 rounded-full bg-gradient-to-t from-blue-500/20 to-transparent"
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 3, repeat: Infinity }}
+              className="absolute inset-2 rounded-full bg-gradient-to-t from-blue-500/30 via-transparent to-purple-500/20"
+              animate={{ 
+                opacity: [0.2, 0.5, 0.2],
+                background: [
+                  'linear-gradient(to top, rgba(59, 130, 246, 0.3), transparent, rgba(168, 85, 247, 0.2))',
+                  'linear-gradient(to top, rgba(168, 85, 247, 0.3), transparent, rgba(59, 130, 246, 0.2))',
+                  'linear-gradient(to top, rgba(59, 130, 246, 0.3), transparent, rgba(168, 85, 247, 0.2))'
+                ]
+              }}
+              transition={{ duration: 4, repeat: Infinity }}
             />
           </motion.div>
 
@@ -242,67 +315,159 @@ export const Hero: React.FC<HeroProps> = ({
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto"
+        className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.8 }}
       >
         <motion.div
-          className={`text-center rounded-xl p-6 border transition-all duration-300 ${isDarkMode
-            ? "bg-slate-800/50 border-slate-700/50 hover:border-blue-500/50"
-            : "bg-white/80 border-gray-300/50 hover:border-blue-500/50"
-            }`}
-          whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(59, 130, 246, 0.3)" }}
+          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+          whileHover={{ 
+            scale: 1.05, 
+            y: -5,
+            boxShadow: "0 20px 40px -15px rgba(59, 130, 246, 0.4)"
+          }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.9, duration: 0.6 }}
         >
-          <div className="flex items-center justify-center mb-2">
-            <FaFolder className="w-6 h-6 text-blue-400" />
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 opacity-0"
+            whileHover={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+          <div className="relative z-10">
+            <motion.div 
+              className="flex items-center justify-center mb-3"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FaFolder className="w-7 h-7 text-blue-400" />
+            </motion.div>
+            <motion.div 
+              className="text-3xl font-bold text-blue-400 mb-2"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {user?.public_repos}
+            </motion.div>
+            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+              {t('hero.stats.repositories')}
+            </div>
           </div>
-          <div className="text-3xl font-bold text-blue-400 mb-1">{user?.public_repos}</div>
-          <div className={`text-xs font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>{t('hero.stats.repositories')}</div>
         </motion.div>
 
         <motion.div
-          className={`text-center rounded-xl p-6 border transition-all duration-300 ${isDarkMode
-            ? "bg-slate-800/50 border-slate-700/50 hover:border-green-500/50"
-            : "bg-white/80 border-gray-300/50 hover:border-green-500/50"
-            }`}
-          whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(34, 197, 94, 0.3)" }}
+          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+          whileHover={{ 
+            scale: 1.05, 
+            y: -5,
+            boxShadow: "0 20px 40px -15px rgba(34, 197, 94, 0.4)"
+          }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1.0, duration: 0.6 }}
         >
-          <div className="flex items-center justify-center mb-2">
-            <FaStar className="w-6 h-6 text-green-400" />
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0"
+            whileHover={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+          <div className="relative z-10">
+            <motion.div 
+              className="flex items-center justify-center mb-3"
+              whileHover={{ scale: 1.1, rotate: -5 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FaStar className="w-7 h-7 text-green-400" />
+            </motion.div>
+            <motion.div 
+              className="text-3xl font-bold text-green-400 mb-2"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {totalStars}
+            </motion.div>
+            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+              {t('hero.stats.totalStars')}
+            </div>
           </div>
-          <div className="text-3xl font-bold text-green-400 mb-1">{totalStars}</div>
-          <div className={`text-xs font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>{t('hero.stats.totalStars')}</div>
         </motion.div>
 
         <motion.div
-          className={`text-center rounded-xl p-6 border transition-all duration-300 ${isDarkMode
-            ? "bg-slate-800/50 border-slate-700/50 hover:border-purple-500/50"
-            : "bg-white/80 border-gray-300/50 hover:border-purple-500/50"
-            }`}
-          whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(168, 85, 247, 0.3)" }}
+          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+          whileHover={{ 
+            scale: 1.05, 
+            y: -5,
+            boxShadow: "0 20px 40px -15px rgba(168, 85, 247, 0.4)"
+          }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1.1, duration: 0.6 }}
         >
-          <div className="flex items-center justify-center mb-2">
-            <FaUsers className="w-6 h-6 text-purple-400" />
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0"
+            whileHover={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+          <div className="relative z-10">
+            <motion.div 
+              className="flex items-center justify-center mb-3"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FaUsers className="w-7 h-7 text-purple-400" />
+            </motion.div>
+            <motion.div 
+              className="text-3xl font-bold text-purple-400 mb-2"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {user?.followers}
+            </motion.div>
+            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+              {t('hero.stats.followers')}
+            </div>
           </div>
-          <div className="text-3xl font-bold text-purple-400 mb-1">{user?.followers}</div>
-          <div className={`text-xs font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>{t('hero.stats.followers')}</div>
         </motion.div>
 
         <motion.div
-          className={`text-center rounded-xl p-6 border transition-all duration-300 ${isDarkMode
-            ? "bg-slate-800/50 border-slate-700/50 hover:border-orange-500/50"
-            : "bg-white/80 border-gray-300/50 hover:border-orange-500/50"
-            }`}
-          whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(249, 115, 22, 0.3)" }}
+          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+          whileHover={{ 
+            scale: 1.05, 
+            y: -5,
+            boxShadow: "0 20px 40px -15px rgba(249, 115, 22, 0.4)"
+          }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
         >
-          <div className="flex items-center justify-center mb-2">
-            <FaCodeBranch className="w-6 h-6 text-orange-400" />
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/10 opacity-0"
+            whileHover={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+          <div className="relative z-10">
+            <motion.div 
+              className="flex items-center justify-center mb-3"
+              whileHover={{ scale: 1.1, rotate: -5 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FaCodeBranch className="w-7 h-7 text-orange-400" />
+            </motion.div>
+            <motion.div 
+              className="text-3xl font-bold text-orange-400 mb-2"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {totalForks}
+            </motion.div>
+            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+              {t('hero.stats.totalForks')}
+            </div>
           </div>
-          <div className="text-3xl font-bold text-orange-400 mb-1">{totalForks}</div>
-          <div className={`text-xs font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>{t('hero.stats.totalForks')}</div>
         </motion.div>
       </motion.div>
     </motion.div>
   );
-}; 
+};

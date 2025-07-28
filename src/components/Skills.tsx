@@ -53,15 +53,27 @@ const SkillsComponent: React.FC<SkillsProps> = ({
                 initial={{ x: -50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 1.2 + index * 0.1 }}
-                className={`rounded-xl p-6 border backdrop-blur-sm transition-all duration-300 ${isDarkMode
-                  ? "bg-slate-800/60 border-slate-700/50 hover:border-blue-500/50"
-                  : "bg-white/80 border-gray-300/50 hover:border-blue-500/50"
+                className={`rounded-xl p-6 border transition-all duration-300 overflow-hidden relative ${isDarkMode
+                  ? "glass-dark border-slate-700/50 hover:border-blue-500/50"
+                  : "glass border-gray-300/50 hover:border-blue-500/50"
                   }`}
+                style={{
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)'
+                }}
                 whileHover={{
-                  scale: 1.02,
-                  boxShadow: "0 20px 40px -15px rgba(59, 130, 246, 0.3)"
+                  scale: 1.03,
+                  y: -5,
+                  boxShadow: "0 25px 50px -15px rgba(59, 130, 246, 0.4)"
                 }}
               >
+                {/* Animated gradient overlay */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-cyan-500/10 opacity-0"
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+                <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     {getLanguageIcon(language)}
@@ -89,6 +101,7 @@ const SkillsComponent: React.FC<SkillsProps> = ({
                     />
                   </div>
                 </div>
+                </div>
               </motion.div>
             );
           })}
@@ -110,11 +123,19 @@ const SkillsComponent: React.FC<SkillsProps> = ({
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 2.2 + index * 0.05 }}
-                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${isDarkMode
-                  ? "bg-slate-800/60 text-slate-300 border-slate-700/50 hover:bg-slate-700/60 hover:text-white"
-                  : "bg-white/80 text-gray-700 border-gray-300/50 hover:bg-gray-100/80 hover:text-gray-900"
+                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-300 ${isDarkMode
+                  ? "glass-dark text-slate-300 border-slate-700/50 hover:text-white"
+                  : "glass text-gray-700 border-gray-300/50 hover:text-gray-900"
                   }`}
-                whileHover={{ scale: 1.05 }}
+                style={{
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)'
+                }}
+                whileHover={{ 
+                  scale: 1.1,
+                  y: -2,
+                  boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.3)"
+                }}
               >
                 {tech}
               </motion.span>

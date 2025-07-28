@@ -261,10 +261,19 @@ function Home() {
   }
 
   return (
-    <div className={`min-h-screen relative overflow-x-hidden transition-colors duration-300 ${isDarkMode
+    <div className={`min-h-screen relative overflow-x-hidden transition-all duration-500 ${isDarkMode
       ? "bg-gradient-to-br from-gray-900 via-slate-900 to-black"
       : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
       }`}>
+      {/* Enhanced background effects */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className={`absolute inset-0 opacity-30 ${isDarkMode ? 'opacity-20' : 'opacity-10'}`}>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-cyan-500/10 animate-pulse" />
+          <div className="absolute top-1/4 right-0 w-96 h-96 bg-gradient-to-l from-purple-500/20 to-transparent rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-gradient-to-r from-blue-500/20 to-transparent rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse" />
+        </div>
+      </div>
       <Navbar
         isDarkMode={isDarkMode}
         toggleTheme={toggleTheme}
@@ -272,23 +281,53 @@ function Home() {
 
       {isClient && (
         <div className="fixed inset-0 z-0 pointer-events-none">
-          {[...Array(6)].map((_, i) => (
+          {[...Array(12)].map((_, i) => (
             <motion.div
               key={i}
-              className={`absolute w-1 h-1 rounded-full ${isDarkMode ? "bg-blue-400/15" : "bg-blue-600/10"
+              className={`absolute rounded-full ${isDarkMode ? "bg-blue-400/20" : "bg-blue-600/15"
                 }`}
               style={{
-                left: `${20 + (i * 15)}%`,
-                top: `${10 + (i * 12)}%`,
+                width: `${2 + (i % 3)}px`,
+                height: `${2 + (i % 3)}px`,
+                left: `${5 + (i * 8)}%`,
+                top: `${5 + (i * 7)}%`,
               }}
               animate={{
-                y: [-10, -40, -10],
-                opacity: [0, 0.6, 0],
+                y: [-20, -80, -20],
+                x: [-15, 15, -15],
+                opacity: [0, 0.8, 0],
+                scale: [0.5, 1.5, 0.5],
+                rotate: [0, 180, 360]
               }}
               transition={{
-                duration: 15 + (i * 2),
+                duration: 12 + (i * 1.5),
                 repeat: Infinity,
-                delay: i * 3,
+                delay: i * 2,
+                ease: "easeInOut"
+              }}
+            />
+          ))}
+          
+          {/* Additional geometric shapes */}
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={`shape-${i}`}
+              className={`absolute w-1 h-8 ${isDarkMode ? "bg-gradient-to-b from-purple-400/20 to-transparent" : "bg-gradient-to-b from-purple-600/15 to-transparent"
+                }`}
+              style={{
+                left: `${15 + (i * 14)}%`,
+                top: `${20 + (i * 10)}%`,
+                transformOrigin: 'center bottom'
+              }}
+              animate={{
+                rotate: [-10, 10, -10],
+                opacity: [0.2, 0.6, 0.2],
+                scaleY: [0.5, 1.2, 0.5]
+              }}
+              transition={{
+                duration: 8 + (i * 1),
+                repeat: Infinity,
+                delay: i * 1.5,
                 ease: "easeInOut"
               }}
             />
