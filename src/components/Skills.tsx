@@ -31,9 +31,9 @@ const SkillsComponent: React.FC<SkillsProps> = ({
       initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 1 }}
-      className="mb-16"
+      className="mb-8"
     >
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <h2 className={`text-3xl font-bold mb-4 transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
           {t('skills.title')}
         </h2>
@@ -111,7 +111,7 @@ const SkillsComponent: React.FC<SkillsProps> = ({
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 2 }}
-          className="mt-12 text-center"
+          className="mt-8 text-center"
         >
           <h3 className={`text-xl font-semibold mb-6 transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
             {t('skills.otherTech')}

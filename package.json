@@ -11,15 +11,19 @@
     "build:analyze": "npm run build && npm run analyze"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-query": "^5.81.5",
+    "clsx": "^2.1.1",
     "critters": "^0.0.25",
     "easy-peasy": "^6.0.5",
     "framer-motion": "^12.18.1",
+    "motion": "^12.23.10",
     "next": "15.3.3",
     "next-i18next": "^15.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

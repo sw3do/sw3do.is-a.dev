@@ -339,7 +339,7 @@ function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        className="container mx-auto px-6 py-12 relative z-10"
+        className="container mx-auto px-6 py-6 relative z-10"
         style={{
           paddingTop: '6rem',
           willChange: 'opacity'
@@ -357,11 +357,11 @@ function Home() {
           />
         </SectionWrapper>
 
-        <SectionWrapper id="about" className="py-16" animationDelay={0.1}>
+        <SectionWrapper id="about" className="py-8" animationDelay={0.1}>
           <About isDarkMode={isDarkMode} />
         </SectionWrapper>
 
-        <SectionWrapper id="skills" className="py-16" animationDelay={0.2}>
+        <SectionWrapper id="skills" className="py-8" animationDelay={0.2}>
           <Skills
             isDarkMode={isDarkMode}
             topLanguages={topLanguages}
@@ -369,7 +369,7 @@ function Home() {
           />
         </SectionWrapper>
 
-        <SectionWrapper id="projects" className="py-16" animationDelay={0.3}>
+        <SectionWrapper id="projects" className="py-8" animationDelay={0.3}>
           <Projects
             isDarkMode={isDarkMode}
             filteredRepos={filteredAndSortedRepos}
@@ -387,8 +387,8 @@ function Home() {
         </SectionWrapper>
 
         {discordData && (
-          <SectionWrapper id="stats" className="py-16 mb-16" animationDelay={0.4}>
-            <div className="text-center mb-12">
+          <SectionWrapper id="stats" className="py-8 mb-8" animationDelay={0.4}>
+            <div className="text-center mb-8">
               <div className="relative inline-block">
                 <h2 className={`text-4xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent ${isDarkMode
                   ? "from-indigo-400 via-purple-400 to-pink-400"
@@ -413,13 +413,13 @@ function Home() {
           </SectionWrapper>
         )}
 
-        <SectionWrapper id="terminal" className="py-16" animationDelay={0.5}>
+        <SectionWrapper id="terminal" className="py-8" animationDelay={0.5}>
           <Suspense fallback={<div className={`animate-pulse h-96 w-full rounded-lg ${isDarkMode ? "bg-slate-800" : "bg-gray-200"}`} />}>
             <Terminal isDarkMode={isDarkMode} repos={repos} user={user || null} />
           </Suspense>
         </SectionWrapper>
 
-        <SectionWrapper id="contact" className="py-16" animationDelay={0.6}>
+        <SectionWrapper id="contact" className="py-8" animationDelay={0.6}>
           <Contact isDarkMode={isDarkMode} user={user || null} />
         </SectionWrapper>
       </motion.div>

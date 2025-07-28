@@ -31,9 +31,9 @@ export const Contact: React.FC<ContactProps> = ({ isDarkMode, user }) => {
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 4.2 }}
-        className="mt-16 mb-16"
+        className="mt-8 mb-8"
       >
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h2 className={`text-3xl font-bold mb-4 transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
             {t('social.title')}
           </h2>
@@ -90,7 +90,7 @@ export const Contact: React.FC<ContactProps> = ({ isDarkMode, user }) => {
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 3.1 }}
-        className="text-center mt-16"
+        className="text-center mt-8"
       >
         <motion.a
           href={`https://github.com/${user?.login}`}
@@ -106,4 +106,4 @@ export const Contact: React.FC<ContactProps> = ({ isDarkMode, user }) => {
       </motion.div>
     </>
   );
-}; 
+};

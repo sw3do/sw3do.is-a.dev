@@ -75,6 +75,10 @@
       }
     }
   },
+  "timeline": {
+    "title": "Experience Timeline",
+    "subtitle": "My professional journey and key milestones"
+  },
   "skills": {
     "title": "💻 Tech Stack",
     "subtitle": "Most used programming languages and technologies",

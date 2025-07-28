@@ -75,6 +75,10 @@
       }
     }
   },
+  "timeline": {
+    "title": "Erfahrung Zeitleiste",
+    "subtitle": "Meine berufliche Reise und wichtige Meilensteine"
+  },
   "skills": {
     "title": "💻 Tech Stack",
     "subtitle": "Meist verwendete Programmiersprachen und Technologien",

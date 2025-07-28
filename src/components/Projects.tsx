@@ -68,9 +68,9 @@ const ProjectsComponent: React.FC<ProjectsProps> = ({
       initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 1.3 }}
-      className="mb-16"
+      className="mb-8"
     >
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <h2 className={`text-3xl font-bold mb-4 transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
           {t('projects.title')}
         </h2>
@@ -79,7 +79,7 @@ const ProjectsComponent: React.FC<ProjectsProps> = ({
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto mb-8">
+      <div className="max-w-6xl mx-auto mb-6">
         <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
           <div className="relative flex-1 max-w-md">
             <FaSearch className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`} />

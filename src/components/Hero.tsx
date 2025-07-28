@@ -39,7 +39,7 @@ export const Hero: React.FC<HeroProps> = ({
       initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.2 }}
-      className="text-center mb-16 relative"
+      className="text-center mb-8 relative"
     >
       <div className="absolute inset-0 -mx-6 -my-12 pointer-events-none overflow-hidden">
         <div
@@ -108,7 +108,7 @@ export const Hero: React.FC<HeroProps> = ({
         />
       </div>
 
-      <div className="relative inline-block mb-8">
+      <div className="relative inline-block mb-6">
         {/* Outer rotating rings */}
         <motion.div
           className="absolute inset-0 rounded-full"
@@ -270,7 +270,7 @@ export const Hero: React.FC<HeroProps> = ({
       </motion.p>
 
       <motion.div
-        className="mb-6"
+        className="mb-4"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.8 }}
@@ -289,7 +289,7 @@ export const Hero: React.FC<HeroProps> = ({
       </motion.div>
 
       <motion.div
-        className="flex flex-wrap justify-center gap-4 mb-8 text-sm text-gray-400"
+        className="flex flex-wrap justify-center gap-4 mb-6 text-sm text-gray-400"
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.7 }}
