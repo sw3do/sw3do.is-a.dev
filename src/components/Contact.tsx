@@ -53,9 +53,10 @@ export const Contact: React.FC<ContactProps> = ({ isDarkMode, user }) => {
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 2.7 + index * 0.1 }}
-                className={`flex items-center space-x-4 p-6 rounded-xl backdrop-blur-sm transition-all duration-300 group ${isDarkMode
-                  ? "bg-slate-800/60 border border-slate-700/50 hover:border-blue-500/50"
-                  : "bg-white/80 border border-gray-200/50 hover:border-blue-500/50 shadow-lg"
+                className={`flex items-center space-x-4 p-6 rounded-xl backdrop-blur-sm transition-all duration-300 group overflow-hidden magnetic shimmer glow-effect ${
+                  isDarkMode
+                    ? "bg-slate-800/60 border border-slate-700/50 hover:border-blue-500/50 shimmer-dark"
+                    : "bg-white/80 border border-gray-200/50 hover:border-blue-500/50 shadow-lg"
                   }`}
                 whileHover={{
                   scale: 1.02,
@@ -96,8 +97,11 @@ export const Contact: React.FC<ContactProps> = ({ isDarkMode, user }) => {
           href={`https://github.com/${user?.login}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-slate-700 to-slate-800 text-white font-semibold rounded-full hover:from-slate-600 hover:to-slate-700 transition-all duration-300 shadow-lg hover:shadow-xl border border-slate-600"
-          whileHover={{ scale: 1.02 }}
+          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-slate-700 to-slate-800 text-white font-semibold rounded-full hover:from-slate-600 hover:to-slate-700 transition-all duration-300 shadow-lg hover:shadow-xl border border-slate-600 overflow-hidden magnetic shimmer shimmer-dark glow-effect"
+          whileHover={{ 
+            scale: 1.02,
+            boxShadow: "0 15px 30px rgba(59, 130, 246, 0.4)"
+          }}
           whileTap={{ scale: 0.98 }}
         >
           <FaGithub className="w-5 h-5 mr-2" />

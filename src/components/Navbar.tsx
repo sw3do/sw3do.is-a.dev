@@ -58,14 +58,17 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <motion.div
-              className={`text-2xl font-bold cursor-pointer transition-all duration-200 bg-gradient-to-r ${
+              className={`text-2xl font-bold cursor-pointer transition-all duration-200 bg-gradient-to-r neon-glow magnetic ${
                 isDarkMode 
                   ? 'from-blue-400 to-cyan-400 text-transparent bg-clip-text' 
                   : 'from-blue-600 to-cyan-600 text-transparent bg-clip-text'
               }`}
               whileHover={{ 
                 scale: 1.05,
-                filter: 'brightness(1.2)'
+                filter: 'brightness(1.2)',
+                textShadow: isDarkMode
+                  ? "0 0 20px rgba(59, 130, 246, 0.8)"
+                  : "0 0 20px rgba(59, 130, 246, 0.6)"
               }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
@@ -79,18 +82,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <motion.button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full group ${
+                  className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full group overflow-hidden ${
                     activeSection === item.id
                       ? isDarkMode
-                        ? 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-400 shadow-lg shadow-blue-500/25'
-                        : 'bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-600 shadow-lg shadow-blue-500/25'
+                        ? 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-400 shadow-lg shadow-blue-500/25 shimmer shimmer-dark'
+                        : 'bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-600 shadow-lg shadow-blue-500/25 shimmer'
                       : isDarkMode
-                        ? 'text-gray-300 hover:text-white hover:bg-gray-800/50'
-                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50'
+                        ? 'text-gray-300 hover:text-white hover:bg-gray-800/50 magnetic shine-button-dark'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50 magnetic shine-button'
                   }`}
                   whileHover={{ 
                     scale: 1.05,
                     y: -2,
+                    boxShadow: isDarkMode 
+                      ? "0 10px 25px -5px rgba(59, 130, 246, 0.3)"
+                      : "0 10px 25px -5px rgba(59, 130, 246, 0.2)"
                   }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.2 }}
@@ -124,12 +130,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="flex items-center space-x-3">
               <motion.button
                 onClick={toggleTheme}
-                className={`p-2.5 rounded-full transition-all duration-300 ${
+                className={`p-2.5 rounded-full transition-all duration-300 overflow-hidden magnetic glow-effect ${
                   isDarkMode
-                    ? "bg-gray-800/50 text-yellow-400 hover:bg-gray-700/70 hover:shadow-lg hover:shadow-yellow-400/20 border border-gray-700/50"
-                    : "bg-gray-100/50 text-orange-600 hover:bg-gray-200/70 hover:shadow-lg hover:shadow-orange-600/20 border border-gray-200/50"
+                    ? "bg-gray-800/50 text-yellow-400 hover:bg-gray-700/70 hover:shadow-lg hover:shadow-yellow-400/20 border border-gray-700/50 shine-button-dark ripple ripple-dark"
+                    : "bg-gray-100/50 text-orange-600 hover:bg-gray-200/70 hover:shadow-lg hover:shadow-orange-600/20 border border-gray-200/50 shine-button ripple"
                 }`}
-                whileHover={{ scale: 1.1, rotate: 15 }}
+                whileHover={{ 
+                  scale: 1.1, 
+                  rotate: 15,
+                  boxShadow: isDarkMode
+                    ? "0 0 20px rgba(251, 191, 36, 0.4)"
+                    : "0 0 20px rgba(249, 115, 22, 0.4)"
+                }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
               >
@@ -148,12 +160,17 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               <motion.button
                 onClick={toggleMobileMenu}
-                className={`lg:hidden p-2.5 rounded-full transition-all duration-300 ${
+                className={`lg:hidden p-2.5 rounded-full transition-all duration-300 overflow-hidden magnetic ${
                   isDarkMode
-                    ? "bg-gray-800/50 text-gray-300 hover:bg-gray-700/70 hover:text-white border border-gray-700/50"
-                    : "bg-gray-100/50 text-gray-600 hover:bg-gray-200/70 hover:text-gray-900 border border-gray-200/50"
+                    ? "bg-gray-800/50 text-gray-300 hover:bg-gray-700/70 hover:text-white border border-gray-700/50 shine-button-dark"
+                    : "bg-gray-100/50 text-gray-600 hover:bg-gray-200/70 hover:text-gray-900 border border-gray-200/50 shine-button"
                 }`}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ 
+                  scale: 1.1,
+                  boxShadow: isDarkMode
+                    ? "0 5px 15px rgba(59, 130, 246, 0.3)"
+                    : "0 5px 15px rgba(59, 130, 246, 0.2)"
+                }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
               >
@@ -192,16 +209,22 @@ export const Navbar: React.FC<NavbarProps> = ({
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className={`text-left px-4 py-3 rounded-xl transition-all duration-300 ${
+                    className={`text-left px-4 py-3 rounded-xl transition-all duration-300 overflow-hidden magnetic ${
                       activeSection === item.id
                         ? isDarkMode
-                          ? 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-400 shadow-lg'
-                          : 'bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-600 shadow-lg'
+                          ? 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-400 shadow-lg shimmer shimmer-dark glow-effect'
+                          : 'bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-600 shadow-lg shimmer glow-effect'
                         : isDarkMode
-                          ? 'text-gray-300 hover:text-white hover:bg-gray-800/50'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50'
+                          ? 'text-gray-300 hover:text-white hover:bg-gray-800/50 shine-button-dark'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50 shine-button'
                     }`}
-                    whileHover={{ scale: 1.02, x: 5 }}
+                    whileHover={{ 
+                      scale: 1.02, 
+                      x: 5,
+                      boxShadow: isDarkMode
+                        ? "0 8px 20px rgba(59, 130, 246, 0.3)"
+                        : "0 8px 20px rgba(59, 130, 246, 0.2)"
+                    }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <span className="font-medium">{item.label}</span>

@@ -131,9 +131,10 @@ export const Hero: React.FC<HeroProps> = ({
         transition={{ delay: 0.4 }}
       >
         <h1
-          className={`text-6xl font-bold bg-gradient-to-r bg-clip-text text-transparent ${isDarkMode
-            ? "from-blue-400 via-white to-cyan-400"
-            : "from-blue-600 via-gray-800 to-cyan-600"
+          className={`text-6xl font-bold bg-gradient-to-r bg-clip-text text-transparent neon-glow ${
+            isDarkMode
+              ? "from-blue-400 via-white to-cyan-400"
+              : "from-blue-600 via-gray-800 to-cyan-600"
             }`}
         >
           {user?.name || "sw3do"}
@@ -205,7 +206,7 @@ export const Hero: React.FC<HeroProps> = ({
         transition={{ delay: 0.8 }}
       >
         <motion.div
-          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 magnetic shimmer glow-effect ${isDarkMode ? 'glass-dark shimmer-dark' : 'glass'}`}
           whileHover={{ 
             scale: 1.05, 
             y: -5,
@@ -242,7 +243,7 @@ export const Hero: React.FC<HeroProps> = ({
         </motion.div>
 
         <motion.div
-          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 magnetic shimmer glow-effect ${isDarkMode ? 'glass-dark shimmer-dark' : 'glass'}`}
           whileHover={{ 
             scale: 1.05, 
             y: -5,
@@ -279,7 +280,7 @@ export const Hero: React.FC<HeroProps> = ({
         </motion.div>
 
         <motion.div
-          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 magnetic shimmer glow-effect ${isDarkMode ? 'glass-dark shimmer-dark' : 'glass'}`}
           whileHover={{ 
             scale: 1.05, 
             y: -5,
@@ -316,7 +317,7 @@ export const Hero: React.FC<HeroProps> = ({
         </motion.div>
 
         <motion.div
-          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 magnetic shimmer glow-effect ${isDarkMode ? 'glass-dark shimmer-dark' : 'glass'}`}
           whileHover={{ 
             scale: 1.05, 
             y: -5,
