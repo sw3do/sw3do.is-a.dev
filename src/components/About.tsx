@@ -40,6 +40,13 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
   const experiences: Experience[] = [
     {
       year: "2025",
+      titleKey: "experience.items.discordIdSpace.title",
+      companyKey: "experience.items.discordIdSpace.company",
+      descriptionKey: "experience.items.discordIdSpace.description",
+      technologies: ["Next.js", "TypeScript", "TailwindCSS", "Discord API"]
+    },
+    {
+      year: "2025",
       titleKey: "experience.items.animeEly.title",
       companyKey: "experience.items.animeEly.company",
       descriptionKey: "experience.items.animeEly.description",

@@ -48,6 +48,11 @@
     "title": "💼 Deneyim",
     "subtitle": "Profesyonel gelişim yolculuğum",
     "items": {
+      "discordIdSpace": {
+        "title": "Discord ID Space",
+        "company": "Discord Kullanıcı Bilgi Platformu",
+        "description": "Discord kullanıcı ID'si ile kullanıcı bilgilerini çeken platform. Kullanıcı profillerini, avatar bilgilerini ve temel Discord verilerini görüntüleme imkanı sağlar."
+      },
       "animeEly": {
         "title": "AnimeEly Platformu",
         "company": "Full Stack Web Geliştirme",

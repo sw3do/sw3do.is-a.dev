@@ -28,7 +28,10 @@ interface ProjectCardProps {
   isDarkMode: boolean;
   formatDate: (dateString: string) => string;
   t: (key: string) => string;
-  variants: any;
+  variants: {
+    hidden: { opacity: number; y: number };
+    visible: { opacity: number; y: number };
+  };
 }
 
 interface ProjectsProps {
@@ -122,6 +125,8 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ repo, isDarkMode, 
     </motion.div>
   );
 });
+
+ProjectCard.displayName = 'ProjectCard';
 
 const ProjectsComponent: React.FC<ProjectsProps> = ({
   isDarkMode,

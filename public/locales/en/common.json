@@ -48,6 +48,11 @@
     "title": "💼 Experience",
     "subtitle": "My professional development journey",
     "items": {
+      "discordIdSpace": {
+        "title": "Discord ID Space",
+        "company": "Discord User Info Platform",
+        "description": "Platform for fetching Discord user information by user ID. Provides user profiles, avatar details, and basic Discord data visualization."
+      },
       "animeEly": {
         "title": "AnimeEly Platform",
         "company": "Full Stack Web Development",
