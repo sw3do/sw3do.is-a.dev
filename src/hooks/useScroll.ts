@@ -222,28 +222,30 @@ export const useScroll = (options: UseScrollOptions = {}): UseScrollReturn => {
     if (typeof window === 'undefined') return;
 
     const scrollOptions = { passive: true, capture: false };
+    const currentScrollTimeout = scrollTimeoutRef.current;
     window.addEventListener('scroll', handleScroll, scrollOptions);
     
     updateScrollProgress();
 
     return () => {
       window.removeEventListener('scroll', handleScroll, scrollOptions);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
+      if (currentScrollTimeout) {
+        clearTimeout(currentScrollTimeout);
       }
     };
   }, [handleScroll, updateScrollProgress]);
 
   useEffect(() => {
     const currentObservedElements = observedElementsRef.current;
+    const currentScrollTimeout = scrollTimeoutRef.current;
     
     return () => {
       cleanup();
       if (intersectionObserverRef.current) {
         intersectionObserverRef.current.disconnect();
       }
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
+      if (currentScrollTimeout) {
+        clearTimeout(currentScrollTimeout);
       }
       currentObservedElements.clear();
     };
