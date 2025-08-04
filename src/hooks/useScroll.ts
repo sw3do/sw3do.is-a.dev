@@ -1,9 +1,9 @@
-import { useEffect, useCallback, useRef, useState } from 'react';
+import { useEffect, useCallback, useRef, useState, useMemo } from 'react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { scrollToSection as scrollToSectionUtil, scrollToTop as scrollToTopUtil } from '../stores/scrollStore';
 
 interface UseScrollOptions {
-  threshold?: number;
+  threshold?: number | number[];
   rootMargin?: string;
   showScrollTopOffset?: number;
 }
@@ -21,18 +21,16 @@ interface UseScrollReturn {
 
 export const useScroll = (options: UseScrollOptions = {}): UseScrollReturn => {
   const {
-    threshold = 0.3,
-    rootMargin = '-80px 0px -50% 0px',
+    threshold = [0.1, 0.5, 0.9],
+    rootMargin = '-80px 0px -30% 0px',
     showScrollTopOffset = 300
   } = options;
 
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [hasSetInitialSection, setHasSetInitialSection] = useState(false);
 
-  const activeSection = useStoreState((state: { scroll: { activeSection: string } }) => state.scroll.activeSection);
-  const showScrollTop = useStoreState((state: { scroll: { showScrollTop: boolean } }) => state.scroll.showScrollTop);
-  const isScrolling = useStoreState((state: { scroll: { isScrolling: boolean } }) => state.scroll.isScrolling);
-  const scrollProgress = useStoreState((state: { scroll: { scrollProgress: number } }) => state.scroll.scrollProgress);
+  const scrollState = useStoreState((state: { scroll: { activeSection: string; showScrollTop: boolean; isScrolling: boolean; scrollProgress: number } }) => state.scroll);
+  const { activeSection, showScrollTop, isScrolling, scrollProgress } = scrollState;
   
   const {
     setActiveSection,
@@ -56,9 +54,15 @@ export const useScroll = (options: UseScrollOptions = {}): UseScrollReturn => {
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const observedElementsRef = useRef<Set<string>>(new Set());
   const initialScrollHandledRef = useRef(false);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
 
   const updateScrollProgress = useCallback(() => {
     const scrollTop = window.scrollY;
+    
+    if (Math.abs(scrollTop - lastScrollY.current) < 5) return;
+    
+    lastScrollY.current = scrollTop;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const progress = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
     setScrollProgress(progress);
@@ -83,18 +87,19 @@ export const useScroll = (options: UseScrollOptions = {}): UseScrollReturn => {
   }, [setActiveSection, hasSetInitialSection]);
 
   const handleScroll = useCallback(() => {
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
+    if (!ticking.current) {
+      requestAnimationFrame(() => {
+        updateScrollProgress();
+        
+        if (isInitialLoad && window.scrollY > 50) {
+          window.scrollTo(0, 0);
+          setActiveSection('home');
+        }
+        
+        ticking.current = false;
+      });
+      ticking.current = true;
     }
-
-    scrollTimeoutRef.current = setTimeout(() => {
-      updateScrollProgress();
-      
-      if (isInitialLoad && window.scrollY > 50) {
-        window.scrollTo(0, 0);
-        setActiveSection('home');
-      }
-    }, 16);
   }, [updateScrollProgress, isInitialLoad, setActiveSection]);
 
   const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
@@ -102,37 +107,54 @@ export const useScroll = (options: UseScrollOptions = {}): UseScrollReturn => {
 
     let highestVisibleSection = '';
     let highestRatio = 0;
+    let centerMostSection = '';
+    let centerMostDistance = Infinity;
+    const viewportCenter = window.innerHeight / 2;
 
-    entries.forEach((entry) => {
+    for (const entry of entries) {
       const sectionId = entry.target.id;
       const isVisible = entry.isIntersecting;
       
       updateSectionVisibility({ sectionId, isVisible });
 
-      if (isVisible && entry.intersectionRatio > highestRatio) {
-        highestRatio = entry.intersectionRatio;
-        highestVisibleSection = sectionId;
+      if (isVisible) {
+        const rect = entry.boundingClientRect;
+        const elementCenter = rect.top + rect.height / 2;
+        const distanceFromCenter = Math.abs(viewportCenter - elementCenter);
+        
+        if (entry.intersectionRatio > highestRatio) {
+          highestRatio = entry.intersectionRatio;
+          highestVisibleSection = sectionId;
+        }
+        
+        if (distanceFromCenter < centerMostDistance && entry.intersectionRatio > 0.1) {
+          centerMostDistance = distanceFromCenter;
+          centerMostSection = sectionId;
+        }
       }
-    });
+    }
 
-    if (highestVisibleSection && highestVisibleSection !== activeSection) {
-      setActiveSection(highestVisibleSection);
+    const targetSection = centerMostSection || highestVisibleSection;
+    if (targetSection && targetSection !== activeSection) {
+      setActiveSection(targetSection);
     }
   }, [isScrolling, isInitialLoad, activeSection, setActiveSection, updateSectionVisibility]);
 
   const registerSection = useCallback((sectionId: string, element: HTMLElement) => {
+    if (observedElementsRef.current.has(sectionId)) return;
+    
     registerSectionAction({ sectionId, element });
     
-    if (intersectionObserverRef.current && !observedElementsRef.current.has(sectionId)) {
+    if (intersectionObserverRef.current) {
       const observeElement = () => {
-        if (intersectionObserverRef.current) {
+        if (intersectionObserverRef.current && !observedElementsRef.current.has(sectionId)) {
           intersectionObserverRef.current.observe(element);
           observedElementsRef.current.add(sectionId);
         }
       };
 
       if (isInitialLoad && sectionId !== 'home') {
-        setTimeout(observeElement, 1200);
+        setTimeout(observeElement, 800);
       } else {
         observeElement();
       }
@@ -162,27 +184,31 @@ export const useScroll = (options: UseScrollOptions = {}): UseScrollReturn => {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     
-    handleInitialScroll();
-    
-    const timeoutId = setTimeout(handleInitialScroll, 100);
+    const timeoutId = setTimeout(handleInitialScroll, 50);
     
     return () => clearTimeout(timeoutId);
   }, [handleInitialScroll]);
+
+  const observerOptions = useMemo(() => ({
+    threshold,
+    rootMargin
+  }), [threshold, rootMargin]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const setupObserver = () => {
+      if (intersectionObserverRef.current) {
+        intersectionObserverRef.current.disconnect();
+      }
+      
       intersectionObserverRef.current = new IntersectionObserver(
         handleIntersection,
-        {
-          threshold,
-          rootMargin
-        }
+        observerOptions
       );
     };
 
-    const timeoutId = setTimeout(setupObserver, 500);
+    const timeoutId = setTimeout(setupObserver, 50);
 
     return () => {
       clearTimeout(timeoutId);
@@ -190,17 +216,18 @@ export const useScroll = (options: UseScrollOptions = {}): UseScrollReturn => {
         intersectionObserverRef.current.disconnect();
       }
     };
-  }, [handleIntersection, threshold, rootMargin]);
+  }, [handleIntersection, observerOptions]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    const scrollOptions = { passive: true, capture: false };
+    window.addEventListener('scroll', handleScroll, scrollOptions);
     
     updateScrollProgress();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll, scrollOptions);
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
@@ -232,4 +259,4 @@ export const useScroll = (options: UseScrollOptions = {}): UseScrollReturn => {
     registerSection,
     unregisterSection
   };
-}; 
+};

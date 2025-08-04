@@ -120,6 +120,8 @@ function Home() {
   }, [textIndex, i18n.language, isClient, titles]);
 
   const filteredAndSortedRepos = useMemo(() => {
+    if (!memoizedRepos.length) return [];
+    
     let filtered = memoizedRepos;
 
     if (selectedFilter !== "all") {
@@ -140,22 +142,22 @@ function Home() {
       filtered = filtered.filter((repo: GitHubRepo) => repo.stargazers_count > 0);
     }
 
-    return [...filtered].sort((a, b) => {
-      switch (sortBy) {
-        case "stars":
-          return b.stargazers_count - a.stargazers_count;
-        case "forks":
-          return b.forks_count - a.forks_count;
-        case "updated":
-          return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-        case "name":
-          return a.name.localeCompare(b.name);
-        case "created":
-          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-        default:
-          return 0;
-      }
-    });
+    const sortedRepos = [...filtered];
+    
+    switch (sortBy) {
+      case "stars":
+        return sortedRepos.sort((a, b) => b.stargazers_count - a.stargazers_count);
+      case "forks":
+        return sortedRepos.sort((a, b) => b.forks_count - a.forks_count);
+      case "updated":
+        return sortedRepos.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+      case "name":
+        return sortedRepos.sort((a, b) => a.name.localeCompare(b.name));
+      case "created":
+        return sortedRepos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      default:
+        return sortedRepos;
+    }
   }, [memoizedRepos, selectedFilter, sortBy, searchTerm, showFeaturedOnly]);
 
 
@@ -172,11 +174,24 @@ function Home() {
     , [languages]);
 
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    const value = e.target.value;
+    setSearchTerm(value);
   }, []);
 
   const handleClearSearch = useCallback(() => {
     setSearchTerm("");
+  }, []);
+
+  const handleFilterChange = useCallback((filter: string) => {
+    setSelectedFilter(filter);
+  }, []);
+
+  const handleSortChange = useCallback((sort: string) => {
+    setSortBy(sort);
+  }, []);
+
+  const handleFeaturedToggle = useCallback((show: boolean) => {
+    setShowFeaturedOnly(show);
   }, []);
 
   if (!isClient || !ready) {
@@ -343,11 +358,11 @@ function Home() {
             searchTerm={searchTerm}
             showFeaturedOnly={showFeaturedOnly}
             languages={languages}
-            setSelectedFilter={setSelectedFilter}
-            setSortBy={setSortBy}
+            setSelectedFilter={handleFilterChange}
+            setSortBy={handleSortChange}
             handleSearchChange={handleSearchChange}
             handleClearSearch={handleClearSearch}
-            setShowFeaturedOnly={setShowFeaturedOnly}
+            setShowFeaturedOnly={handleFeaturedToggle}
           />
         </SectionWrapper>
 

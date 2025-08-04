@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import {
@@ -23,6 +23,14 @@ interface Repository {
   created_at: string;
 }
 
+interface ProjectCardProps {
+  repo: Repository;
+  isDarkMode: boolean;
+  formatDate: (dateString: string) => string;
+  t: (key: string) => string;
+  variants: any;
+}
+
 interface ProjectsProps {
   isDarkMode: boolean;
   filteredRepos: Repository[];
@@ -37,6 +45,83 @@ interface ProjectsProps {
   handleClearSearch: () => void;
   setShowFeaturedOnly: (show: boolean) => void;
 }
+
+const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ repo, isDarkMode, formatDate, t, variants }) => {
+  const hoverAnimation = useMemo(() => ({
+    scale: 1.03,
+    y: -8,
+    boxShadow: "0 25px 50px -15px rgba(59, 130, 246, 0.4)"
+  }), []);
+
+  const linkAnimation = useMemo(() => ({
+    hover: { scale: 1.1, rotate: 5 },
+    tap: { scale: 0.95 }
+  }), []);
+
+  return (
+    <motion.div
+      variants={variants}
+      className={`rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+      whileHover={hoverAnimation}
+    >
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0"
+        whileHover={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      />
+      <div className="relative z-10">
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center space-x-2">
+            {repo.language && getLanguageIcon(repo.language)}
+            <h3 className={`text-lg font-semibold transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              {repo.name}
+            </h3>
+          </div>
+          <motion.a
+            href={repo.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`p-2 rounded-lg transition-all duration-300 ${isDarkMode
+              ? "text-gray-400 hover:text-white hover:bg-slate-700/50"
+              : "text-gray-600 hover:text-gray-900 hover:bg-gray-200/50"
+              }`}
+            whileHover={linkAnimation.hover}
+            whileTap={linkAnimation.tap}
+          >
+            <FaExternalLinkAlt className="w-4 h-4" />
+          </motion.a>
+        </div>
+
+        <p className={`text-sm mb-4 line-clamp-3 transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+          {repo.description || t('projects.noDescription')}
+        </p>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4 text-sm">
+            <div className="flex items-center space-x-1">
+              <FaStar className={`w-4 h-4 ${repo.stargazers_count > 0 ? "text-yellow-400" : isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
+              <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
+                {repo.stargazers_count}
+              </span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <FaCodeBranch className={`w-4 h-4 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
+              <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
+                {repo.forks_count}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center space-x-1 text-xs">
+            <FaCalendarAlt className={`w-3 h-3 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
+            <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>
+              {formatDate(repo.updated_at)}
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+});
 
 const ProjectsComponent: React.FC<ProjectsProps> = ({
   isDarkMode,
@@ -54,13 +139,34 @@ const ProjectsComponent: React.FC<ProjectsProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const formatDate = useMemo(() => {
-    return (dateString: string) => new Date(dateString).toLocaleDateString();
+  const formatDate = useCallback((dateString: string) => {
+    return new Date(dateString).toLocaleDateString();
   }, []);
 
   const displayedRepos = useMemo(() => {
     return filteredRepos.slice(0, 12);
   }, [filteredRepos]);
+
+  const languageOptions = useMemo(() => {
+    return Object.keys(languages).map((lang) => (
+      <option key={lang} value={lang}>{lang}</option>
+    ));
+  }, [languages]);
+
+  const containerVariants = useMemo(() => ({
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  }), []);
+
+  const itemVariants = useMemo(() => ({
+    hidden: { y: 30, opacity: 0 },
+    visible: { y: 0, opacity: 1 }
+  }), []);
 
   return (
     <motion.div
@@ -113,9 +219,7 @@ const ProjectsComponent: React.FC<ProjectsProps> = ({
                 } focus:outline-none focus:border-blue-500/50`}
             >
               <option value="all">{t('projects.filters.all')}</option>
-              {Object.keys(languages).map((lang) => (
-                <option key={lang} value={lang}>{lang}</option>
-              ))}
+              {languageOptions}
             </select>
 
             <select
@@ -150,78 +254,23 @@ const ProjectsComponent: React.FC<ProjectsProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {displayedRepos.map((repo, index) => (
-          <motion.div
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {displayedRepos.map((repo) => (
+          <ProjectCard
             key={repo.id}
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 1.5 + index * 0.1 }}
-            className={`rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'glass-dark' : 'glass'}`}
-            whileHover={{
-              scale: 1.03,
-              y: -8,
-              boxShadow: "0 25px 50px -15px rgba(59, 130, 246, 0.4)"
-            }}
-          >
-            <motion.div 
-              className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0"
-              whileHover={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            />
-            <div className="relative z-10">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center space-x-2">
-                  {repo.language && getLanguageIcon(repo.language)}
-                  <h3 className={`text-lg font-semibold transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                    {repo.name}
-                  </h3>
-                </div>
-                <motion.a
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`p-2 rounded-lg transition-all duration-300 ${isDarkMode
-                    ? "text-gray-400 hover:text-white hover:bg-slate-700/50"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-200/50"
-                    }`}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <FaExternalLinkAlt className="w-4 h-4" />
-                </motion.a>
-              </div>
-
-              <p className={`text-sm mb-4 line-clamp-3 transition-colors duration-300 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-                {repo.description || t('projects.noDescription')}
-              </p>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4 text-sm">
-                  <div className="flex items-center space-x-1">
-                    <FaStar className={`w-4 h-4 ${repo.stargazers_count > 0 ? "text-yellow-400" : isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
-                    <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                      {repo.stargazers_count}
-                    </span>
-                  </div>
-                <div className="flex items-center space-x-1">
-                   <FaCodeBranch className={`w-4 h-4 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
-                   <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                     {repo.forks_count}
-                   </span>
-                 </div>
-               </div>
-               <div className="flex items-center space-x-1 text-xs">
-                 <FaCalendarAlt className={`w-3 h-3 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
-                 <span className={`transition-colors duration-300 ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>
-                   {formatDate(repo.updated_at)}
-                 </span>
-               </div>
-             </div>
-           </div>
-           </motion.div>
+            repo={repo}
+            isDarkMode={isDarkMode}
+            formatDate={formatDate}
+            t={t}
+            variants={itemVariants}
+          />
         ))}
-      </div>
+      </motion.div>
 
       {filteredRepos.length === 0 && (
         <motion.div

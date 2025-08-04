@@ -42,7 +42,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
 
-
   return (
     <>
       <motion.nav
@@ -82,14 +81,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <motion.button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full group overflow-hidden ${
+                  className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full group overflow-hidden magnetic ${
                     activeSection === item.id
                       ? isDarkMode
                         ? 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-400 shadow-lg shadow-blue-500/25 shimmer shimmer-dark'
                         : 'bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-600 shadow-lg shadow-blue-500/25 shimmer'
                       : isDarkMode
-                        ? 'text-gray-300 hover:text-white hover:bg-gray-800/50 magnetic shine-button-dark'
-                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50 magnetic shine-button'
+                        ? 'text-gray-300 hover:text-white hover:bg-gray-800/50 shine-button-dark'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50 shine-button'
                   }`}
                   whileHover={{ 
                     scale: 1.05,
@@ -235,7 +234,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: navItems.length * 0.1 }}
-                  className="pt-4 border-t border-gray-700/30"
+                  className={`pt-4 border-t ${
+                    isDarkMode ? 'border-gray-700/30' : 'border-gray-200/30'
+                  }`}
                 >
                   <LanguageSwitcher />
                 </motion.div>

@@ -109,7 +109,7 @@ export const scrollToSection = (sectionId: string, options: ScrollToSectionOptio
   const {
     behavior = 'smooth',
     offset = 80,
-    duration = 800
+    duration = 600
   } = options;
 
   const element = document.getElementById(sectionId);
@@ -119,38 +119,36 @@ export const scrollToSection = (sectionId: string, options: ScrollToSectionOptio
   }
 
   store.getActions().scroll.setIsScrolling(true);
+  store.getActions().scroll.setActiveSection(sectionId);
   
   const targetY = Math.max(0, element.offsetTop - offset);
 
   if (behavior === 'smooth') {
     smoothScrollTo(targetY, duration, () => {
       store.getActions().scroll.setIsScrolling(false);
-      store.getActions().scroll.setActiveSection(sectionId);
     });
   } else {
     window.scrollTo({ top: targetY, behavior });
     setTimeout(() => {
       store.getActions().scroll.setIsScrolling(false);
-      store.getActions().scroll.setActiveSection(sectionId);
-    }, 100);
+    }, 50);
   }
 };
 
 export const scrollToTop = (options: ScrollToTopOptions = {}) => {
-  const { behavior = 'smooth', duration = 600 } = options;
+  const { behavior = 'smooth', duration = 500 } = options;
   
   store.getActions().scroll.setIsScrolling(true);
+  store.getActions().scroll.setActiveSection('home');
 
   if (behavior === 'smooth') {
     smoothScrollTo(0, duration, () => {
       store.getActions().scroll.setIsScrolling(false);
-      store.getActions().scroll.setActiveSection('home');
     });
   } else {
     window.scrollTo({ top: 0, behavior });
     setTimeout(() => {
       store.getActions().scroll.setIsScrolling(false);
-      store.getActions().scroll.setActiveSection('home');
-    }, 100);
+    }, 50);
   }
-}; 
+};
