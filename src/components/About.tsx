@@ -43,7 +43,7 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
       titleKey: "experience.items.discordIdSpace.title",
       companyKey: "experience.items.discordIdSpace.company",
       descriptionKey: "experience.items.discordIdSpace.description",
-      technologies: ["Next.js", "TypeScript", "TailwindCSS", "Discord API"]
+      technologies: ["Nuxt", "Javascript-TypeScript", "TailwindCSS", "Discord API"]
     },
     {
       year: "2025",

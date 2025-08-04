@@ -49,7 +49,7 @@
     "subtitle": "My professional development journey",
     "items": {
       "discordIdSpace": {
-        "title": "Discord ID Space",
+        "title":  "discordid.space",
         "company": "Discord User Info Platform",
         "description": "Platform for fetching Discord user information by user ID. Provides user profiles, avatar details, and basic Discord data visualization."
       },
