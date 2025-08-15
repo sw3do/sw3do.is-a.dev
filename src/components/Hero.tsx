@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import {
@@ -22,7 +22,7 @@ interface HeroProps {
   getCreatedYear: () => string;
 }
 
-export const Hero: React.FC<HeroProps> = ({
+const HeroComponent: React.FC<HeroProps> = ({
   isDarkMode,
   user,
   typeText,
@@ -32,6 +32,65 @@ export const Hero: React.FC<HeroProps> = ({
   getCreatedYear,
 }) => {
   const { t } = useTranslation();
+
+  const floatingShapes = useMemo(() => {
+    if (!isClient) return null;
+    return [...Array(4)].map((_, i) => (
+      <motion.div
+        key={i}
+        className={`absolute w-2 h-2 ${isDarkMode ? 'bg-blue-400/15' : 'bg-blue-600/10'} rounded-full motion-safe`}
+        style={{
+          left: `${20 + (i * 20)}%`,
+          top: `${20 + (i * 15)}%`,
+        }}
+        animate={{
+          y: [-15, -30, -15],
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 6 + (i * 1),
+          repeat: Infinity,
+          delay: i * 1.5,
+          ease: "easeInOut"
+        }}
+      />
+    ));
+  }, [isClient, isDarkMode]);
+
+  const statsData = useMemo(() => [
+    {
+      icon: FaFolder,
+      value: user?.public_repos,
+      label: t('hero.stats.repositories'),
+      color: 'blue',
+      gradient: 'from-blue-500/10 to-cyan-500/10',
+      shadow: 'rgba(59, 130, 246, 0.4)'
+    },
+    {
+      icon: FaStar,
+      value: totalStars,
+      label: t('hero.stats.totalStars'),
+      color: 'green',
+      gradient: 'from-green-500/10 to-emerald-500/10',
+      shadow: 'rgba(34, 197, 94, 0.4)'
+    },
+    {
+      icon: FaUsers,
+      value: user?.followers,
+      label: t('hero.stats.followers'),
+      color: 'purple',
+      gradient: 'from-purple-500/10 to-pink-500/10',
+      shadow: 'rgba(168, 85, 247, 0.4)'
+    },
+    {
+      icon: FaCodeBranch,
+      value: totalForks,
+      label: t('hero.stats.totalForks'),
+      color: 'orange',
+      gradient: 'from-orange-500/10 to-red-500/10',
+      shadow: 'rgba(249, 115, 22, 0.4)'
+    }
+  ], [user, totalStars, totalForks, t]);
 
   return (
     <motion.div
@@ -56,27 +115,7 @@ export const Hero: React.FC<HeroProps> = ({
           }}
         />
         
-        {/* Optimized floating geometric shapes */}
-        {isClient && [...Array(4)].map((_, i) => (
-          <motion.div
-            key={i}
-            className={`absolute w-2 h-2 ${isDarkMode ? 'bg-blue-400/15' : 'bg-blue-600/10'} rounded-full`}
-            style={{
-              left: `${20 + (i * 20)}%`,
-              top: `${20 + (i * 15)}%`,
-            }}
-            animate={{
-              y: [-15, -30, -15],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 6 + (i * 1),
-              repeat: Infinity,
-              delay: i * 1.5,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
+        {floatingShapes}
         
         {/* Simplified gradient orbs */}
         <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-xl opacity-40" />
@@ -99,9 +138,9 @@ export const Hero: React.FC<HeroProps> = ({
 
           {/* Glassmorphism container */}
           <motion.div
-            className={`relative rounded-full p-2 ${isDarkMode ? 'glass-dark' : 'glass'}`}
+            className={`relative rounded-full p-2 motion-safe ${isDarkMode ? 'glass-ultra-dark' : 'glass-ultra'}`}
             whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <motion.img
               src={user?.avatar_url}
@@ -205,154 +244,51 @@ export const Hero: React.FC<HeroProps> = ({
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.8 }}
       >
-        <motion.div
-          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 magnetic shimmer glow-effect ${isDarkMode ? 'glass-dark shimmer-dark' : 'glass'}`}
-          whileHover={{ 
-            scale: 1.05, 
-            y: -5,
-            boxShadow: "0 20px 40px -15px rgba(59, 130, 246, 0.4)"
-          }}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.9, duration: 0.6 }}
-        >
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 opacity-0"
-            whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          />
-          <div className="relative z-10">
-            <motion.div 
-              className="flex items-center justify-center mb-3"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.3 }}
+        {statsData.map((stat, index) => {
+          const IconComponent = stat.icon;
+          return (
+            <motion.div
+              key={stat.label}
+              className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 magnetic shimmer glow-effect motion-safe ${isDarkMode ? 'glass-ultra-dark shimmer-dark' : 'glass-ultra'}`}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -5,
+                boxShadow: `0 20px 40px -15px ${stat.shadow}`
+              }}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
             >
-              <FaFolder className="w-7 h-7 text-blue-400" />
+              <motion.div 
+                className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0`}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+              <div className="relative z-10">
+                <motion.div 
+                  className="flex items-center justify-center mb-3"
+                  whileHover={{ scale: 1.1, rotate: index % 2 === 0 ? 5 : -5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <IconComponent className={`w-7 h-7 text-${stat.color}-400`} />
+                </motion.div>
+                <motion.div 
+                  className={`text-3xl font-bold text-${stat.color}-400 mb-2`}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {stat.value}
+                </motion.div>
+                <div className={`text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+                  {stat.label}
+                </div>
+              </div>
             </motion.div>
-            <motion.div 
-              className="text-3xl font-bold text-blue-400 mb-2"
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {user?.public_repos}
-            </motion.div>
-            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
-              {t('hero.stats.repositories')}
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 magnetic shimmer glow-effect ${isDarkMode ? 'glass-dark shimmer-dark' : 'glass'}`}
-          whileHover={{ 
-            scale: 1.05, 
-            y: -5,
-            boxShadow: "0 20px 40px -15px rgba(34, 197, 94, 0.4)"
-          }}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 1.0, duration: 0.6 }}
-        >
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0"
-            whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          />
-          <div className="relative z-10">
-            <motion.div 
-              className="flex items-center justify-center mb-3"
-              whileHover={{ scale: 1.1, rotate: -5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <FaStar className="w-7 h-7 text-green-400" />
-            </motion.div>
-            <motion.div 
-              className="text-3xl font-bold text-green-400 mb-2"
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {totalStars}
-            </motion.div>
-            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
-              {t('hero.stats.totalStars')}
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 magnetic shimmer glow-effect ${isDarkMode ? 'glass-dark shimmer-dark' : 'glass'}`}
-          whileHover={{ 
-            scale: 1.05, 
-            y: -5,
-            boxShadow: "0 20px 40px -15px rgba(168, 85, 247, 0.4)"
-          }}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.6 }}
-        >
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0"
-            whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          />
-          <div className="relative z-10">
-            <motion.div 
-              className="flex items-center justify-center mb-3"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <FaUsers className="w-7 h-7 text-purple-400" />
-            </motion.div>
-            <motion.div 
-              className="text-3xl font-bold text-purple-400 mb-2"
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {user?.followers}
-            </motion.div>
-            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
-              {t('hero.stats.followers')}
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          className={`text-center rounded-2xl p-6 relative overflow-hidden transition-all duration-500 magnetic shimmer glow-effect ${isDarkMode ? 'glass-dark shimmer-dark' : 'glass'}`}
-          whileHover={{ 
-            scale: 1.05, 
-            y: -5,
-            boxShadow: "0 20px 40px -15px rgba(249, 115, 22, 0.4)"
-          }}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-        >
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/10 opacity-0"
-            whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          />
-          <div className="relative z-10">
-            <motion.div 
-              className="flex items-center justify-center mb-3"
-              whileHover={{ scale: 1.1, rotate: -5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <FaCodeBranch className="w-7 h-7 text-orange-400" />
-            </motion.div>
-            <motion.div 
-              className="text-3xl font-bold text-orange-400 mb-2"
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {totalForks}
-            </motion.div>
-            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
-              {t('hero.stats.totalForks')}
-            </div>
-          </div>
-        </motion.div>
+          );
+        })}
       </motion.div>
     </motion.div>
   );
 };
+
+export const Hero = React.memo(HeroComponent);

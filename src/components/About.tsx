@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import {
@@ -27,17 +27,17 @@ interface Experience {
   technologies: string[];
 }
 
-export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
+const AboutComponent: React.FC<AboutProps> = ({ isDarkMode }) => {
   const { t } = useTranslation();
 
-  const achievements: Achievement[] = [
+  const achievements: Achievement[] = useMemo(() => [
     { icon: <FaTrophy className="w-6 h-6 text-yellow-400" />, titleKey: "achievements.items.problemSolver.title", descKey: "achievements.items.problemSolver.desc" },
     { icon: <FaRocket className="w-6 h-6 text-blue-400" />, titleKey: "achievements.items.fastLearner.title", descKey: "achievements.items.fastLearner.desc" },
     { icon: <FaUsers className="w-6 h-6 text-green-400" />, titleKey: "achievements.items.teamPlayer.title", descKey: "achievements.items.teamPlayer.desc" },
     { icon: <FaCode className="w-6 h-6 text-purple-400" />, titleKey: "achievements.items.cleanCode.title", descKey: "achievements.items.cleanCode.desc" }
-  ];
+  ], []);
 
-  const experiences: Experience[] = [
+  const experiences: Experience[] = useMemo(() => [
     {
       year: "2025",
       titleKey: "experience.items.discordIdSpace.title",
@@ -80,7 +80,7 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
       descriptionKey: "experience.items.rustDev.description",
       technologies: ["Rust", "API", "Crates.io"]
     }
-  ];
+  ], []);
 
   return (
     <>
@@ -107,14 +107,10 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 1.1 + index * 0.1 }}
-              className={`rounded-xl p-6 border text-center transition-all duration-300 overflow-hidden relative ${isDarkMode
-                ? "glass-dark border-slate-700/50 hover:border-blue-500/50"
-                : "glass border-gray-300/50 hover:border-blue-500/50"
+              className={`rounded-xl p-6 border text-center transition-all duration-300 overflow-hidden relative motion-safe ${isDarkMode
+                ? "glass-ultra-dark border-slate-700/50 hover:border-blue-500/50"
+                : "glass-ultra border-gray-300/50 hover:border-blue-500/50"
                 }`}
-              style={{
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)'
-              }}
               whileHover={{
                 scale: 1.05,
                 y: -5,
@@ -143,10 +139,10 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
         </div>
       </motion.div>
 
-      <Timeline data={experiences.map((exp, index) => ({
+      <Timeline data={useMemo(() => experiences.map((exp, index) => ({
         title: exp.year,
         content: (
-          <div>
+          <div className="motion-safe">
             <div className="mb-4">
               <h3 className={`text-xl font-bold mb-2 transition-colors duration-300 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
                 {t(exp.titleKey)}
@@ -166,9 +162,9 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
               {exp.technologies.map((tech) => (
                 <span
                   key={tech}
-                  className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors duration-200 ${isDarkMode
-                    ? "bg-blue-900/40 text-blue-300 border-blue-700/50 hover:bg-blue-800/60"
-                    : "bg-blue-100/80 text-blue-700 border-blue-300/50 hover:bg-blue-200/80"
+                  className={`px-3 py-1 rounded-full text-xs font-medium border transition-all duration-200 motion-safe hover:scale-105 ${isDarkMode
+                    ? "bg-blue-900/40 text-blue-300 border-blue-700/50 hover:bg-blue-800/60 hover:border-blue-600/70"
+                    : "bg-blue-100/80 text-blue-700 border-blue-300/50 hover:bg-blue-200/80 hover:border-blue-400/70"
                     }`}
                 >
                   {tech}
@@ -177,8 +173,10 @@ export const About: React.FC<AboutProps> = ({ isDarkMode }) => {
             </div>
           </div>
         )
-      }))}
+      })), [experiences, isDarkMode, t])}
       />
     </>
   );
 };
+
+export const About = React.memo(AboutComponent);

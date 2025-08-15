@@ -5,15 +5,15 @@ import { useGitHubData } from "../hooks/useGitHub";
 import { useTranslation } from "next-i18next";
 import { useLanyard } from "../hooks/useLanyard";
 import { Navbar } from "../components/Navbar";
-import { Hero } from "../components/Hero";
-import { About } from "../components/About";
-import { Skills } from "../components/Skills";
-import { Projects } from "../components/Projects";
-import { Contact } from "../components/Contact";
-import { Footer } from "../components/Footer";
-import { ScrollToTop } from "../components/ScrollToTop";
 import { SectionWrapper } from "../components/SectionWrapper";
 
+const Hero = lazy(() => import("../components/Hero").then(module => ({ default: module.Hero })));
+const About = lazy(() => import("../components/About").then(module => ({ default: module.About })));
+const Skills = lazy(() => import("../components/Skills").then(module => ({ default: module.Skills })));
+const Projects = lazy(() => import("../components/Projects").then(module => ({ default: module.Projects })));
+const Contact = lazy(() => import("../components/Contact").then(module => ({ default: module.Contact })));
+const Footer = lazy(() => import("../components/Footer").then(module => ({ default: module.Footer })));
+const ScrollToTop = lazy(() => import("../components/ScrollToTop").then(module => ({ default: module.ScrollToTop })));
 const Terminal = lazy(() => import("../components/Terminal").then(module => ({ default: module.Terminal })));
 const DiscordCard = lazy(() => import("../components/DiscordCard").then(module => ({ default: module.DiscordCard })));
 
@@ -326,44 +326,52 @@ function Home() {
 
       <div className="container mx-auto px-6 py-6 relative z-10 motion-safe" style={{ paddingTop: '6rem' }}>
         <SectionWrapper id="home" className="min-h-screen">
-          <Hero
-            isDarkMode={isDarkMode}
-            user={memoizedUser || null}
-            typeText={typeText}
-            totalStars={totalStars}
-            totalForks={totalForks}
-            isClient={isClient}
-            getCreatedYear={getCreatedYear}
-          />
+          <Suspense fallback={<div className={`animate-pulse h-screen w-full rounded-lg ${isDarkMode ? "bg-slate-800/50" : "bg-gray-200/50"}`} />}>
+            <Hero
+              isDarkMode={isDarkMode}
+              user={memoizedUser || null}
+              typeText={typeText}
+              totalStars={totalStars}
+              totalForks={totalForks}
+              isClient={isClient}
+              getCreatedYear={getCreatedYear}
+            />
+          </Suspense>
         </SectionWrapper>
 
         <SectionWrapper id="about" className="py-8" animationDelay={0.1}>
-          <About isDarkMode={isDarkMode} />
+          <Suspense fallback={<div className={`animate-pulse h-96 w-full rounded-lg ${isDarkMode ? "bg-slate-800/50" : "bg-gray-200/50"}`} />}>
+            <About isDarkMode={isDarkMode} />
+          </Suspense>
         </SectionWrapper>
 
         <SectionWrapper id="skills" className="py-8" animationDelay={0.2}>
-          <Skills
-            isDarkMode={isDarkMode}
-            topLanguages={topLanguages}
-            totalProjects={totalProjects}
-          />
+          <Suspense fallback={<div className={`animate-pulse h-80 w-full rounded-lg ${isDarkMode ? "bg-slate-800/50" : "bg-gray-200/50"}`} />}>
+            <Skills
+              isDarkMode={isDarkMode}
+              topLanguages={topLanguages}
+              totalProjects={totalProjects}
+            />
+          </Suspense>
         </SectionWrapper>
 
         <SectionWrapper id="projects" className="py-8" animationDelay={0.3}>
-          <Projects
-            isDarkMode={isDarkMode}
-            filteredRepos={filteredAndSortedRepos}
-            selectedFilter={selectedFilter}
-            sortBy={sortBy}
-            searchTerm={searchTerm}
-            showFeaturedOnly={showFeaturedOnly}
-            languages={languages}
-            setSelectedFilter={handleFilterChange}
-            setSortBy={handleSortChange}
-            handleSearchChange={handleSearchChange}
-            handleClearSearch={handleClearSearch}
-            setShowFeaturedOnly={handleFeaturedToggle}
-          />
+          <Suspense fallback={<div className={`animate-pulse h-96 w-full rounded-lg ${isDarkMode ? "bg-slate-800/50" : "bg-gray-200/50"}`} />}>
+            <Projects
+              isDarkMode={isDarkMode}
+              filteredRepos={filteredAndSortedRepos}
+              selectedFilter={selectedFilter}
+              sortBy={sortBy}
+              searchTerm={searchTerm}
+              showFeaturedOnly={showFeaturedOnly}
+              languages={languages}
+              setSelectedFilter={handleFilterChange}
+              setSortBy={handleSortChange}
+              handleSearchChange={handleSearchChange}
+              handleClearSearch={handleClearSearch}
+              setShowFeaturedOnly={handleFeaturedToggle}
+            />
+          </Suspense>
         </SectionWrapper>
 
         {discordData && (
@@ -400,13 +408,19 @@ function Home() {
         </SectionWrapper>
 
         <SectionWrapper id="contact" className="py-8" animationDelay={0.6}>
-          <Contact isDarkMode={isDarkMode} user={memoizedUser || null} />
+          <Suspense fallback={<div className={`animate-pulse h-80 w-full rounded-lg ${isDarkMode ? "bg-slate-800/50" : "bg-gray-200/50"}`} />}>
+            <Contact isDarkMode={isDarkMode} user={memoizedUser || null} />
+          </Suspense>
         </SectionWrapper>
       </div>
 
-      <Footer isDarkMode={isDarkMode} />
+      <Suspense fallback={<div className={`animate-pulse h-20 w-full ${isDarkMode ? "bg-slate-800/50" : "bg-gray-200/50"}`} />}>
+        <Footer isDarkMode={isDarkMode} />
+      </Suspense>
 
-      <ScrollToTop isDarkMode={isDarkMode} />
+      <Suspense fallback={null}>
+        <ScrollToTop isDarkMode={isDarkMode} />
+      </Suspense>
 
       <div className="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-slate-600 to-gray-700" />
     </div>
