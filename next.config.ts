@@ -8,9 +8,13 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
 
-  experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['framer-motion', 'react-icons'],
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
   },
 
   images: {

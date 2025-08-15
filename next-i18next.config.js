@@ -1,14 +1,14 @@
 module.exports = {
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'tr', 'de'],
-    localePath: './public/locales',
-    defaultNS: 'common',
-    fallbackLng: {
-      'tr': ['en'],
-      'de': ['en'],
-      'default': ['en']
-    }
+    locales: ['en', 'tr', 'de']
+  },
+  localePath: './public/locales',
+  defaultNS: 'common',
+  fallbackLng: {
+    'tr': ['en'],
+    'de': ['en'],
+    'default': ['en']
   },
   react: {
     useSuspense: false
@@ -19,4 +19,4 @@ module.exports = {
   },
   returnNull: false,
   returnEmptyString: false
-}; 
+};
